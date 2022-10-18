@@ -1,0 +1,9 @@
+numpy
+matplotlib
+scipy
+ffmpeg-python
+opencv-contrib-python
+imageio-ffmpeg
+imutils
+celluloid
+imageio
