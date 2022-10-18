@@ -5,6 +5,7 @@ from swarmtronics.video_processor import VideoProcessor
 class TestVideoProcessor(unittest.TestCase):
     def setUp(self) -> None:
         self.vp = VideoProcessor()
+
     def test_get_angle(self):
         # assign
         first_points = ((0, 0),
