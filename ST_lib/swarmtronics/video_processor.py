@@ -19,13 +19,13 @@ class VideoProcessor():
         self._filename = filename
 
     def extract_cartesian_kinematics(self,
-                     bots_number: int,
-                     begin_frame: int,
-                     end_frame: int,
-                     get_each: int,
-                     ignore_codes: tuple,
-                     scale_parameters: tuple,
-                     ) -> list:
+                                     bots_number: int,
+                                     begin_frame: int,
+                                     end_frame: int,
+                                     get_each: int,
+                                     ignore_codes: tuple,
+                                     scale_parameters: tuple,
+                                     ) -> list:
         """
         Returns cartesian kinematics for particles in video with given processing parameters
 
@@ -39,10 +39,38 @@ class VideoProcessor():
         cartesian coordinates and rotation angles
         """
 
+        alpha, beta = scale_parameters
+        video_capture = cv2.VideoCapture(self._filename)
+
+        if begin_frame < 1:
+            start_frame = 1
+        else:
+            start_frame = begin_frame
+
+        frames_number = video_capture.get(cv2.CAP_PROP_FRAME_COUNT)
+
+        if end_frame > frames_number:
+            finish_frame = frames_number
+        else:
+            finish_frame = end_frame
+
+        raw_cartesian_kinematics = []
+        for current_frame in range(start_frame, finish_frame + 1, get_each):
+            video_capture.set(cv2.CAP_PROP_POS_FRAMES, current_frame - 1)
+            success, frame = video_capture.read()
+            if not success:
+                continue
+            frame_converted = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
+            raw_cartesian_kinematics_for_frame = self._get_raw_cartesian_kinematics_from_frame(frame_converted,
+                                                                                               ignore_codes)
+            raw_cartesian_kinematics.append((current_frame, raw_cartesian_kinematics_for_frame))
+
         pass
 
     def _get_raw_cartesian_kinematics_from_frame(self,
-                                                 frame: np.ndarray):
+                                                 frame: np.ndarray,
+                                                 ignore_codes: tuple,
+                                                 ) -> list:
         """
         Returns raw cartesian kinematics for particles in frame
 
@@ -58,7 +86,9 @@ class VideoProcessor():
         recognized_markers_number = len(corners)
         for i in range(recognized_markers_number):
             marker_corners = corners[i]
-            marker_id = ids[i]
+            marker_id = ids[i][0]
+            if marker_id in ignore_codes:
+                continue
             (top_left, top_right, bottom_right, bottom_left) = marker_corners.reshape((4, 2))
             (top_left, top_right, bottom_right, bottom_left) = (tuple(map(int, top_left)),
                                                                 tuple(map(int, top_right)),
@@ -70,7 +100,13 @@ class VideoProcessor():
             top_mid_x = (top_left[0] + top_right[0]) // 2
             top_mid_y = (top_left[1] + top_right[1]) // 2
 
-            angle = 0
+            angle = self._get_angle((center_x, center_y),
+                                    (top_mid_x, top_mid_y))
+            if angle < 0:
+                angle = 360 + angle
+            # angle increasing corresponds clockwise rotation
+            raw_kinematics_for_frame.append([marker_id, angle, (center_x, center_y)])
+        return sorted(raw_kinematics_for_frame)
 
     def _get_angle(self, point_a: tuple, point_b: tuple) -> float:
         """

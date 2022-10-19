@@ -1,5 +1,6 @@
 import unittest
 from swarmtronics.video_processor import VideoProcessor
+import cv2
 
 
 class TestVideoProcessor(unittest.TestCase):
@@ -38,6 +39,10 @@ class TestVideoProcessor(unittest.TestCase):
         angle = self.vp._get_angle(first_points[4], second_points[4])
         self.assertAlmostEqual(angle, results[4], 2)
 
+    def test_get_raw_cartesian_kinematics_from_frame(self):
+        # assign
+        # assert
+        pass
 
 if __name__ == '__main__':
     unittest.main()
