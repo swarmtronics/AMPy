@@ -77,7 +77,8 @@ class VideoProcessor():
         :param frame: frame to process
         :return: raw cartesian kinematics for the given frame
         """
-
+        if frame is None:
+            return []
         (corners, ids, rejected) = cv2.aruco.detectMarkers(frame,
                                                            self._aruco_dictionary,
                                                            parameters=self._aruco_parameters

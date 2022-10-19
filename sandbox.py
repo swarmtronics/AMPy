@@ -6,9 +6,7 @@ vp = VideoProcessor()
 filename = 'Tests/test_images/image2.jpg'
 cap = cv2.VideoCapture(filename)
 success, frame = cap.read()
-plt.imshow(frame)
-plt.show()
-print(vp._get_raw_cartesian_kinematics_from_frame(frame))
+print(vp._get_raw_cartesian_kinematics_from_frame(frame, ignore_codes=()))
 
 
 # filename = "D:/YandexDisk.Files/SECOND_SET/00_61_[45_bots_PWM_2_ex_236].MP4"
