@@ -1,13 +1,37 @@
 import cv2
 import numpy as np
 from copy import deepcopy
+from matplotlib import pyplot as plt
 
 
 RAD2DEG = 180 / np.pi
 DEG2RAD = np.pi / 180
 
 
-class VideoProcessor():
+def calculate_angle(point_a: tuple, point_b: tuple) -> float:
+    """
+    Returns angle in degrees between OX-axis and (b-a) vector direction
+
+    :param point_a: vector's begin point
+    :param point_b: vector's end point
+    :return: angle in degrees
+    """
+    return RAD2DEG * np.arctan2(point_b[1] - point_a[1], point_b[0] - point_a[0])
+
+
+def calculate_distance(point_a: tuple, point_b: tuple) -> float:
+    """
+    Returns euclidean distance between two points
+
+    :param point_a: first point
+    :param point_b: vector end point
+    :return: distance between points
+    """
+
+    return ((point_a[0] - point_b[0])**2 + (point_a[1] - point_b[1])**2)**0.5
+
+
+class VideoProcessor:
     def __init__(self):
         self._filename = None
         self._cartesian_kinematics = None
@@ -36,7 +60,7 @@ class VideoProcessor():
         :param ignore_codes: markers to ignore while recognition
         :param scale_parameters: pixels absolute scaling parameters
         :return: list of frame-by-frame particles cartesian kinematics including particles ids,
-        cartesian coordinates and rotation angles
+        cartesian coordinates and rotation angles (from 0 to 360 degrees clockwise in relation to X-axis)
         """
 
         alpha, beta = scale_parameters
@@ -65,10 +89,71 @@ class VideoProcessor():
             raw_cartesian_kinematics_for_frame = self._get_raw_cartesian_kinematics_from_frame(frame_converted,
                                                                                                ignore_codes)
             raw_cartesian_kinematics.append(raw_cartesian_kinematics_for_frame)
-        # print(raw_cartesian_kinematics)
+
         completed_cartesian_kinematics = self._fill_gaps_in_raw_kinematics(bots_number, raw_cartesian_kinematics)
         self._extended_kinematics = completed_cartesian_kinematics
-        return completed_cartesian_kinematics, raw_cartesian_kinematics
+        return completed_cartesian_kinematics
+
+    @staticmethod
+    def extend_kinematics(cartesian_kinematics: list, field_center: tuple) -> list:
+        """
+        Returns kinematics extended by a polar angle (from 0 to 360 degrees clockwise in relation to X-axis) and a distance from field center for each particle
+
+        :param cartesian_kinematics: cartesian kinematics of a system
+        :param field_center: a center of a polar coordinates
+        :return: extended system's kinematics
+        """
+        extended_kinematics = deepcopy(cartesian_kinematics)
+        for i_frame in range(len(extended_kinematics)):
+            for i_bot in range(len(extended_kinematics[i_frame])):
+                extended_kinematics[i_frame][i_bot] = [
+                    extended_kinematics[i_frame][i_bot][0],
+                    extended_kinematics[i_frame][i_bot][1],
+                    extended_kinematics[i_frame][i_bot][2],
+                    calculate_angle(field_center, extended_kinematics[i_frame][i_bot][2]),
+                    calculate_distance(field_center, extended_kinematics[i_frame][i_bot][2])
+                ]
+        return extended_kinematics
+
+    def get_center_manual(self) -> tuple:
+        """
+        Shows the video's first frame and returns clicked point coordinates
+
+        :return: clicked point coordinates
+        """
+        video_capture = cv2.VideoCapture(self._filename)
+        success, frame = video_capture.read()
+        while not success:
+            success, frame = video_capture.read()
+        center = self._get_center(frame)
+        return center
+
+    def get_metric_constant(self, marker_size: float, scale_parameters: tuple) -> float:
+        """
+        Returns factor that scale distances in pixel on video to distances in centimeters
+
+        :param marker_size: used ArUco marker size in centimeters
+        :param scale_parameters: pixels absolute scaling parameters
+        :return: scaling factor
+        """
+
+        alpha, beta = scale_parameters
+        video_capture = cv2.VideoCapture(self._filename)
+        success, frame = video_capture.read()
+        while not success:
+            success, frame = video_capture.read()
+        frame_converted = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
+        (corners, ids, rejected) = cv2.aruco.detectMarkers(
+            frame_converted, self._aruco_dictionary, parameters=self._aruco_parameters
+        )
+        if len(corners) == 0:
+            return None
+        marker_corners = corners[0]
+        (top_left, top_right, bottom_right, bottom_left) = marker_corners.reshape((4, 2))
+        top_right = (int(top_right[0]), int(top_right[1]))
+        top_left = (int(top_left[0]), int(top_left[1]))
+        metric_constant = marker_size / calculate_distance(top_left, top_right)
+        return metric_constant
 
     def _get_raw_cartesian_kinematics_from_frame(self,
                                                  frame: np.ndarray,
@@ -104,7 +189,7 @@ class VideoProcessor():
             top_mid_x = (top_left[0] + top_right[0]) // 2
             top_mid_y = (top_left[1] + top_right[1]) // 2
 
-            angle = self._get_angle((center_x, center_y),
+            angle = calculate_angle((center_x, center_y),
                                     (top_mid_x, top_mid_y))
             if angle < 0:
                 angle = 360 + angle
@@ -113,9 +198,31 @@ class VideoProcessor():
         return sorted(raw_kinematics_for_frame)
 
     @staticmethod
+    def _get_center(image: np.ndarray) -> tuple:
+        """
+        Shows matplotlib window with a given images. Returns last clicked point
+
+        :param image: image to show
+        :return: last clicked point
+        """
+        center = []
+
+        def onclick(event):
+            value = (event.xdata, event.ydata)
+            center.append(value)
+            return center
+
+        fig, ax = plt.subplots()
+        plt.imshow(image)
+        fig.canvas.mpl_connect("button_press_event", onclick)
+        plt.show()
+        return center[-1]
+
+    @staticmethod
     def _fill_gaps_in_raw_kinematics(bots_number: int, raw_cartesian_kinematics: list) -> list:
         """
         Returns cartesian kinematics with filling gaps from unrecognized bots by they future positions
+
         :param bots_number: totsl number of particles in video
         :param raw_cartesian_kinematics: raw cartesian kinematics
         :return: cartesian kinematics with filled gaps
@@ -154,21 +261,6 @@ class VideoProcessor():
                             break
         complete_kinematics = [sorted(raw_kinematics[i_frame].copy()) for i_frame in range(frames_number) if (len(raw_kinematics[i_frame])) == bots_number]
         return complete_kinematics
-
-    @staticmethod
-    def _get_angle(point_a: tuple, point_b: tuple) -> float:
-        """
-        Returns angle in degrees between OX-axis and (b-a) vector direction
-        :param point_a: vector begin point
-        :param point_b: vector end point
-        :return: angle in degrees
-        """
-        return RAD2DEG * np.arctan2(point_b[1] - point_a[1], point_b[0] - point_a[0])
-
-
-
-
-
 
 
 if __name__ == '__main__':
