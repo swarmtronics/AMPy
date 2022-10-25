@@ -119,7 +119,7 @@ def calculate_mean_cartesian_displacements(kinematics: list):
         current_frame_positions = positions[i_frame]
         current_total_cartesian_displacement = 0
         for i_bot in range(len(first_frame_positions)):
-            current_total_cartesian_displacement += get_distance(current_frame_positions[i_bot], first_frame_positions[i_bot])
+            current_total_cartesian_displacement += calculate_distance(current_frame_positions[i_bot], first_frame_positions[i_bot])
         current_mean_cartesian_displacement = current_total_cartesian_displacement / len(first_frame_positions)
         mean_cartesian_displacements.append(current_mean_cartesian_displacement)
     return mean_cartesian_displacements
@@ -132,6 +132,7 @@ def calculate_boo(kinematics: list, neighbours_number: int, folds_number: int, g
     for i_frame in range(0, len(kinematics), get_each):
         certain_frame_boo = 0
         for i_bot in range(len(kinematics[i_frame])):
+            pass
 
 
 

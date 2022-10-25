@@ -230,6 +230,7 @@ class VideoProcessor:
         raw_kinematics = deepcopy(raw_cartesian_kinematics)
 
         frames_number = len(raw_kinematics)
+        print(frames_number)
         best_recognized_frame_number = 0
 
         for i in range(1, frames_number):
@@ -243,12 +244,18 @@ class VideoProcessor:
         total_ids = np.array(raw_kinematics[best_recognized_frame_number])[:, 0]
         for i_frame in range(frames_number):
             if len(raw_kinematics[i_frame]) != bots_number:
-                current_ids = np.array(raw_kinematics[i_frame])[:, 0]
+                if len(raw_kinematics[i_frame]) == 0:
+                    current_ids = np.array([])
+                else:
+                    current_ids = np.array(raw_kinematics[i_frame])[:, 0]
                 difference = list(set(total_ids) - set(current_ids))
                 for i_absent_bot in range(len(difference)):
                     for i_next_frame in range(i_frame + 1, frames_number):
                         bot_searched_out = False
-                        new_bots_ids = np.array(raw_kinematics[i_next_frame])[:, 0]
+                        if len(raw_kinematics[i_next_frame]) == 0:
+                            new_bots_ids = np.array([])
+                        else:
+                            new_bots_ids = np.array(raw_kinematics[i_next_frame])[:, 0]
                         if difference[i_absent_bot] not in set(new_bots_ids):
                             continue
                         else:
