@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from copy import deepcopy
 from matplotlib import pyplot as plt
+from tqdm import tqdm
 
 
 RAD2DEG = 180 / np.pi
@@ -79,7 +80,7 @@ class VideoProcessor:
             finish_frame = end_frame
 
         raw_cartesian_kinematics = []
-        for current_frame in range(start_frame, finish_frame + 1, get_each):
+        for current_frame in tqdm(range(start_frame, finish_frame + 1, get_each)):
             video_capture.set(cv2.CAP_PROP_POS_FRAMES, current_frame - 1)
             success, frame = video_capture.read()
             if not success:
@@ -223,7 +224,7 @@ class VideoProcessor:
         """
         Returns cartesian kinematics with filling gaps from unrecognized bots by they future positions
 
-        :param bots_number: totsl number of particles in video
+        :param bots_number: total number of particles in video
         :param raw_cartesian_kinematics: raw cartesian kinematics
         :return: cartesian kinematics with filled gaps
         """

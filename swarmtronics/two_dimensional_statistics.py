@@ -110,8 +110,13 @@ def calculate_mean_polar_angle_absolute(kinematics: list):
     return mean_angles_accumulated
 
 
-# TODO add docstring
 def calculate_mean_cartesian_displacements(kinematics: list):
+    """
+    Returns average particles' cartesian displacement for each frame
+    :param kinematics: system's kinematics
+    :return: average cartesian displacement for each frame
+    """
+
     positions = _extract_positions(kinematics)
     first_frame_positions = positions[0]
     mean_cartesian_displacements = []
@@ -125,14 +130,37 @@ def calculate_mean_cartesian_displacements(kinematics: list):
     return mean_cartesian_displacements
 
 
-# TODO add docstring
+def _calculate_local_boo(folds_number: int, bot_position: tuple, neighbours_positions: list):
+    p = 0
+    for neighbour_index in range(len(neighbours_positions)):
+        p += np.exp(1j * folds_number * calculate_angle(bot_position, neighbours_positions[neighbour_index]) * DEG2RAD)
+    return np.absolute(p) / len(neighbours_positions)
+
+
 def calculate_boo(kinematics: list, neighbours_number: int, folds_number: int, get_each: int = 1) -> list:
+    """
+    Returns bond orientation order parameter for each frame
+    :param kinematics: system's kinematics
+    :param neighbours_number: number of neighbours to use in calculations
+    :param folds_number: number of folds to use in calculations
+    :param get_each: frames decimation frequency
+    :return: Bond orientation order parameter for each frame
+    """
+
     boo = []
     positions = _extract_positions(kinematics)
     for i_frame in range(0, len(kinematics), get_each):
-        certain_frame_boo = 0
+        current_frame_boo = 0
+        current_frame_positions = positions[i_frame]
         for i_bot in range(len(kinematics[i_frame])):
-            pass
+            reference_bot_position = current_frame_positions[i_bot]
+            neighbours_positions = current_frame_positions.copy()
+            neighbours_positions.sort(key=lambda pos: calculate_distance(reference_bot_position, pos))
+            local_boo = _calculate_local_boo(folds_number, reference_bot_position, neighbours_positions)
+            current_frame_boo += local_boo
+        current_frame_boo /= len(kinematics[i_frame])
+        boo.append(current_frame_boo)
+    return boo
 
 
 
