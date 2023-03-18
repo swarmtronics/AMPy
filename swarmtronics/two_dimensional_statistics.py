@@ -2,10 +2,36 @@ import numpy as np
 from tqdm import tqdm
 import multiprocessing as mp
 import os
+from math import sin, cos
 
 
 RAD2DEG = 180 / np.pi
 DEG2RAD = np.pi / 180
+
+
+stadium_bot_approx_points = [(0, 4.25),
+                             (1.09, 4),
+                             (1.79, 3.5),
+                             (2.17, 3),
+                             (2.38, 2.5),
+                             (2.5, 1.75),
+                             (2.5, -1.75),
+                             (2.38, -2.5),
+                             (2.17, -3),
+                             (1.79, -3.5),
+                             (1.09, -4),
+                             (0, -4.25),
+                             (-1.09, -4),
+                             (-1.79, -3.5),
+                             (-2.17, -3),
+                             (-2.38, -2.5),
+                             (-2.5, -1.75),
+                             (-2.5, 1.75),
+                             (-2.38, 2.5),
+                             (-2.17, 3),
+                             (-1.79, 3.5),
+                             (-1.09, 4),
+                             ]
 
 
 # TODO add docstring
@@ -181,7 +207,7 @@ def calculate_chi_4(tau: int,
     chi_4 = N * np.std(q_sequence)
     return chi_4
 
-def _calculate_chi_4_for_stcp(data: list) -> float:
+def _calculate_chi_4_for_stcp(data: tuple) -> float:
     tau, a, kinematics = data
     q_sequence = []
     N = len(kinematics[0])
@@ -206,6 +232,120 @@ def calculate_stcp(kinematics: list,
         chi_4_sequence = pool.map(_calculate_chi_4_for_stcp, data)
     stcp = max(chi_4_sequence)
     return stcp, chi_4_sequence
+
+
+def _sum_points(p1: tuple, p2: tuple, scale: float = 1) -> tuple:
+    return (p1[0] + p2[0] * scale,
+            p1[1] + p2[1] * scale)
+
+
+def _cross_product(v: tuple, u: tuple) -> float:
+    return v[0]*u[1] - v[1]*u[0]
+
+
+def _get_triangle_orientation(p1: tuple, p2: tuple, p3: tuple, eps: float = 1e-9) -> int:
+    val = _cross_product(_sum_points(p2, p1, scale=-1),
+                        _sum_points(p3, p1, scale=-1))
+
+    if abs(val) <= eps:
+        return 0
+
+    if val > 0:
+        return 1
+    else:
+        return -1
+
+
+def _check_point_on_segment(p1: tuple, p2: tuple, q: tuple) -> bool:
+    return p1[0] <= q[0] <= p2[0] and p1[1] <= q[1] <= p2[1]
+
+
+def _check_two_segments_intersection(p1: tuple, p2: tuple, q1: tuple, q2: tuple) -> bool:
+    o1 = _get_triangle_orientation(p1, p2, q1)
+    o2 = _get_triangle_orientation(p1, p2, q2)
+    o3 = _get_triangle_orientation(q1, q2, p1)
+    o4 = _get_triangle_orientation(q1, q2, p2)
+
+    return (((o1 != o2) and (o3 != o4)) or
+            ((o1 == 0) and _check_point_on_segment(p1, p2, q1)) or
+            ((o2 == 0) and _check_point_on_segment(q1, q2, p1)) or
+            ((o3 == 0) and _check_point_on_segment(p1, p2, q2)) or
+            ((o4 == 0) and _check_point_on_segment(q1, q2, p2)))
+
+
+def _check_polygon_intersection(polygon_1: list, polygon_2: list) -> bool:
+    intersection = False
+    for i in range(len(polygon_1)):
+        p1 = polygon_1[i]
+        p2 = polygon_1[(i + 1) % len(polygon_1)]
+        for j in range(len(polygon_2)):
+            q1 = polygon_2[j]
+            q2 = polygon_2[(j + 1) % len(polygon_2)]
+            intersection = intersection or _check_two_segments_intersection(p1, p2, q1, q2)
+            if intersection:
+                return intersection
+    return intersection
+
+
+def _is_collide(bot_1: list, bot_2: list, metric_const: float) -> bool:
+    angle_1 = bot_1[1]
+    x_1, y_1 = bot_1[2]
+    angle_2 = bot_2[1]
+    x_2, y_2 = bot_2[2]
+    scaling_coeff = 1.2
+    sin1 = sin(angle_1*DEG2RAD)
+    cos1 = cos(angle_1*DEG2RAD)
+    sin2 = sin(angle_2*DEG2RAD)
+    cos2 = cos(angle_2*DEG2RAD)
+    x_1, y_1, x_2, y_2 = (item / scaling_coeff * metric_const for item in (x_1, y_1, x_2, y_2))
+    dx = x_2 - x_1
+    dy = y_2 - y_1
+    polygon_1 = [(p[1] * cos1 - p[0] * sin1, p[1] * sin1 + p[0] * cos1) for p in stadium_bot_approx_points]
+    polygon_2 = [(dy + p[1] * cos2 - p[0] * sin2, dx + p[1] * sin2 + p[0] * cos2) for p in stadium_bot_approx_points]
+    return _check_polygon_intersection(polygon_1, polygon_2)
+
+
+def _calculate_adj_matrix(kinematics_frame: list, metric_constant: float) -> list:
+    N = len(kinematics_frame)
+    adj_matrix = [[0 for i in range(N)] for j in range(N)]
+    for i_bot in range(N):
+        for j_bot in range(N):
+            if i_bot == j_bot:
+                continue
+            adj_matrix[i_bot][j_bot] = int(_is_collide(kinematics_frame[i_bot], kinematics_frame[j_bot], metric_constant))
+    return adj_matrix
+
+
+def _calculate_clustering_coefficient_frame(data_frame: tuple) -> float:
+    kinematics_frame, metric_constant = data_frame
+    N = len(kinematics_frame)
+    adj_matrix = _calculate_adj_matrix(kinematics_frame, metric_constant)
+    # print(adj_matrix)
+    cl_coeff = 0
+    for i in range(N):
+        k_i = sum(adj_matrix[i][j] for j in range(N))
+        if (k_i == 0) or (k_i == 1):
+            continue
+        c_i = 0
+        for j in range(N):
+            for k in range(N):
+                c_i += adj_matrix[i][j] * adj_matrix[j][k] * adj_matrix[k][i]
+        c_i /= k_i * (k_i - 1)
+        cl_coeff += c_i
+    cl_coeff /= N
+    return cl_coeff
+
+
+# TODO add docstrings
+def calculate_clustering_coefficient(kinematics: list, metric_constant: float) -> list:
+    cl_coeff_seq = []
+    data = [(kinematics[i_frame], metric_constant) for i_frame in range(len(kinematics))]
+    with mp.Pool(max(os.cpu_count() - 1, 1)) as pool:
+        cl_coeff_seq = pool.map(_calculate_clustering_coefficient_frame, data)
+    # for i_frame in range(len(kinematics)):
+    #     cl_coeff_seq.append(_calculate_clustering_coefficient_frame(kinematics[i_frame], metric_constant))
+    return cl_coeff_seq
+
 
 
 
