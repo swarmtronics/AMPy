@@ -1,4 +1,7 @@
 import numpy as np
+from tqdm import tqdm
+import multiprocessing as mp
+import os
 
 
 RAD2DEG = 180 / np.pi
@@ -161,6 +164,49 @@ def calculate_boo(kinematics: list, neighbours_number: int, folds_number: int, g
         current_frame_boo /= len(kinematics[i_frame])
         boo.append(current_frame_boo)
     return boo
+
+
+# TODO add docstrings
+def calculate_chi_4(tau: int,
+                    a: float,
+                    kinematics: list) -> float:
+    q_sequence = []
+    N = len(kinematics[0])
+    for i_frame in range(len(kinematics) - tau):
+        q = 0
+        for i_bot in range(N):
+            q += int(a - calculate_distance(kinematics[i_frame + tau][i_bot][2], kinematics[i_frame][i_bot][2]) >= 0)
+        q /= N
+        q_sequence.append(q)
+    chi_4 = N * np.std(q_sequence)
+    return chi_4
+
+def _calculate_chi_4_for_stcp(data: list) -> float:
+    tau, a, kinematics = data
+    q_sequence = []
+    N = len(kinematics[0])
+    for i_frame in range(len(kinematics) - tau):
+        q = 0
+        for i_bot in range(N):
+            q += int(a - calculate_distance(kinematics[i_frame + tau][i_bot][2], kinematics[i_frame][i_bot][2]) >= 0)
+        q /= N
+        q_sequence.append(q)
+    chi_4 = N * np.std(q_sequence)
+    return chi_4
+
+# TODO add docstrings
+def calculate_stcp(kinematics: list,
+                   a: float,
+                   upper_bound: int = None,) -> tuple:
+    if upper_bound is None:
+        upper_bound = len(kinematics) - 1
+    chi_4_sequence = []
+    data = [(tau, a, kinematics) for tau in range(1, upper_bound + 1)]
+    with mp.Pool(max(os.cpu_count()- 1, 1)) as pool:
+        chi_4_sequence = pool.map(_calculate_chi_4_for_stcp, data)
+    stcp = max(chi_4_sequence)
+    return stcp, chi_4_sequence
+
 
 
 
