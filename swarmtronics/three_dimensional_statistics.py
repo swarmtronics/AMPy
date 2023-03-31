@@ -1,5 +1,4 @@
 import numpy as np
-from tqdm import tqdm
 from multiprocessing.pool import Pool
 import os
 
@@ -8,7 +7,6 @@ RAD2DEG = 180 / np.pi
 DEG2RAD = np.pi / 180
 
 
-# TODO add docstrings
 def _get_position_correlation_frame(data_frame: tuple):
     kinematics_frame, x_size, y_size = data_frame
 
@@ -37,11 +35,19 @@ def _get_position_correlation_frame(data_frame: tuple):
     return matrix
 
 
-# TODO add docstrings
 def get_position_correlation(kinematics: list,
                              x_size: int,
                              y_size: int,
-                             ):
+                             ) -> list:
+    """
+    Returns position correlation matrix
+
+    :param kinematics: system's kinematics
+    :param x_size: window size for X-axis
+    :param y_size: window size for Y-axis
+    :return: matrix of scalar values per frame
+    """
+
     data = [(kinematics_frame, x_size, y_size) for kinematics_frame in kinematics]
 
     with Pool(max(os.cpu_count() - 1, 1)) as pool:
@@ -50,7 +56,6 @@ def get_position_correlation(kinematics: list,
     return pc_matrices
 
 
-# TODO add docstrings
 def _get_orientation_correlation_frame(data_frame: tuple):
     kinematics_frame, x_size, y_size = data_frame
 
@@ -79,11 +84,19 @@ def _get_orientation_correlation_frame(data_frame: tuple):
     return matrix
 
 
-# TODO add docstrings
 def get_orientation_correlation(kinematics: list,
                                 x_size: int,
                                 y_size: int,
-                                ):
+                                ) -> list:
+    """
+    Returns orientation correlation matrix
+
+    :param kinematics: system's kinematics
+    :param x_size: window size for X-axis
+    :param y_size: window size for Y-axis
+    :return: matrix of scalar values per frame
+    """
+
     data = [(kinematics_frame, x_size, y_size) for kinematics_frame in kinematics]
     with Pool(max(os.cpu_count() - 1, 1)) as pool:
         oc_matrices = pool.map(_get_orientation_correlation_frame, data)
@@ -91,7 +104,6 @@ def get_orientation_correlation(kinematics: list,
     return oc_matrices
 
 
-# TODO add docstrings
 def _get_velocity_correlation_frame(data_frame: tuple):
     kinematics_frame, velocities_frame, x_size, y_size = data_frame
 
@@ -125,11 +137,19 @@ def _get_velocity_correlation_frame(data_frame: tuple):
     return matrix
 
 
-# TODO add docstrings
 def get_velocity_correlation(kinematics: list,
                                 x_size: int,
                                 y_size: int,
-                                ):
+                                ) -> list:
+    """
+    Returns velocity correlation matrix
+
+    :param kinematics: system's kinematics
+    :param x_size: window size for X-axis
+    :param y_size: window size for Y-axis
+    :return: matrix of scalar values per frame
+    """
+
     N = len(kinematics[0])
     velocities = [[(0, 0) for i in range(N)]]
     for i_frame in range(1, len(kinematics)):

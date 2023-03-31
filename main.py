@@ -1,5 +1,5 @@
 from swarmtronics.video_processor import VideoProcessor
-from swarmtronics.two_dimensional_statistics import calculate_clustering_coefficient
+from swarmtronics.two_dimensional_statistics import get_cluster_dynamics
 
 from matplotlib import pyplot as plt
 
@@ -16,7 +16,7 @@ def main():
     metric_constant = VP.get_metric_constant(3, (1, 0))
     print(metric_constant)
     t = time()
-    c = calculate_clustering_coefficient(kinematics, metric_constant)
+    c = get_cluster_dynamics(kinematics, metric_constant)
     print(time() - t)
     print(c)
     fig, ax = plt.subplots()
