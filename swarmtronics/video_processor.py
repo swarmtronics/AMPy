@@ -80,7 +80,7 @@ class VideoProcessor:
             finish_frame = end_frame
 
         raw_cartesian_kinematics = []
-        for current_frame in tqdm(range(start_frame, finish_frame + 1, get_each)):
+        for current_frame in range(start_frame, finish_frame + 1, get_each):
             video_capture.set(cv2.CAP_PROP_POS_FRAMES, current_frame - 1)
             success, frame = video_capture.read()
             if not success:
@@ -231,7 +231,6 @@ class VideoProcessor:
         raw_kinematics = deepcopy(raw_cartesian_kinematics)
 
         frames_number = len(raw_kinematics)
-        print(frames_number)
         best_recognized_frame_number = 0
 
         for i in range(1, frames_number):

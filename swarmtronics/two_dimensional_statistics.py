@@ -8,12 +8,12 @@ DEG2RAD = np.pi / 180
 
 
 def _extract_orientation_angles(kinematics: list) -> list:
-    angles = list(np.arrat(kinematics, dtype = object)[:, :, 1])
+    angles = list(np.array(kinematics, dtype = object)[:, :, 1])
     return angles
 
 
 def _extract_positions(kinematics: list) -> list:
-    positions = list(np.arrat(kinematics, dtype = object)[:, :, 2])
+    positions = list(np.array(kinematics, dtype = object)[:, :, 2])
     return positions
 
 
@@ -68,7 +68,7 @@ def get_mean_distance_from_center(kinematics: list) -> list:
     :return: scalar value
     """
 
-    mean_distance = np.array(_extract_distances_from_center(kinematics), dtype=float).mean(axis=1)
+    mean_distance = np.array(_extract_distances_from_center(kinematics), dtype=float).mean(axis=1).tolist()
     return mean_distance
 
 
@@ -82,7 +82,7 @@ def get_mean_polar_angle(kinematics: list) -> list:
     """
 
     angles = _extract_polar_angles(kinematics)
-    mean_angles_raw = angles.mean(axis=1)
+    mean_angles_raw = np.array(angles, dtype=float).mean(axis=1)
     mean_angles_corrected = [mean_angles_raw[0]]
     for i_frame in range(1, len(mean_angles_raw)):
         difference = mean_angles_raw[i_frame] - mean_angles_raw[i_frame - 1]
@@ -106,7 +106,7 @@ def get_mean_polar_angle_absolute(kinematics: list):
     """
 
     angles = _extract_polar_angles(kinematics)
-    mean_angles_raw = angles.mean(axis=1)
+    mean_angles_raw = np.array(angles, dtype=float).mean(axis=1)
     mean_angles_accumulated = [mean_angles_raw[0]]
     for i_frame in range(1, len(mean_angles_raw)):
         absolute_difference = abs(mean_angles_raw[i_frame] - mean_angles_raw[i_frame - 1])
@@ -163,7 +163,7 @@ def get_bond_orientation(kinematics: list, neighbours_number: int, folds_number:
         current_frame_positions = positions[i_frame]
         for i_bot in range(len(kinematics[i_frame])):
             reference_bot_position = current_frame_positions[i_bot]
-            neighbours_positions = current_frame_positions.copy()
+            neighbours_positions = list(current_frame_positions.copy())
             neighbours_positions.sort(key=lambda pos: get_distance(reference_bot_position, pos))
             neighbours_positions = neighbours_positions[:neighbours_number]
             local_boo = _get_local_boo(folds_number, reference_bot_position, neighbours_positions)
