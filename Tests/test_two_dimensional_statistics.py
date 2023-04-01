@@ -1,7 +1,8 @@
 import unittest
+from swarmtronics.video_processor import VideoProcessor
 import swarmtronics.two_dimensional_statistics as tds
 import numpy as np
-from swarmtronics.video_processor import VideoProcessor
+
 
 
 class TestTwoDimensionalStatistics(unittest.TestCase):
@@ -18,14 +19,14 @@ class TestTwoDimensionalStatistics(unittest.TestCase):
 
     def test_get_mean_distance_from_center(self):
         #assign
-        truth = np.load("test_two_dimensional_statistics_files/test_get_mean_distance_from_center_truth.npy", allow_pickle=True).tolist()
+        truth = np.load("test_two_dimensional_statistics_files/get_mean_distance_from_center_truth.npy", allow_pickle=True).tolist()
 
         #assert
         def is_equal(l1, l2):
             if len(l1) != len(l2):
                 return False
             for i in range(len(l1)):
-                if (l1[i] - l2[i]) >= 0.001:
+                if abs(l1[i] - l2[i]) >= 0.001:
                     return False
             return True
 
