@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 from copy import deepcopy
 from matplotlib import pyplot as plt
-from tqdm import tqdm
 
 
 RAD2DEG = 180 / np.pi
