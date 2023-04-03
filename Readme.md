@@ -237,4 +237,59 @@ if __name__ == '__main__':
 
 ## three_dimensional_statistics.py
 
-...
+Этот модуль реализует вычисления трёхмерных статистических величин на предварительно извлечённой из видео кинематике.
+
+- Two-dimensional pair correlation. Реализуется функцией `get_position_correlation`.
+
+```python
+from amtoolkit.three_dimensional_statistics import get_position_correlation
+
+
+def main():
+    VP = VideoProcessor()
+    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+    position_correlation = get_position_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
+
+
+if __name__ == '__main__':
+    main()
+```
+
+- Orientation correlation function. Реализуется функцией `get_mean_polar_angle`.
+
+```python
+from amtoolkit.three_dimensional_statistics import get_orientation_correlation
+
+
+def main():
+    VP = VideoProcessor()
+    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+    orientation_correlation = get_orientation_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
+
+
+if __name__ == '__main__':
+    main()
+```
+
+- Velocity correlation function. Реализуется функцией `get_mean_polar_angle_absolute`.
+
+```python
+from amtoolkit.three_dimensional_statistics import get_velocity_correlation
+
+
+def main():
+    VP = VideoProcessor()
+    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+    velocity_correlation = get_velocity_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
+
+
+if __name__ == '__main__':
+    main()
+```
+
