@@ -105,134 +105,135 @@ if __name__ == '__main__':
 Этот модуль реализует вычисления двумерных статистических величин на предварительно извлечённой из видео кинематике.
 
 - Среднее удаление роботов от центра поля. Реализуется функцией `get_mean_distances_from_center`.
-  ```python
-  from amtoolkit.two_dimensional_statistics import get_mean_distance_from_center
-  
-  
-  def main():
-      VP = VideoProcessor()
-      VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-      cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                    			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-      extended_kinematics = VP.extend_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
-      mean_distance_from_center = get_mean_distance_from_center(kinematics=extended_kinematics)
-  
-  
-  if __name__ == '__main__':
-      main()
-  ```
+
+```python
+from amtoolkit.two_dimensional_statistics import get_mean_distance_from_center
+
+
+def main():
+    VP = VideoProcessor()
+    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+    extended_kinematics = VP.extend_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
+    mean_distance_from_center = get_mean_distance_from_center(kinematics=extended_kinematics)
+
+
+if __name__ == '__main__':
+    main()
+```
 
 - Средний полярный угол роботов. Реализуется функцией `get_mean_polar_angle`.
 
-  ```python
-  from amtoolkit.two_dimensional_statistics import get_mean_polar_angle
-  
-  
-  def main():
-      VP = VideoProcessor()
-      VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-      cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                    			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-      extended_kinematics = VP.extend_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
-      mean_polar_angle = get_mean_polar_angle(kinematics=extended_kinematics)
-  
-  
-  if __name__ == '__main__':
-      main()
-  ```
+```python
+from amtoolkit.two_dimensional_statistics import get_mean_polar_angle
+
+
+def main():
+    VP = VideoProcessor()
+    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+    extended_kinematics = VP.extend_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
+    mean_polar_angle = get_mean_polar_angle(kinematics=extended_kinematics)
+
+
+if __name__ == '__main__':
+    main()
+```
 
 - Средний полярный угол роботов в смысле углового пути системы. Реализуется функцией `get_mean_polar_angle_absolute`.
 
-  ```python
-  from amtoolkit.two_dimensional_statistics import get_mean_polar_angle_absolute
-  
-  
-  def main():
-      VP = VideoProcessor()
-      VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-      cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                    			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-      extended_kinematics = VP.extend_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
-      mean_polar_angle_absolute = get_mean_polar_angle_absolute(kinematics=extended_kinematics)
-  
-  
-  if __name__ == '__main__':
-      main()
-  ```
+```python
+from amtoolkit.two_dimensional_statistics import get_mean_polar_angle_absolute
+
+
+def main():
+    VP = VideoProcessor()
+    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+    extended_kinematics = VP.extend_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
+    mean_polar_angle_absolute = get_mean_polar_angle_absolute(kinematics=extended_kinematics)
+
+
+if __name__ == '__main__':
+    main()
+```
 
 - Среднеквадратичное удаление от начального положения. Реализуется функцией `get_mean_cartesian_displacements`.
 
-  ```python
-  from amtoolkit.two_dimensional_statistics import get_mean_cartesian_displacements
-  
-  
-  def main():
-      VP = VideoProcessor()
-      VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-      cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                    			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-      mean_cartesian_displacements = get_mean_cartesian_displacements(kinematics=cartesian_kinematics)
-  
-  
-  if __name__ == '__main__':
-      main()
-  ```
+```python
+from amtoolkit.two_dimensional_statistics import get_mean_cartesian_displacements
+
+
+def main():
+    VP = VideoProcessor()
+    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+    mean_cartesian_displacements = get_mean_cartesian_displacements(kinematics=cartesian_kinematics)
+
+
+if __name__ == '__main__':
+    main()
+```
 
 - Bond-orientational order parameter $\psi_N$. Реализуется функцией `get_bond_orientation`. 
 
-  ```python
-  from amtoolkit.two_dimensional_statistics import get_bond_orientation
-  
-  
-  def main():
-      VP = VideoProcessor()
-      VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-      cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                    			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-      boo = get_bond_orientation(kinematics=cartesian_kinematics, neighbours_number=6, folds_number=6)
-  
-  
-  if __name__ == '__main__':
-      main()
-  ```
+```python
+from amtoolkit.two_dimensional_statistics import get_bond_orientation
+
+
+def main():
+    VP = VideoProcessor()
+    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+    boo = get_bond_orientation(kinematics=cartesian_kinematics, neighbours_number=6, folds_number=6)
+
+
+if __name__ == '__main__':
+    main()
+```
 
 - Spatio-temporal correlation parameter $\chi_4$. Реализуется функцией `get_chi_4`.
 
-  ```python
-  from amtoolkit.two_dimensional_statistics import get_chi_4
-  
-  
-  def main():
-      VP = VideoProcessor()
-      VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-      cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                    			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-      chi_4 = get_chi_4(kinematics=cartesian_kinematics, tau=60, a=100)
-  
-  
-  if __name__ == '__main__':
-      main()
-  ```
+```python
+from amtoolkit.two_dimensional_statistics import get_chi_4
+
+
+def main():
+    VP = VideoProcessor()
+    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+    chi_4 = get_chi_4(kinematics=cartesian_kinematics, tau=60, a=100)
+
+
+if __name__ == '__main__':
+    main()
+```
 
 - Collision graph average clustering coefficient. Реализуется функцией `get_cluster_dynamics`. Also you can specify detection of collision between robots by changing `collide_function` argument of `get_cluster_dynamics`
 
 ```python
-  from amtoolkit.two_dimensional_statistics import get_cluster_dynamics
-  
-  
-  def main():
-      VP = VideoProcessor()
-      VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-      cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                    			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-      clustering_coefficient = get_cluster_dynamics(kinematics=cartesian_kinematics)
-  
-  
-  if __name__ == '__main__':
-      main()
+from amtoolkit.two_dimensional_statistics import get_cluster_dynamics
+
+
+def main():
+    VP = VideoProcessor()
+    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+    clustering_coefficient = get_cluster_dynamics(kinematics=cartesian_kinematics)
+
+
+if __name__ == '__main__':
+    main()
 ```
 
-  
+
 
 ## three_dimensional_statistics.py
 
