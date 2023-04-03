@@ -14,7 +14,8 @@ def main():
     #VP.set_filename('Tests/test_videos/test_video.MP4')
     #kinematics = VP.extract_cartesian_kinematics(65, 1, 200, 1, (), (1, 0))
     kinematics = np.load("Tests/test_three_dimensional_statistics_files/test_kinematics.npy", allow_pickle=True).tolist()
-
+    VP.extract_cartesian_kinematics(bots_number=45,
+                                    )
     answer = tds.get_velocity_correlation(kinematics, 200, 200)
     answer_save = np.array(answer, dtype=object)
     np.save("Tests/test_three_dimensional_statistics_files/get_velocity_correlation_truth.npy", answer_save, allow_pickle=True)

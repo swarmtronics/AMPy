@@ -97,7 +97,7 @@ class TestTwoDimensionalStatistics(unittest.TestCase):
         truth = float(np.load("test_two_dimensional_statistics_files/get_chi_4_truth.npy", allow_pickle=True))
 
         #assert
-        self.assertAlmostEqual(tds.get_chi_4(60, 100, self.kinematics), truth)
+        self.assertAlmostEqual(tds.get_chi_4(self.kinematics, 60, 100), truth)
 
     def test_get_cluster_dynamics(self):
         #assign

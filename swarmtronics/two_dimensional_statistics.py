@@ -65,7 +65,7 @@ def get_mean_distance_from_center(kinematics: list) -> list:
     Returns average particles' distance from center for each frame
 
     :param kinematics: system's kinematics extended by polar coordinates
-    :return: scalar value
+    :return: scalar value for each frame
     """
 
     mean_distance = np.array(_extract_distances_from_center(kinematics), dtype=float).mean(axis=1).tolist()
@@ -173,15 +173,15 @@ def get_bond_orientation(kinematics: list, neighbours_number: int, folds_number:
     return boo
 
 
-def get_chi_4(tau: int,
-              a: float,
-              kinematics: list) -> float:
+def get_chi_4(kinematics: list,
+              tau: int,
+              a: float) -> float:
     """
     Returns spatio-temporal correlation parameter \chi_4 for given time and space gape
 
+    :param kinematics: system's kinematics
     :param tau: characteristic time in frames
     :param a: characteristic distance in pixels
-    :param kinematics: system's kinematics
     :return: scalar value
     """
 
