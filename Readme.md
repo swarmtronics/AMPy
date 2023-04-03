@@ -216,7 +216,7 @@ if __name__ == '__main__':
 
 - Collision graph average clustering coefficient. Реализуется функцией `get_cluster_dynamics`. Also you can specify detection of collision between robots by changing `collide_function` argument of `get_cluster_dynamics`
 
-  ```python
+```python
   from amtoolkit.two_dimensional_statistics import get_cluster_dynamics
   
   
@@ -230,7 +230,7 @@ if __name__ == '__main__':
   
   if __name__ == '__main__':
       main()
-  ```
+```
 
   
 
