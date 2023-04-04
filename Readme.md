@@ -18,8 +18,8 @@ The `statistic2d.py` module deals with the analysis of robot positions and orien
 Lastly, the `statistic3d.py` module is dedicated to generating correlation maps for position, orientation, and velocity.
 
 ## processing.py
-Этот модуль реализует простой интерфейс для использования библиотеки *OpenCV* для изучения роботизированных систем.
-Работа с функционалом модуля осуществляется посредством класса `Processor`:
+This module implements a simple interface for using the *OpenCV* library to explore robotic systems.
+Working with the functionality of the module is carried out through the class `Processor`:
 
 ```python
 from amtoolkit.processing import Processor
