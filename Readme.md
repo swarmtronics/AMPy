@@ -28,7 +28,7 @@ from amtoolkit.processing import Processor
 VP = Processor()
 ```
 
-Сперва для обработки видеофрагмента необходимо передать в обработчик путь к видеофайлу. Это делается с помощью метода `set_filename`:
+Firstly, to process a video fragment, you must pass the path to the video file. Use the `set_filename` method for this:
 
 ```python
 from amtoolkit.processing import Processor
@@ -39,7 +39,7 @@ filename = 'C:/examplefolder/examplefilename.mp4'
 VP.set_filename(filename)
 ```
 
-Далее производится извлечение декартовой кинематики (каждому маркеру в видео покадрово сопостовляется его угол поворота и положение в кадре) с помощью метода `cartesian_kinematics`. 
+Next, extract the Cartesian kinematics (each marker in the video is frame-by-frame associated with its rotation angle and position in the frame) using the `cartesian_kinematics` method.
 
 ```python
 from amtoolkit.processing import Processor
@@ -52,9 +52,9 @@ kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame
                                               get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 ```
 
-Данный метод возвращает список, в котором каждому кадру сопоставлен список из данных о роботах в этом кадре. Данные о каждом роботе состоят из ID его маркера, угла поворота и положения в кадре. В примере видеозапись содержит в себе 45 роботов, обработка ведётся с 120 по 6000 кадр записи, при этом для обработки выбирается каждый пятый кадр. При этом при распознавании коды маркеров с ID 12 и 14 игнорируются. Значения `scale_parameters` отвечают параметрам $\alpha$ и $\beta$ линейного преобразования значений пикселей для изменения яркости и контрастности изображения. Подбор правильных `scale_parameters` является исследовательской задачей и сильно зависит от условий освещения, в которых делалась видеозапись
+This method returns a list in which each frame is associated with a list of data about robots in this frame. The data for each robot consists of its marker ID, rotation angle, and position in the frame. In the example, the video recording contains 45 robots, processing is carried out from the 120th to the 6000th frame of the recording, and every fifth frame is selected for processing. At the same time marker codes with ID 12 and 14 are ignored. The `scale_parameters` values correspond to the $\alpha$ and $\beta$ parameters of the linear transformation of pixel values to change the brightness and contrast of the image. Finding the right `scale_parameters` is an exploratory task and is highly dependent on the lighting conditions in which the video was recorded.
 
-Для расчёта некоторых статистических величин необходимо кроме декартового представления кинематики системы иметь так же её полярное представление. Для этого нужно воспользоваться методом `polar_kinematics`, который дополнит данные о каждом роботе полярным углом и расстоянием от центра поля (`field_center`):
+To calculate some statistical functions, in addition to the Cartesian representation of the kinematics of the system, it is also necessary to have its polar representation. To do this, use the `polar_kinematics` method, which will complement the data about each robot with a polar angle and distance from the field center (`field_center`):
 
 ```python
 from amtoolkit.processing import Processor
@@ -68,7 +68,7 @@ cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120,
 polar_kinematics = VP.polar_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
 ```
 
-Вся кинематика системы записывается в пикселях. Если для каких-то вычислений необходимо перевести расстояния из пикселей в сантиметры, метод `metric_constant`:
+All kinematics of the system is stored in pixels. In some cases it is necessary to convert distances from pixels to centimeters, using the `metric_constant` method:
 
 ```python
 from amtoolkit.processing import Processor
