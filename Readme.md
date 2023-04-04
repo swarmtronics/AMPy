@@ -216,15 +216,10 @@ orientation_correlation = get_orientation_correlation(kinematics=cartesian_kinem
 from amtoolkit.three_dimensional_statistics import get_velocity_correlation
 
 
-def main():
-    VP = VideoProcessor()
-    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-    velocity_correlation = get_velocity_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
-
-
-if __name__ == '__main__':
-    main()
+VP = VideoProcessor()
+VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+velocity_correlation = get_velocity_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
 ```
 
