@@ -1,8 +1,7 @@
-<p align="center">
-  <img height="150" src="https://raw.githubusercontent.com/dobrychever/ST_lib/master/materials/image.jpg?token=GHSAT0AAAAAACBADUDASDFWM7LQXI2MHDCEZBMOFGQ" />
-</p>
-
 # AMARETTO
+
+![Pipeline_image](materials/amaretto_logo_header_wh.png#gh-light-mode-only)
+![Pipeline_image](materials/amaretto_logo_header_bl.png#gh-dark-mode-only)
 
 **AMARETTO** (*Active MAtter Researc Emulation & Tracking TOolkit*) is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems.
 Библиотека превращает обработку видеозаписей экспериментов из тяжкого труда в лёгкую прогулку и многократно ускоряет процесс написания кода с целью извлечения из видео полезных характеристик.
