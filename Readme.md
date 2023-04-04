@@ -9,10 +9,10 @@
 
 # Library content
 ## Overview
-Библиотека состоит из трёх модулей: `video_processor.py`, `two_dimensional_statistics.py` и `three_dimensional_statistics.py`.
-Модуль `video_processor.py` отвечает за работу с видеозаписями экспериментов и выполняет распознавание [ArUco](https://www.uco.es/investiga/grupos/ava/portfolio/aruco/) маркеров, расположенных на верхней поверхности роботов. 
-Модуль `two_dimensional_statistics.py` отвечает за обработку положений и ориентаций роботов на каждом кадре и реализует вычисления двумерных статистических функций (например декартово смещение, параметр порядка  $\psi_6$, параметр пространственно-временной корреляции $\chi_4$).
-Модуль `three_dimensional_statistics.py` отвечает за вычисление корреляционных карт (*position*, *orientation* and *velocity* correlation maps)
+The library is comprised of three components: `processing.py`, `statistic2d.py`, and `statistic3d.py`. 
+The `processing.py` module handles the processing of experimental video recordings and identifies ArUco markers placed on the robots' upper surfaces. 
+The `statistic2d.py` module deals with the analysis of robot positions and orientations in each frame, calculating various two-dimensional statistical measures such as Cartesian displacement, order parameter, and spatial-temporal correlation parameter. 
+Lastly, the `statistic3d.py` module is dedicated to generating correlation maps for position, orientation, and velocity.
 
 ## video_processor.py
 Этот модуль реализует простой интерфейс для использования библиотеки *OpenCV* для изучения роботизированных систем.
