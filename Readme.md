@@ -10,8 +10,11 @@
 # Library content
 ## Overview
 The library is comprised of three components: `processing.py`, `statistic2d.py`, and `statistic3d.py`. 
+
 The `processing.py` module handles the processing of experimental video recordings and identifies ArUco markers placed on the robots' upper surfaces. 
+
 The `statistic2d.py` module deals with the analysis of robot positions and orientations in each frame, calculating various two-dimensional statistical measures such as Cartesian displacement, order parameter, and spatial-temporal correlation parameter. 
+
 Lastly, the `statistic3d.py` module is dedicated to generating correlation maps for position, orientation, and velocity.
 
 ## video_processor.py
