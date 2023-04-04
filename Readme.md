@@ -12,7 +12,7 @@ The `processing.py` module handles the processing of experimental video recordin
 
 The `statistic2d.py` module deals with the analysis of robot positions and orientations in each frame, calculating various two-dimensional statistical measures such as Cartesian displacement, order parameter, and spatial-temporal correlation parameter. 
 
-Lastly, the `statistic3d.py` module is dedicated to generating correlation maps for position, orientation, and velocity.
+Lastly, the `statistic3d.py` module is dedicated to generating position, orientation, and velocity correlation maps for the entire platform.
 
 ## processing.py
 This module implements a simple interface for using the *OpenCV* library to explore robotic systems.
@@ -79,9 +79,9 @@ metric_constant = VP.metric_constant(marker_size=3, scale_parameters=(0.8, -30))
 
 ## statistics2d.py
 
-Этот модуль реализует вычисления двумерных статистических величин на предварительно извлечённой из видео кинематике.
+This module allows to extrat two-dimensional characteristics of the previously obtained kinematics. 
 
-- Среднее удаление роботов от центра поля. Реализуется функцией `mean_distances_from_center`.
+- Mean dispacement of robots from the center of the field can be calculated via the `mean_distances_from_center` function:
 
 ```python
 from amtoolkit.processing import Processor
@@ -96,7 +96,7 @@ polar_kinematics = VP.polar_kinematics(cartesian_kinematics=cartesian_kinematics
 distance = mean_distance_from_center(kinematics=polar_kinematics)
 ```
 
-- Средний полярный угол роботов. Реализуется функцией `mean_polar_angle`.
+- Common mean polar angle:
 
 ```python
 from amtoolkit.processing import Processor
@@ -111,7 +111,7 @@ polar_kinematics = VP.polar_kinematics(cartesian_kinematics=cartesian_kinematics
 polar_angle = mean_polar_angle(kinematics=polar_kinematics)
 ```
 
-- Средний полярный угол роботов в смысле углового пути системы. Реализуется функцией `mean_polar_angle_absolute`.
+- Mean polar angle in sense of the angular path of a system:
 
 ```python
 from amtoolkit.processing import Processor
@@ -126,7 +126,7 @@ polar_kinematics = VP.polar_kinematics(cartesian_kinematics=cartesian_kinematics
 polar_angle_absolute = mean_polar_angle_absolute(kinematics=polar_kinematics)
 ```
 
-- Среднеквадратичное удаление от начального положения. Реализуется функцией `mean_cartesian_displacements`.
+- Mean squared distance from the initial position:
 
 ```python
 from amtoolkit.processing import Processor
@@ -140,7 +140,7 @@ cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120,
 cartesian_displacement = mean_cartesian_displacements(kinematics=cartesian_kinematics)
 ```
 
-- Bond-orientational order parameter $\psi_N$. Реализуется функцией `bond_orientation`. 
+- Bond-orientational order parameter $\psi_N$:
 
 ```python
 from amtoolkit.processing import Processor
@@ -154,7 +154,7 @@ cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120,
 boo = bond_orientation(kinematics=cartesian_kinematics, neighbours_number=6, folds_number=6)
 ```
 
-- Spatio-temporal correlation parameter $\chi_4$. Реализуется функцией `chi_4`.
+- Spatio-temporal correlation parameter $\chi_4$:
 
 ```python
 from amtoolkit.processing import Processor
@@ -168,7 +168,7 @@ cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120,
 t_corr = chi_4(kinematics=cartesian_kinematics, tau=60, a=100)
 ```
 
-- Collision graph average clustering coefficient. Реализуется функцией `cluster_dynamics`. Also you can specify detection of collision between robots by changing `collide_function` argument of `cluster_dynamics`
+- Average clustering coefficient of a collision graph:
 
 ```python
 from amtoolkit.processing import Processor
@@ -181,14 +181,14 @@ cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120,
                                                     get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 clustering_coefficient = cluster_dynamics(kinematics=cartesian_kinematics)
 ```
-
+Also you can specify detection of collision between robots by changing `collide_function` argument of `cluster_dynamics`.
 
 
 ## three_dimensional_statistics.py
 
 This module allows to extract three-dimensional statistical characteristics of obtained kinematics:
 
-- *Positional pair correlation* is realized by `get_position_correlation`:
+- Positional pair correlation is realized by `get_position_correlation`:
 
 ```python
 from amtoolkit.three_dimensional_statistics import get_position_correlation
