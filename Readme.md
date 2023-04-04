@@ -1,6 +1,6 @@
-# AM Toolkit
+# AMARETTO
 
-**AM Toolkit** is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems.
+**AMARETTO** (*Active MAtter Researc Emulation & Tracking TOolkit*) is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems.
 Библиотека превращает обработку видеозаписей экспериментов из тяжкого труда в лёгкую прогулку и многократно ускоряет процесс написания кода с целью извлечения из видео полезных характеристик.
 
 # Library content
