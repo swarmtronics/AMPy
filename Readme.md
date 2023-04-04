@@ -1,5 +1,3 @@
-# AMARETTO
-
 ![Pipeline_image](materials/amaretto_logo_header_wh.png#gh-light-mode-only)
 ![Pipeline_image](materials/amaretto_logo_header_bl.png#gh-dark-mode-only)
 
