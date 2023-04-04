@@ -1,299 +1,228 @@
-<p align="center">
-  <img height="150" src="https://raw.githubusercontent.com/dobrychever/ST_lib/master/materials/image.jpg?token=GHSAT0AAAAAACBADUDASDFWM7LQXI2MHDCEZBMOFGQ" />
-</p>
-
-# AMARETTO
+![Pipeline_image](materials/amaretto_logo_header_wh.png#gh-light-mode-only)
+![Pipeline_image](materials/amaretto_logo_header_bl.png#gh-dark-mode-only)
 
 **AMARETTO** (*Active MAtter Researc Emulation & Tracking TOolkit*) is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems.
-Библиотека превращает обработку видеозаписей экспериментов из тяжкого труда в лёгкую прогулку и многократно ускоряет процесс написания кода с целью извлечения из видео полезных характеристик.
+The library turns the processing of video recordings of experiments from hard work into an cakewalk and greatly speeds up the process of writing code in order to extract useful characteristics from videos.
 
 # Library content
 ## Overview
-Библиотека состоит из трёх модулей: `video_processor.py`, `two_dimensional_statistics.py` и `three_dimensional_statistics.py`.
-Модуль `video_processor.py` отвечает за работу с видеозаписями экспериментов и выполняет распознавание [ArUco](https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html) маркеров, расположенных на верхней поверхности роботов. 
-Модуль `two_dimensional_statistics.py` отвечает за обработку положений и ориентаций роботов на каждом кадре и реализует вычисления двумерных статистических функций (например декартово смещение, параметр порядка  $\psi_6$, параметр пространственно-временной корреляции $\chi_4$).
-Модуль `three_dimensional_statistics.py` отвечает за вычисление корреляционных карт (*position*, *orientation* and *velocity* correlation maps)
+The library is comprised of three components: `processing.py`, `statistic2d.py`, and `statistic3d.py`. 
 
-## video_processor.py
-Этот модуль реализует простой интерфейс для использования библиотеки *OpenCV* для изучения роботизированных систем.
-Работа с функционалом модуля осуществляется посредством класса `VideoProcessor`:
+The `processing.py` module handles the processing of experimental video recordings and identifies ArUco markers placed on the robots' upper surfaces. 
 
-```python
-from amtoolkit.video_processor import VideoProcessor
+The `statistic2d.py` module deals with the analysis of robot positions and orientations in each frame, calculating various two-dimensional statistical measures such as Cartesian displacement, order parameter, and spatial-temporal correlation parameter. 
 
+Lastly, the `statistic3d.py` module is dedicated to generating position, orientation, and velocity correlation maps for the entire platform.
 
-def main():
-    VP = VideoProcessor()
-    
-
-if __name__ == '__main__':
-    main()
-```
-
-:warning: 
-Многие функции из модулей `two_dimensional_statistics.py` и `three_dimensional_statistics.py` содежат фрагменты кода с использованием библиотеки модуля `multiprocessing`, поэтому мы рекомендуем по умолчанию писать код внутри выражения ` if __name__ == '__main__':`.
-:warning:
-
-Сперва для обработки видеофрагмента необходимо передать в обработчик путь к видеофайлу. Это делается с помощью метода `set_filename`:
+## processing.py
+This module implements a simple interface for using the *OpenCV* library to explore robotic systems.
+Working with the functionality of the module is carried out through the class `Processor`:
 
 ```python
-from amtoolkit.video_processor import VideoProcessor
+from amtoolkit.processing import Processor
 
 
-def main():
-    VP = VideoProcessor()
-    filename = 'C:/examplefolder/examplefilename.mp4'
-    VP.set_filename(filename)
-
-if __name__ == '__main__':
-    main()
+VP = Processor()
 ```
 
-Далее производится извлечение декартовой кинематики (каждому маркеру в видео покадрово сопостовляется его угол поворота и положение в кадре) с помощью метода `extract_cartesian_kinematics`. 
+Firstly, to process a video fragment, you must pass the path to the video file. Use the `set_filename` method for this:
 
 ```python
-from amtoolkit.video_processor import VideoProcessor
+from amtoolkit.processing import Processor
 
 
-def main():
-    VP = VideoProcessor()
-    filename = 'C:/examplefolder/examplefilename.mp4'
-    VP.set_filename(filename)
-    kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                  get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-
-if __name__ == '__main__':
-    main()
+VP = Processor()
+filename = 'C:/examplefolder/examplefilename.mp4'
+VP.set_filename(filename)
 ```
 
-Данный метод возвращает список, в котором каждому кадру сопоставлен список из данных о роботах в этом кадре. Данные о каждом роботе состоят из ID его маркера, угла поворота и положения в кадре. В примере видеозапись содержит в себе 45 роботов, обработка ведётся с 120 по 6000 кадр записи, при этом для обработки выбирается каждый пятый кадр. При этом при распознавании коды маркеров с ID 12 и 14 игнорируются. Значения `scale_parameters` отвечают параметрам $\alpha$ и $\beta$ линейного преобразования значений пикселей для изменения яркости и контрастности изображения. Подбор правильных `scale_parameters` является исследовательской задачей и сильно зависит от условий освещения, в которых делалась видеозапись
-
-Для расчёта некоторых статистических величин необходимо кроме декартового представления кинематики системы иметь так же её полярное представление. Для этого нужно воспользоваться методом `extend_kinematics`, который дополнит данные о каждом роботе полярным углом и расстоянием от центра поля (`field_center`):
+Next, extract the Cartesian kinematics (each marker in the video is frame-by-frame associated with its rotation angle and position in the frame) using the `cartesian_kinematics` method.
 
 ```python
-from amtoolkit.video_processor import VideoProcessor
+from amtoolkit.processing import Processor
 
 
-def main():
-    VP = VideoProcessor()
-    filename = 'C:/examplefolder/examplefilename.mp4'
-    VP.set_filename(filename)
-    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                  get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-    extended_kinematics = VP.extend_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
-
-
-if __name__ == '__main__':
-    main()
+VP = Processor()
+filename = 'C:/examplefolder/examplefilename.mp4'
+VP.set_filename(filename)
+kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                              get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 ```
 
-Вся кинематика системы записывается в пикселях. Если для каких-то вычислений необходимо перевести расстояния из пикселей в сантиметры, метод `get_metric_constant`:
+This method returns a list in which each frame is associated with a list of data about robots in this frame. The data for each robot consists of its marker ID, rotation angle, and position in the frame. In the example, the video recording contains 45 robots, processing is carried out from the 120th to the 6000th frame of the recording, and every fifth frame is selected for processing. At the same time marker codes with ID 12 and 14 are ignored. The `scale_parameters` values correspond to the $\alpha$ and $\beta$ parameters of the linear transformation of pixel values to change the brightness and contrast of the image. Finding the right `scale_parameters` is an exploratory task and is highly dependent on the lighting conditions in which the video was recorded.
+
+To calculate some statistical functions, in addition to the Cartesian representation of the kinematics of the system, it is also necessary to have its polar representation. To do this, use the `polar_kinematics` method, which will complement the data about each robot with a polar angle and distance from the field center (`field_center`):
 
 ```python
-from amtoolkit.video_processor import VideoProcessor
+from amtoolkit.processing import Processor
 
 
-def main():
-    VP = VideoProcessor()
-    filename = 'C:/examplefolder/examplefilename.mp4'
-    VP.set_filename(filename)
-    metric_constant = VP.get_metric_constant(marker_size=3, scale_parameters=(0.8, -30))
-
-
-if __name__ == '__main__':
-    main()
+VP = Processor()
+filename = 'C:/examplefolder/examplefilename.mp4'
+VP.set_filename(filename)
+cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                              get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+polar_kinematics = VP.polar_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
 ```
 
-## two_dimensional_statistics.py
-
-Этот модуль реализует вычисления двумерных статистических величин на предварительно извлечённой из видео кинематике.
-
-- Среднее удаление роботов от центра поля. Реализуется функцией `get_mean_distances_from_center`.
+All kinematics of the system is stored in pixels. In some cases it is necessary to convert distances from pixels to centimeters, using the `metric_constant` method:
 
 ```python
-from amtoolkit.two_dimensional_statistics import get_mean_distance_from_center
+from amtoolkit.processing import Processor
 
 
-def main():
-    VP = VideoProcessor()
-    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-    extended_kinematics = VP.extend_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
-    mean_distance_from_center = get_mean_distance_from_center(kinematics=extended_kinematics)
-
-
-if __name__ == '__main__':
-    main()
+VP = Processor()
+filename = 'C:/examplefolder/examplefilename.mp4'
+VP.set_filename(filename)
+metric_constant = VP.metric_constant(marker_size=3, scale_parameters=(0.8, -30))
 ```
 
-- Средний полярный угол роботов. Реализуется функцией `get_mean_polar_angle`.
+## statistics2d.py
+
+This module allows to extrat two-dimensional characteristics of the previously obtained kinematics. 
+
+- Mean dispacement of robots from the center of the field can be calculated via the `mean_distances_from_center` function:
 
 ```python
-from amtoolkit.two_dimensional_statistics import get_mean_polar_angle
+from amtoolkit.processing import Processor
+from amtoolkit.statistics2d import mean_distance_from_center
 
 
-def main():
-    VP = VideoProcessor()
-    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-    extended_kinematics = VP.extend_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
-    mean_polar_angle = get_mean_polar_angle(kinematics=extended_kinematics)
-
-
-if __name__ == '__main__':
-    main()
+VP = Processor()
+VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+polar_kinematics = VP.polar_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
+distance = mean_distance_from_center(kinematics=polar_kinematics)
 ```
 
-- Средний полярный угол роботов в смысле углового пути системы. Реализуется функцией `get_mean_polar_angle_absolute`.
+- Common mean polar angle:
 
 ```python
-from amtoolkit.two_dimensional_statistics import get_mean_polar_angle_absolute
+from amtoolkit.processing import Processor
+from amtoolkit.statistics2d import mean_polar_angle
 
 
-def main():
-    VP = VideoProcessor()
-    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-    extended_kinematics = VP.extend_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
-    mean_polar_angle_absolute = get_mean_polar_angle_absolute(kinematics=extended_kinematics)
-
-
-if __name__ == '__main__':
-    main()
+VP = Processor()
+VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+polar_kinematics = VP.polar_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
+polar_angle = mean_polar_angle(kinematics=polar_kinematics)
 ```
 
-- Среднеквадратичное удаление от начального положения. Реализуется функцией `get_mean_cartesian_displacements`.
+- Mean polar angle in sense of the angular path of a system:
 
 ```python
-from amtoolkit.two_dimensional_statistics import get_mean_cartesian_displacements
+from amtoolkit.processing import Processor
+from amtoolkit.statistics2d import mean_polar_angle_absolute
 
 
-def main():
-    VP = VideoProcessor()
-    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-    mean_cartesian_displacements = get_mean_cartesian_displacements(kinematics=cartesian_kinematics)
-
-
-if __name__ == '__main__':
-    main()
+VP = Processor()
+VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+polar_kinematics = VP.polar_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
+polar_angle_absolute = mean_polar_angle_absolute(kinematics=polar_kinematics)
 ```
 
-- Bond-orientational order parameter $\psi_N$. Реализуется функцией `get_bond_orientation`. 
+- Mean squared distance from the initial position:
 
 ```python
-from amtoolkit.two_dimensional_statistics import get_bond_orientation
+from amtoolkit.processing import Processor
+from amtoolkit.statistics2d import mean_cartesian_displacements
 
 
-def main():
-    VP = VideoProcessor()
-    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-    boo = get_bond_orientation(kinematics=cartesian_kinematics, neighbours_number=6, folds_number=6)
-
-
-if __name__ == '__main__':
-    main()
+VP = Processor()
+VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+cartesian_displacement = mean_cartesian_displacements(kinematics=cartesian_kinematics)
 ```
 
-- Spatio-temporal correlation parameter $\chi_4$. Реализуется функцией `get_chi_4`.
+- Bond-orientational order parameter $\psi_N$:
 
 ```python
-from amtoolkit.two_dimensional_statistics import get_chi_4
+from amtoolkit.processing import Processor
+from amtoolkit.statistics2d import bond_orientation
 
 
-def main():
-    VP = VideoProcessor()
-    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-    chi_4 = get_chi_4(kinematics=cartesian_kinematics, tau=60, a=100)
-
-
-if __name__ == '__main__':
-    main()
+VP = Processor()
+VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+boo = bond_orientation(kinematics=cartesian_kinematics, neighbours_number=6, folds_number=6)
 ```
 
-- Collision graph average clustering coefficient. Реализуется функцией `get_cluster_dynamics`. Also you can specify detection of collision between robots by changing `collide_function` argument of `get_cluster_dynamics`
+- Spatio-temporal correlation parameter $\chi_4$:
 
 ```python
-from amtoolkit.two_dimensional_statistics import get_cluster_dynamics
+from amtoolkit.processing import Processor
+from amtoolkit.statistics2d import chi_4
 
 
-def main():
-    VP = VideoProcessor()
-    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-    clustering_coefficient = get_cluster_dynamics(kinematics=cartesian_kinematics)
-
-
-if __name__ == '__main__':
-    main()
+VP = Processor()
+VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+t_corr = chi_4(kinematics=cartesian_kinematics, tau=60, a=100)
 ```
 
+- Average clustering coefficient of a collision graph:
+
+```python
+from amtoolkit.processing import Processor
+from amtoolkit.statistics2d import cluster_dynamics
+
+
+VP = Processor()
+VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+clustering_coefficient = cluster_dynamics(kinematics=cartesian_kinematics)
+```
+Also you can specify detection of collision between robots by changing `collide_function` argument of `cluster_dynamics`.
 
 
 ## three_dimensional_statistics.py
 
-Этот модуль реализует вычисления трёхмерных статистических величин на предварительно извлечённой из видео кинематике.
+This module allows to extract three-dimensional statistical characteristics of obtained kinematics:
 
-- Two-dimensional pair correlation. Реализуется функцией `get_position_correlation`.
+- Positional pair correlation is realized by `get_position_correlation`:
 
 ```python
 from amtoolkit.three_dimensional_statistics import get_position_correlation
 
 
-def main():
-    VP = VideoProcessor()
-    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-    position_correlation = get_position_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
-
-
-if __name__ == '__main__':
-    main()
+VP = VideoProcessor()
+VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+position_correlation = get_position_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
 ```
 
-- Orientation correlation function. Реализуется функцией `get_mean_polar_angle`.
+- Orientation correlation function can be computed via `get_mean_polar_angle`:
 
 ```python
 from amtoolkit.three_dimensional_statistics import get_orientation_correlation
 
 
-def main():
-    VP = VideoProcessor()
-    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-    orientation_correlation = get_orientation_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
-
-
-if __name__ == '__main__':
-    main()
+VP = VideoProcessor()
+VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+orientation_correlation = get_orientation_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
 ```
 
-- Velocity correlation function. Реализуется функцией `get_mean_polar_angle_absolute`.
+- Velocity correlation can be computed as fit is based on the `get_velocity_correlation` function:
 
 ```python
 from amtoolkit.three_dimensional_statistics import get_velocity_correlation
 
 
-def main():
-    VP = VideoProcessor()
-    VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-    cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-                                                  			get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-    velocity_correlation = get_velocity_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
-
-
-if __name__ == '__main__':
-    main()
+VP = VideoProcessor()
+VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
+cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+                                                    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
+velocity_correlation = get_velocity_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
 ```
-
