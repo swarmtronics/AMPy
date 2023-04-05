@@ -1,17 +1,17 @@
 import unittest
-from swarmtronics.video_processor import VideoProcessor
-import swarmtronics.three_dimensional_statistics as tds
+from amtoolkit.processing import Processor
+import amtoolkit.statistics3d as tds
 import numpy as np
 
 
-class TestThreeDimensionalStatistics(unittest.TestCase):
+class TestStatistics3D(unittest.TestCase):
     def setUp(self) -> None:
-        self.vp = VideoProcessor()
-        self.kinematics = np.load("test_two_dimensional_statistics_files/test_kinematics.npy", allow_pickle=True).tolist()
+        self.vp = Processor()
+        self.kinematics = np.load("test_statistics2d_files/test_kinematics.npy", allow_pickle=True).tolist()
 
-    def test_get_position_correlation(self):
+    def test_position_correlation(self):
         # assign
-        truth = np.load("test_three_dimensional_statistics_files/get_position_correlation_truth.npy",
+        truth = np.load("test_statistics3d_files/position_correlation_truth.npy",
                         allow_pickle=True).tolist()
 
         # assert
@@ -29,11 +29,11 @@ class TestThreeDimensionalStatistics(unittest.TestCase):
                             return False
             return True
 
-        self.assertTrue(is_equal(tds.get_position_correlation(self.kinematics, 200, 200), truth))
+        self.assertTrue(is_equal(tds.position_correlation(self.kinematics, 200, 200), truth))
 
-    def test_get_orientation_correlation(self):
+    def test_orientation_correlation(self):
         # assign
-        truth = np.load("test_three_dimensional_statistics_files/get_orientation_correlation_truth.npy",
+        truth = np.load("test_statistics3d_files/orientation_correlation_truth.npy",
                         allow_pickle=True).tolist()
 
         # assert
@@ -51,11 +51,11 @@ class TestThreeDimensionalStatistics(unittest.TestCase):
                             return False
             return True
 
-        self.assertTrue(is_equal(tds.get_orientation_correlation(self.kinematics, 200, 200), truth))
+        self.assertTrue(is_equal(tds.orientation_correlation(self.kinematics, 200, 200), truth))
 
-    def test_get_velocity_correlation(self):
+    def test_velocity_correlation(self):
         # assign
-        truth = np.load("test_three_dimensional_statistics_files/get_velocity_correlation_truth.npy",
+        truth = np.load("test_statistics3d_files/velocity_correlation_truth.npy",
                         allow_pickle=True).tolist()
 
         # assert
@@ -73,7 +73,7 @@ class TestThreeDimensionalStatistics(unittest.TestCase):
                             return False
             return True
 
-        self.assertTrue(is_equal(tds.get_velocity_correlation(self.kinematics, 200, 200), truth))
+        self.assertTrue(is_equal(tds.velocity_correlation(self.kinematics, 200, 200), truth))
 
 
 if __name__ == '__main__':

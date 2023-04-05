@@ -7,7 +7,7 @@ RAD2DEG = 180 / np.pi
 DEG2RAD = np.pi / 180
 
 
-def _get_position_correlation_frame(data_frame: tuple):
+def _position_correlation_frame(data_frame: tuple):
     kinematics_frame, x_size, y_size = data_frame
 
     matrix = [[0 for x in range(x_size)] for y in range(y_size)]
@@ -35,10 +35,10 @@ def _get_position_correlation_frame(data_frame: tuple):
     return matrix
 
 
-def get_position_correlation(kinematics: list,
-                             x_size: int,
-                             y_size: int,
-                             ) -> list:
+def position_correlation(kinematics: list,
+                         x_size: int,
+                         y_size: int,
+                         ) -> list:
     """
     Returns position correlation matrix
 
@@ -51,12 +51,12 @@ def get_position_correlation(kinematics: list,
     data = [(kinematics_frame, x_size, y_size) for kinematics_frame in kinematics]
 
     with Pool(max(os.cpu_count() - 1, 1)) as pool:
-        pc_matrices = pool.map(_get_position_correlation_frame, data)
+        pc_matrices = pool.map(_position_correlation_frame, data)
 
     return pc_matrices
 
 
-def _get_orientation_correlation_frame(data_frame: tuple):
+def _orientation_correlation_frame(data_frame: tuple):
     kinematics_frame, x_size, y_size = data_frame
 
     matrix = [[0 for x in range(x_size)] for y in range(y_size)]
@@ -84,10 +84,10 @@ def _get_orientation_correlation_frame(data_frame: tuple):
     return matrix
 
 
-def get_orientation_correlation(kinematics: list,
-                                x_size: int,
-                                y_size: int,
-                                ) -> list:
+def orientation_correlation(kinematics: list,
+                            x_size: int,
+                            y_size: int,
+                            ) -> list:
     """
     Returns orientation correlation matrix
 
@@ -99,12 +99,12 @@ def get_orientation_correlation(kinematics: list,
 
     data = [(kinematics_frame, x_size, y_size) for kinematics_frame in kinematics]
     with Pool(max(os.cpu_count() - 1, 1)) as pool:
-        oc_matrices = pool.map(_get_orientation_correlation_frame, data)
+        oc_matrices = pool.map(_orientation_correlation_frame, data)
 
     return oc_matrices
 
 
-def _get_velocity_correlation_frame(data_frame: tuple):
+def _velocity_correlation_frame(data_frame: tuple):
     kinematics_frame, velocities_frame, x_size, y_size = data_frame
 
     matrix = [[0 for x in range(x_size)] for y in range(y_size)]
@@ -137,10 +137,10 @@ def _get_velocity_correlation_frame(data_frame: tuple):
     return matrix
 
 
-def get_velocity_correlation(kinematics: list,
-                                x_size: int,
-                                y_size: int,
-                                ) -> list:
+def velocity_correlation(kinematics: list,
+                         x_size: int,
+                         y_size: int,
+                         ) -> list:
     """
     Returns velocity correlation matrix
 
@@ -160,7 +160,7 @@ def get_velocity_correlation(kinematics: list,
         velocities.append(velocities_frame)
     data = [(kinematics[i_frame], velocities[i_frame], x_size, y_size) for i_frame in range(1, len(kinematics))]
     with Pool(max(os.cpu_count() - 1, 1)) as pool:
-        vc_matrices = pool.map(_get_velocity_correlation_frame, data)
+        vc_matrices = pool.map(_velocity_correlation_frame, data)
 
     return vc_matrices
 

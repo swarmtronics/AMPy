@@ -8,7 +8,7 @@ RAD2DEG = 180 / np.pi
 DEG2RAD = np.pi / 180
 
 
-def calculate_angle(point_a: tuple, point_b: tuple) -> float:
+def calc_angle(point_a: tuple, point_b: tuple) -> float:
     """
     Returns angle in degrees between OX-axis and (b-a) vector direction
 
@@ -19,7 +19,7 @@ def calculate_angle(point_a: tuple, point_b: tuple) -> float:
     return RAD2DEG * np.arctan2(point_b[1] - point_a[1], point_b[0] - point_a[0])
 
 
-def calculate_distance(point_a: tuple, point_b: tuple) -> float:
+def calc_distance(point_a: tuple, point_b: tuple) -> float:
     """
     Returns euclidean distance between two points
 
@@ -31,25 +31,25 @@ def calculate_distance(point_a: tuple, point_b: tuple) -> float:
     return ((point_a[0] - point_b[0])**2 + (point_a[1] - point_b[1])**2)**0.5
 
 
-class VideoProcessor:
+class Processor:
     def __init__(self):
         self._filename = None
         self._cartesian_kinematics = None
-        self._extended_kinematics = None
+        self._polar_kinematics = None
         self._aruco_dictionary = cv2.aruco.Dictionary_get(cv2.aruco.DICT_7X7_1000)
         self._aruco_parameters = cv2.aruco.DetectorParameters_create()
 
     def set_filename(self, filename: str) -> None:
         self._filename = filename
 
-    def extract_cartesian_kinematics(self,
-                                     bots_number: int,
-                                     begin_frame: int,
-                                     end_frame: int,
-                                     get_each: int,
-                                     ignore_codes: tuple,
-                                     scale_parameters: tuple,
-                                     ) -> list:
+    def cartesian_kinematics(self,
+                             bots_number: int,
+                             begin_frame: int,
+                             end_frame: int,
+                             get_each: int,
+                             ignore_codes: tuple,
+                             scale_parameters: tuple,
+                             ) -> list:
         """
         Returns cartesian kinematics for particles in video with given processing parameters
 
@@ -86,36 +86,37 @@ class VideoProcessor:
                 raw_cartesian_kinematics.append([])
                 continue
             frame_converted = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
-            raw_cartesian_kinematics_for_frame = self._get_raw_cartesian_kinematics_from_frame(frame_converted,
-                                                                                               ignore_codes)
-            raw_cartesian_kinematics.append(raw_cartesian_kinematics_for_frame)
+            raw_cart_kin_for_frame = self._raw_cartesian_kinematics_from_frame(frame_converted,
+                                                                               ignore_codes)
+            raw_cartesian_kinematics.append(raw_cart_kin_for_frame)
 
         completed_cartesian_kinematics = self._fill_gaps_in_raw_kinematics(bots_number, raw_cartesian_kinematics)
-        self._extended_kinematics = completed_cartesian_kinematics
+        self._cartesian_kinematics = completed_cartesian_kinematics
         return completed_cartesian_kinematics
 
     @staticmethod
-    def extend_kinematics(cartesian_kinematics: list, field_center: tuple) -> list:
+    def polar_kinematics(cartesian_kinematics: list, field_center: tuple) -> list:
         """
         Returns kinematics extended by a polar angle (from 0 to 360 degrees clockwise in relation to X-axis) and a distance from field center for each particle
 
         :param cartesian_kinematics: cartesian kinematics of a system
         :param field_center: a center of a polar coordinates
-        :return: extended system's kinematics
+        :return: polar system's kinematics
         """
-        extended_kinematics = deepcopy(cartesian_kinematics)
-        for i_frame in range(len(extended_kinematics)):
-            for i_bot in range(len(extended_kinematics[i_frame])):
-                extended_kinematics[i_frame][i_bot] = [
-                    extended_kinematics[i_frame][i_bot][0],
-                    extended_kinematics[i_frame][i_bot][1],
-                    extended_kinematics[i_frame][i_bot][2],
-                    calculate_angle(field_center, extended_kinematics[i_frame][i_bot][2]),
-                    calculate_distance(field_center, extended_kinematics[i_frame][i_bot][2])
-                ]
-        return extended_kinematics
 
-    def get_center_manual(self) -> tuple:
+        polar_kinematics = deepcopy(cartesian_kinematics)
+        for i_frame in range(len(polar_kinematics)):
+            for i_bot in range(len(polar_kinematics[i_frame])):
+                polar_kinematics[i_frame][i_bot] = [
+                    polar_kinematics[i_frame][i_bot][0],
+                    polar_kinematics[i_frame][i_bot][1],
+                    polar_kinematics[i_frame][i_bot][2],
+                    calc_angle(field_center, polar_kinematics[i_frame][i_bot][2]),
+                    calc_distance(field_center, polar_kinematics[i_frame][i_bot][2])
+                ]
+        return polar_kinematics
+
+    def field_center_manual(self) -> tuple:
         """
         Shows the video's first frame and returns clicked point coordinates
 
@@ -125,10 +126,22 @@ class VideoProcessor:
         success, frame = video_capture.read()
         while not success:
             success, frame = video_capture.read()
-        center = self._get_center(frame)
+        center = self._center_of_image(frame)
         return center
 
-    def get_metric_constant(self, marker_size: float, scale_parameters: tuple) -> float:
+    # TODO implement the function
+    def field_center_auto(self, first_line_markers: tuple, second_line_markers: tuple) -> tuple:
+        """
+        Return center of the field calculated as the intersection of two lines which were defined by two pairs of
+        markers
+
+        :param first_line_markers: markers IDs to define the first line
+        :param second_line_markers: markers IDs to define the second line
+        :return: field's center
+        """
+        ...
+
+    def metric_constant(self, marker_size: float, scale_parameters: tuple) -> float:
         """
         Returns factor that scale distances in pixel on video to distances in centimeters
 
@@ -152,13 +165,13 @@ class VideoProcessor:
         (top_left, top_right, bottom_right, bottom_left) = marker_corners.reshape((4, 2))
         top_right = (int(top_right[0]), int(top_right[1]))
         top_left = (int(top_left[0]), int(top_left[1]))
-        metric_constant = marker_size / calculate_distance(top_left, top_right)
+        metric_constant = marker_size / calc_distance(top_left, top_right)
         return metric_constant
 
-    def _get_raw_cartesian_kinematics_from_frame(self,
-                                                 frame: np.ndarray,
-                                                 ignore_codes: tuple,
-                                                 ) -> list:
+    def _raw_cartesian_kinematics_from_frame(self,
+                                             frame: np.ndarray,
+                                             ignore_codes: tuple,
+                                             ) -> list:
         """
         Returns raw cartesian kinematics for particles in frame
 
@@ -189,8 +202,8 @@ class VideoProcessor:
             top_mid_x = (top_left[0] + top_right[0]) // 2
             top_mid_y = (top_left[1] + top_right[1]) // 2
 
-            angle = calculate_angle((center_x, center_y),
-                                    (top_mid_x, top_mid_y))
+            angle = calc_angle((center_x, center_y),
+                               (top_mid_x, top_mid_y))
             if angle < 0:
                 angle = 360 + angle
             # angle increasing corresponds clockwise rotation
@@ -198,7 +211,7 @@ class VideoProcessor:
         return sorted(raw_kinematics_for_frame)
 
     @staticmethod
-    def _get_center(image: np.ndarray) -> tuple:
+    def _center_of_image(image: np.ndarray) -> tuple:
         """
         Shows matplotlib window with a given images. Returns last clicked point
 
