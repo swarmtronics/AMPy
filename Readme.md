@@ -45,7 +45,7 @@ from amtoolkit.processing import Processor
 VP = Processor()
 filename = 'C:/examplefolder/examplefilename.mp4'
 VP.set_filename(filename)
-kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
                                               get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 ```
 
@@ -60,7 +60,7 @@ from amtoolkit.processing import Processor
 VP = Processor()
 filename = 'C:/examplefolder/examplefilename.mp4'
 VP.set_filename(filename)
-cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
                                               get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 polar_kinematics = VP.polar_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
 ```
@@ -149,7 +149,7 @@ from amtoolkit.statistics2d import bond_orientation
 
 VP = Processor()
 VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
                                                     get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 boo = bond_orientation(kinematics=cartesian_kinematics, neighbours_number=6, folds_number=6)
 ```
@@ -163,7 +163,7 @@ from amtoolkit.statistics2d import chi_4
 
 VP = Processor()
 VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
                                                     get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 t_corr = chi_4(kinematics=cartesian_kinematics, tau=60, a=100)
 ```
@@ -177,7 +177,7 @@ from amtoolkit.statistics2d import cluster_dynamics
 
 VP = Processor()
 VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
                                                     get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 clustering_coefficient = cluster_dynamics(kinematics=cartesian_kinematics)
 ```
@@ -188,26 +188,28 @@ Also you can specify detection of collision between robots by changing `collide_
 
 This module allows to extract three-dimensional statistical characteristics of obtained kinematics:
 
-- Positional pair correlation is realized by `get_position_correlation`:
+- Positional pair correlation is realized by `position_correlation`:
 
 ```python
+from amtoolkit.processing import Processor
 from amtoolkit.statistics3d import position_correlation
 
-VP = VideoProcessor()
+VP = Processor()
 VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
                                                         get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 position_correlation = position_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
 ```
 
-- Orientation correlation function can be computed via `get_mean_polar_angle`:
+- Orientation correlation function can be computed via `orientation_correlation`:
 
 ```python
+from amtoolkit.processing import Processor
 from amtoolkit.statistics3d import orientation_correlation
 
-VP = VideoProcessor()
+VP = Processor()
 VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
                                                         get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 orientation_correlation = orientation_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
 ```
@@ -215,11 +217,12 @@ orientation_correlation = orientation_correlation(kinematics=cartesian_kinematic
 - Velocity correlation can be computed as fit is based on the `velocity_correlation` function:
 
 ```python
+from amtoolkit.processing import Processor
 from amtoolkit.statistics3d import velocity_correlation
 
-VP = VideoProcessor()
+VP = Processor()
 VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-cartesian_kinematics = VP.extract_cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
+cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
                                                         get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 velocity_correlation = velocity_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
 ```
