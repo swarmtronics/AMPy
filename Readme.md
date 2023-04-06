@@ -243,7 +243,7 @@ velocity_correlation = velocity_correlation(kinematics=cartesian_kinematics, x_s
 
 # License
 
-Established code released as open-source software under the MIT license.
+Established code released as open-source software under the GPLv3 license.
 
 # Contact us
 
