@@ -11,8 +11,8 @@ The library turns the processing of video recordings of experiments from hard wo
 - [Two-dimensional statistics](#stats2d)  
 - [Three-dimensional statistics](#stats3d)    
 
-## Overview
 <a name="overview"/>
+## Overview
 
 The library is comprised of three components: `processing.py`, `statistic2d.py`, and `statistic3d.py`. 
 
@@ -22,8 +22,8 @@ The `statistic2d.py` module deals with the analysis of robot positions and orien
 
 Lastly, the `statistic3d.py` module is dedicated to generating position, orientation, and velocity correlation maps for the entire platform.
 
-## processing.py
 <a name="processing"/>
+## processing.py
 
 This module implements a simple interface for using the *OpenCV* library to explore robotic systems.
 Working with the functionality of the module is carried out through the class `Processor`:
@@ -87,8 +87,8 @@ VP.set_filename(filename)
 metric_constant = VP.metric_constant(marker_size=3, scale_parameters=(0.8, -30))
 ```
 
-## statistics2d.py
 <a name="stats2d"/>
+## statistics2d.py
 
 This module allows to extrat two-dimensional characteristics of the previously obtained kinematics. 
 
@@ -194,9 +194,8 @@ clustering_coefficient = cluster_dynamics(kinematics=cartesian_kinematics)
 ```
 Also you can specify detection of collision between robots by changing `collide_function` argument of `cluster_dynamics`.
 
-
-## three_dimensional_statistics.py
 <a name="stats3d"/>
+## three_dimensional_statistics.py
 
 This module allows to extract three-dimensional statistical characteristics of obtained kinematics:
 
