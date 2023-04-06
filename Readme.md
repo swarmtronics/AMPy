@@ -12,6 +12,7 @@ The library turns the processing of video recordings of experiments from hard wo
 - [Three-dimensional statistics](#stats3d)    
 
 <a name="overview"/>
+
 ## Overview
 
 The library is comprised of three components: `processing.py`, `statistic2d.py`, and `statistic3d.py`. 
@@ -88,6 +89,7 @@ metric_constant = VP.metric_constant(marker_size=3, scale_parameters=(0.8, -30))
 ```
 
 <a name="stats2d"/>
+
 ## statistics2d.py
 
 This module allows to extrat two-dimensional characteristics of the previously obtained kinematics. 
@@ -195,6 +197,7 @@ clustering_coefficient = cluster_dynamics(kinematics=cartesian_kinematics)
 Also you can specify detection of collision between robots by changing `collide_function` argument of `cluster_dynamics`.
 
 <a name="stats3d"/>
+
 ## three_dimensional_statistics.py
 
 This module allows to extract three-dimensional statistical characteristics of obtained kinematics:
