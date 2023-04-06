@@ -240,3 +240,19 @@ cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, 
                                                         get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 velocity_correlation = velocity_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
 ```
+
+# License
+
+Established code released as open-source software under the MIT license.
+
+# Contact us
+
+If you have some questions about the code, you are welcome to open an issue, I will respond to that as soon as possible.
+
+# Citation
+
+To be updated.
+
+```
+-
+```
