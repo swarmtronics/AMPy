@@ -1,11 +1,19 @@
 ![Pipeline_image](materials/logo_header_bl_font.png#gh-light-mode-only)
 ![Pipeline_image](materials/logo_header_wh_font.png#gh-dark-mode-only)
 
-**AMARETTO** (*Active MAtter Researc Emulation & Tracking TOolkit*) is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems.
+**AMPy** is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems.
 The library turns the processing of video recordings of experiments from hard work into an cakewalk and greatly speeds up the process of writing code in order to extract useful characteristics from videos.
 
 # Library content
+
+- [Overview](#overview)  
+- [Processing](#processing)
+- [Two-dimensional statistics](#stats2d)  
+- [Three-dimensional statistics](#stats3d)    
+
 ## Overview
+<a name="overview"/>
+
 The library is comprised of three components: `processing.py`, `statistic2d.py`, and `statistic3d.py`. 
 
 The `processing.py` module handles the processing of experimental video recordings and identifies ArUco markers placed on the robots' upper surfaces. 
@@ -15,6 +23,8 @@ The `statistic2d.py` module deals with the analysis of robot positions and orien
 Lastly, the `statistic3d.py` module is dedicated to generating position, orientation, and velocity correlation maps for the entire platform.
 
 ## processing.py
+<a name="processing"/>
+
 This module implements a simple interface for using the *OpenCV* library to explore robotic systems.
 Working with the functionality of the module is carried out through the class `Processor`:
 
@@ -78,6 +88,7 @@ metric_constant = VP.metric_constant(marker_size=3, scale_parameters=(0.8, -30))
 ```
 
 ## statistics2d.py
+<a name="stats2d"/>
 
 This module allows to extrat two-dimensional characteristics of the previously obtained kinematics. 
 
@@ -185,6 +196,7 @@ Also you can specify detection of collision between robots by changing `collide_
 
 
 ## three_dimensional_statistics.py
+<a name="stats3d"/>
 
 This module allows to extract three-dimensional statistical characteristics of obtained kinematics:
 
