@@ -247,7 +247,7 @@ Established code released as open-source software under the GPLv3 license.
 
 # Contact us
 
-If you have some questions about the code, you are welcome to open an issue, I will respond to that as soon as possible.
+If you have some questions about the code, you are welcome to open an issue, we will respond to that as soon as possible.
 
 # Citation
 
