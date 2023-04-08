@@ -2,7 +2,7 @@
 ![Pipeline_image](materials/logo_header_wh_font.png#gh-dark-mode-only)
 
 **AMPy** is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems.
-The library turns the processing of video recordings of experiments from hard work into an cakewalk and greatly speeds up the process of writing code in order to extract useful characteristics from videos.
+The library turns the processing of video recordings of experiments from hard work into a cakewalk and greatly speeds up the process of writing code in order to extract useful characteristics from.
 
 # Library content
 
@@ -60,7 +60,7 @@ kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=
                                               get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 ```
 
-This method returns a list in which each frame is associated with a list of data about robots in this frame. The data for each robot consists of its marker ID, rotation angle, and position in the frame. In the example, the video recording contains 45 robots, processing is carried out from the 120th to the 6000th frame of the recording, and every fifth frame is selected for processing. At the same time marker codes with ID 12 and 14 are ignored. The `scale_parameters` values correspond to the $\alpha$ and $\beta$ parameters of the linear transformation of pixel values to change the brightness and contrast of the image. Finding the right `scale_parameters` is an exploratory task and is highly dependent on the lighting conditions in which the video was recorded.
+This method returns a list in which each frame is associated with a list of data about robots in this frame. The data for each robot consists of its marker ID, rotation angle, and position in the frame. In the example, the video recording contains 45 robots, processing is carried out from the 120th to the 6000th frame of the recording, and every fifth frame is selected for processing. At the same time, marker codes with IDs 12 and 14 are ignored. The `scale_parameters` values correspond to the $\alpha$ and $\beta$ parameters of the linear transformation of pixel values to change the brightness and contrast of the image. Finding the right `scale_parameters` is an exploratory task and is highly dependent on the lighting conditions in which the video was recorded.
 
 To calculate some statistical functions, in addition to the Cartesian representation of the kinematics of the system, it is also necessary to have its polar representation. To do this, use the `polar_kinematics` method, which will complement the data about each robot with a polar angle and distance from the field center (`field_center`):
 
