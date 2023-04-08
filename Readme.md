@@ -199,7 +199,7 @@ Also you can specify detection of collision between robots by changing `collide_
 
 <a name="stats3d"/>
 
-## three_dimensional_statistics.py
+## statistics3d.py
 
 This module allows to extract three-dimensional statistical characteristics of obtained kinematics:
 
