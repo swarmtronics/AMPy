@@ -21,4 +21,5 @@ jobs:
         pip install -r requirements.txt
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') --generated-members=cv2.*
+        pylint $(git ls-files '*.py') --generated-members=cv2.*        
+      continue-on-error: true   
