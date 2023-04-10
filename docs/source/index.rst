@@ -1,10 +1,7 @@
-Welcome to Lumache's documentation!
+Welcome to AMPy documentation!
 ===================================
 
-**Lumache** (/lu'make/) is a Python library for cooks and food lovers
-that creates recipes mixing random ingredients.
-It pulls data from the `Open Food Facts database <https://world.openfoodfacts.org/>`_
-and offers a *simple* and *intuitive* API.
+**AMPy** is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems. The library turns the processing of video recordings of experiments from hard work into a cakewalk and greatly speeds up the process of writing code in order to extract useful characteristics from.
 
 Check out the :doc:`usage` section for further information, including
 how to :ref:`installation` the project.
