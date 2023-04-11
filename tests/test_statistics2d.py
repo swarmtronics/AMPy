@@ -41,7 +41,8 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         #assign
-        truth = np.load("test_statistics2d_files/mean_distance_from_center_truth.npy", allow_pickle=True).tolist()
+        truth = np.load("test_statistics2d_files/mean_distance_from_center_truth.npy",
+                        allow_pickle=True).tolist()
 
         #assert
         def is_equal(l_1, l_2):
@@ -64,7 +65,8 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         #assing
-        truth = np.load("test_statistics2d_files/mean_polar_angle_truth.npy", allow_pickle=True).tolist()
+        truth = np.load("test_statistics2d_files/mean_polar_angle_truth.npy",
+                        allow_pickle=True).tolist()
 
         # assert
         def is_equal(l_1, l_2):
@@ -87,7 +89,8 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         # assing
-        truth = np.load("test_statistics2d_files/mean_polar_angle_absolute_truth.npy", allow_pickle=True).tolist()
+        truth = np.load("test_statistics2d_files/mean_polar_angle_absolute_truth.npy",
+                        allow_pickle=True).tolist()
 
         # assert
         def is_equal(l_1, l_2):
@@ -110,7 +113,8 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         #assign
-        truth = np.load("test_statistics2d_files/mean_cartesian_displacements_truth.npy", allow_pickle=True).tolist()
+        truth = np.load("test_statistics2d_files/mean_cartesian_displacements_truth.npy",
+                        allow_pickle=True).tolist()
 
         # assert
         def is_equal(l_1, l_2):
@@ -133,7 +137,8 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         #assign
-        truth = np.load("test_statistics2d_files/bond_orientation_truth.npy", allow_pickle=True).tolist()
+        truth = np.load("test_statistics2d_files/bond_orientation_truth.npy",
+                        allow_pickle=True).tolist()
 
         #assert
         def is_equal(l_1, l_2):
@@ -156,7 +161,8 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         #assign
-        truth = float(np.load("test_statistics2d_files/chi_4_truth.npy", allow_pickle=True))
+        truth = float(np.load("test_statistics2d_files/chi_4_truth.npy",
+                              allow_pickle=True))
 
         #assert
         self.assertAlmostEqual(tds.chi_4(self.kinematics, 60, 100), truth)
@@ -167,7 +173,8 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         #assign
-        truth = np.load("test_statistics2d_files/cluster_dynamics_truth.npy", allow_pickle=True).tolist()
+        truth = np.load("test_statistics2d_files/cluster_dynamics_truth.npy",
+                        allow_pickle=True).tolist()
 
         #assert
         def is_equal(l_1, l_2):
@@ -187,3 +194,4 @@ class TestStatistics2D(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+7.26
