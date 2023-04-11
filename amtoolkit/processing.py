@@ -46,6 +46,7 @@ class Processor:
         self._cartesian_kinematics = None
         self._polar_kinematics = None
         self._aruco_dictionary = cv2.aruco.Dictionary_get(cv2.aruco.DICT_7X7_1000)
+        self._aruco_dictionary_for_center = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
         self._aruco_parameters = cv2.aruco.DetectorParameters_create()
 
     def set_filename(self, filename: str) -> None:
@@ -144,17 +145,72 @@ class Processor:
         center = self._center_of_image(frame)
         return center
 
-    # TODO implement the function
-    def field_center_auto(self, first_line_markers: tuple, second_line_markers: tuple) -> tuple:
+    @staticmethod
+    def _lines_intersection(first_line_points: tuple, second_line_points: tuple) -> tuple:
+        """
+        Return intersection point of two lines defined by two segments
+        """
+        p_1, q_1 = first_line_points
+        p_2, q_2 = second_line_points
+        s_1 = (q_1[0] - p_1[0], q_1[1] - p_1[1])
+        s_2 = (q_2[0] - p_2[0], q_2[1] - p_2[1])
+        delta = s_2[0] * (-s_1[1]) - (-s_1[0]) * s_2[1]
+        delta_2 = (p_1[0] - p_2[0]) * (-s_1[1]) - s_1[0] * (p_1[1] - p_2[1])
+        t_2 = delta_2 / delta
+        return p_2[0] + t_2 * s_2[0], p_2[1] + t_2 * s_2[1]
+
+    def field_center_auto(self,
+                          first_line_markers: tuple,
+                          second_line_markers: tuple,
+                          scale_parameters: tuple) -> tuple:
         """
         Return center of the field calculated as the intersection of two lines which were defined by
         two pairs of markers
 
         :param first_line_markers: markers IDs to define the first line
         :param second_line_markers: markers IDs to define the second line
+        :param scale_parameters: pixels absolute scaling parameters
         :return: field's center
         """
-        ...
+        alpha, beta = scale_parameters
+        video_capture = cv2.VideoCapture(self._filename)
+        is_find = False
+        poses = []
+        n_frames_to_try = max(100, video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
+        for i_frame in range(n_frames_to_try):
+            success, frame = video_capture.read()
+            while not success:
+                success, frame = video_capture.read()
+            frame_converted = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
+            (corners, ids, rejected) = cv2.aruco.detectMarkers(
+                frame_converted, self._aruco_dictionary, parameters=self._aruco_parameters
+            )
+            if set(first_line_markers + second_line_markers).issubset(set(ids)):
+                idx_1 = np.where(ids == first_line_markers[0])
+                (top_left, top_right, bottom_right, bottom_left) = corners[idx_1].reshape((4, 2))
+                center_1 = ((top_left[0] + bottom_right[0]) // 2,
+                            (top_left[1] + bottom_right[1]) // 2)
+                idx_2 = np.where(ids == first_line_markers[1])
+                (top_left, top_right, bottom_right, bottom_left) = corners[idx_2].reshape((4, 2))
+                center_2 = ((top_left[0] + bottom_right[0]) // 2,
+                            (top_left[1] + bottom_right[1]) // 2)
+                idx_3 = np.where(ids == second_line_markers[0])
+                (top_left, top_right, bottom_right, bottom_left) = corners[idx_3].reshape((4, 2))
+                center_3 = ((top_left[0] + bottom_right[0]) // 2,
+                            (top_left[1] + bottom_right[1]) // 2)
+                idx_4 = np.where(ids == second_line_markers[1])
+                (top_left, top_right, bottom_right, bottom_left) = corners[idx_4].reshape((4, 2))
+                center_4 = ((top_left[0] + bottom_right[0]) // 2,
+                            (top_left[1] + bottom_right[1]) // 2)
+                poses.append((center_1, center_2))
+                poses.append((center_3, center_4))
+                break
+        if not poses:
+            return None
+        center = self._lines_intersection(poses[0], poses[1])
+        return center
+
+
 
     def metric_constant(self, marker_size: float, scale_parameters: tuple) -> float:
         """
@@ -253,8 +309,8 @@ class Processor:
         by they future positions
 
         :param bots_number: total number of particles in video
-        :param raw_cartesian_kinematics: raw cartesian kinematics
-        :return: cartesian kinematics with filled gaps
+        :param raw_cartesian_kinematics: raw Cartesian kinematics
+        :return: Cartesian kinematics with filled gaps
         """
         raw_kinematics = deepcopy(raw_cartesian_kinematics)
 
