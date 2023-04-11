@@ -1,5 +1,5 @@
 """
-Module providing the processing of experimental video recordings and identifies ArUco markers
+Module provides the processing of experimental video recordings and identifies ArUco markers
 placed on the robots' upper surfaces
 """
 from copy import deepcopy

@@ -1,3 +1,7 @@
+"""
+Module provides tests for the *amtoolkit.processing*
+"""
+
 import unittest
 
 import cv2
@@ -65,7 +69,8 @@ class TestProcessing(unittest.TestCase):
                     return False
                 if abs(result[i][1] - truth_result[i][1]) > 0.1:
                     return False
-                if not (result[i][2][0] == truth_result[i][2][0] and result[i][2][1] == truth_result[i][2][1]):
+                if not (result[i][2][0] == truth_result[i][2][0]
+                        and result[i][2][1] == truth_result[i][2][1]):
                     return False
             return True
 

@@ -1,3 +1,7 @@
+"""
+Module provides tests for the *amtoolkit.statistics2d*
+"""
+
 import unittest
 
 import numpy as np
