@@ -1,6 +1,7 @@
-import numpy as np
 import multiprocessing as mp
 import os
+
+import numpy as np
 
 
 RAD2DEG = 180 / np.pi
@@ -8,22 +9,22 @@ DEG2RAD = np.pi / 180
 
 
 def _orientation_angles(kinematics: list) -> list:
-    angles = list(np.array(kinematics, dtype = object)[:, :, 1])
+    angles = list(np.array(kinematics, dtype=object)[:, :, 1])
     return angles
 
 
 def _positions(kinematics: list) -> list:
-    positions = list(np.array(kinematics, dtype = object)[:, :, 2])
+    positions = list(np.array(kinematics, dtype=object)[:, :, 2])
     return positions
 
 
 def _polar_angles(kinematics: list) -> list:
-    polar_angles = list(np.array(kinematics, dtype = object)[:, :, 3])
+    polar_angles = list(np.array(kinematics, dtype=object)[:, :, 3])
     return polar_angles
 
 
 def _distances_from_center(kinematics: list) -> list:
-    distances = list(np.array(kinematics, dtype = object)[:, :, 4])
+    distances = list(np.array(kinematics, dtype=object)[:, :, 4])
     return distances
 
 
@@ -50,7 +51,7 @@ def calc_angle(point_a: tuple, point_b: tuple) -> float:
 
 def calc_distance(point_a: tuple, point_b: tuple) -> float:
     """
-    Returns euclidean distance between two points
+    Returns Euclidean distance between two points
 
     :param point_a: first point
     :param point_b: vector end point
@@ -74,8 +75,8 @@ def mean_distance_from_center(kinematics: list) -> list:
 
 def mean_polar_angle(kinematics: list) -> list:
     """
-    Returns average particles' polar angle for each frame. Angle for certain frame calculating by accumulating
-    all angle changes in previous frames
+    Returns average particles' polar angle for each frame. Angle for certain frame calculating
+    by accumulating all angle changes in previous frames
 
     :param kinematics: system's kinematics extended by polar coordinates
     :return: list of scalar values
@@ -98,8 +99,8 @@ def mean_polar_angle(kinematics: list) -> list:
 
 def mean_polar_angle_absolute(kinematics: list):
     """
-    Returns average particles' polar angle for each frame. Angle for certain frame calculating by accumulating
-    absolute values of all angle changes in previous frames
+    Returns average particles' polar angle for each frame. Angle for certain frame calculating
+    by accumulating absolute values of all angle changes in previous frames
 
     :param kinematics: system's kinematics extended by polar coordinates
     :return: list of scalar values
@@ -127,25 +128,31 @@ def mean_cartesian_displacements(kinematics: list):
 
     positions = _positions(kinematics)
     first_frame_positions = positions[0]
-    mean_cartesian_displacements = []
+    mcd = []
     for i_frame in range(len(positions)):
         current_frame_positions = positions[i_frame]
         current_total_cartesian_displacement = 0
         for i_bot in range(len(first_frame_positions)):
-            current_total_cartesian_displacement += calc_distance(current_frame_positions[i_bot], first_frame_positions[i_bot])
-        current_mean_cartesian_displacement = current_total_cartesian_displacement / len(first_frame_positions)
-        mean_cartesian_displacements.append(current_mean_cartesian_displacement)
-    return mean_cartesian_displacements
+            current_total_cartesian_displacement += \
+                calc_distance(current_frame_positions[i_bot], first_frame_positions[i_bot])
+        current_mcd = \
+            current_total_cartesian_displacement / len(first_frame_positions)
+        mcd.append(current_mcd)
+    return mcd
 
 
 def _local_bond_orientation(folds_number: int, bot_position: tuple, neighbours_positions: list):
     p = 0
     for neighbour_index in range(len(neighbours_positions)):
-        p += np.exp(1j * folds_number * calc_angle(bot_position, neighbours_positions[neighbour_index]) * DEG2RAD)
+        p += np.exp(1j * folds_number *
+                    calc_angle(bot_position, neighbours_positions[neighbour_index]) * DEG2RAD)
     return np.absolute(p) / len(neighbours_positions)
 
 
-def bond_orientation(kinematics: list, neighbours_number: int, folds_number: int, get_each: int = 1) -> list:
+def bond_orientation(kinematics: list,
+                     neighbours_number: int,
+                     folds_number: int,
+                     get_each: int = 1) -> list:
     """
     Returns bond orientation order parameter
 
@@ -166,7 +173,8 @@ def bond_orientation(kinematics: list, neighbours_number: int, folds_number: int
             neighbours_positions = list(current_frame_positions.copy())
             neighbours_positions.sort(key=lambda pos: calc_distance(reference_bot_position, pos))
             neighbours_positions = neighbours_positions[:neighbours_number]
-            local_boo = _local_bond_orientation(folds_number, reference_bot_position, neighbours_positions)
+            local_boo = \
+                _local_bond_orientation(folds_number, reference_bot_position, neighbours_positions)
             current_frame_boo += local_boo
         current_frame_boo /= len(kinematics[i_frame])
         boo.append(current_frame_boo)
@@ -177,7 +185,7 @@ def chi_4(kinematics: list,
           tau: int,
           a: float) -> float:
     """
-    Returns spatio-temporal correlation parameter \chi_4 for given time and space gape
+    Returns spatio-temporal correlation parameter chi_4 for given time and space gape
 
     :param kinematics: system's kinematics
     :param tau: characteristic time in frames
@@ -190,7 +198,8 @@ def chi_4(kinematics: list,
     for i_frame in range(len(kinematics) - tau):
         q = 0
         for i_bot in range(N):
-            q += int(a - calc_distance(kinematics[i_frame + tau][i_bot][2], kinematics[i_frame][i_bot][2]) >= 0)
+            q += int(a - calc_distance(kinematics[i_frame + tau][i_bot][2],
+                                       kinematics[i_frame][i_bot][2]) >= 0)
         q /= N
         q_sequence.append(q)
     t_corr = N * np.std(q_sequence)
@@ -209,7 +218,8 @@ def _adjacency_matrix(kinematics_frame: list, collide_function) -> list:
         for j_bot in range(N):
             if i_bot == j_bot:
                 continue
-            adj_matrix[i_bot][j_bot] = int(collide_function(kinematics_frame[i_bot], kinematics_frame[j_bot]))
+            adj_matrix[i_bot][j_bot] = \
+                int(collide_function(kinematics_frame[i_bot], kinematics_frame[j_bot]))
     return adj_matrix
 
 
@@ -220,7 +230,7 @@ def _clustering_coefficient_frame(data_frame: tuple) -> float:
     cl_coeff = 0
     for i in range(N):
         k_i = sum(adj_matrix[i][j] for j in range(N))
-        if (k_i == 0) or (k_i == 1):
+        if k_i in (0, 1):
             continue
         c_i = 0
         for j in range(N):
@@ -247,8 +257,3 @@ def cluster_dynamics(kinematics: list,
     with mp.Pool(max(os.cpu_count() - 1, 1)) as pool:
         cl_coeff_seq = pool.map(_clustering_coefficient_frame, data)
     return cl_coeff_seq
-
-
-
-
-
