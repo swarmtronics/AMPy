@@ -1,6 +1,7 @@
-import cv2
-import numpy as np
 from copy import deepcopy
+
+import numpy as np
+import cv2
 from matplotlib import pyplot as plt
 
 
@@ -32,6 +33,9 @@ def calc_distance(point_a: tuple, point_b: tuple) -> float:
 
 
 class Processor:
+    """
+    *processing.Processor* class provides interface for processing of experiment videos
+    """
     def __init__(self):
         self._filename = None
         self._cartesian_kinematics = None
@@ -40,6 +44,11 @@ class Processor:
         self._aruco_parameters = cv2.aruco.DetectorParameters_create()
 
     def set_filename(self, filename: str) -> None:
+        """
+        Set path to the file you want to process
+        :param filename: the path
+        :return:
+        """
         self._filename = filename
 
     def cartesian_kinematics(self,
@@ -96,7 +105,9 @@ class Processor:
     @staticmethod
     def polar_kinematics(cartesian_kinematics: list, field_center: tuple) -> list:
         """
-        Returns kinematics extended by a polar angle (from 0 to 360 degrees clockwise in relation to X-axis) and a distance from field center for each particle
+        Returns kinematics extended by a polar angle
+        (from 0 to 360 degrees clockwise in relation to X-axis)
+        and a distance from field center for each particle
 
         :param cartesian_kinematics: cartesian kinematics of a system
         :param field_center: a center of a polar coordinates
@@ -131,8 +142,8 @@ class Processor:
     # TODO implement the function
     def field_center_auto(self, first_line_markers: tuple, second_line_markers: tuple) -> tuple:
         """
-        Return center of the field calculated as the intersection of two lines which were defined by two pairs of
-        markers
+        Return center of the field calculated as the intersection of two lines which were defined by
+        two pairs of markers
 
         :param first_line_markers: markers IDs to define the first line
         :param second_line_markers: markers IDs to define the second line
@@ -233,7 +244,8 @@ class Processor:
     @staticmethod
     def _fill_gaps_in_raw_kinematics(bots_number: int, raw_cartesian_kinematics: list) -> list:
         """
-        Returns cartesian kinematics with filling gaps from unrecognized bots by they future positions
+        Returns cartesian kinematics with filling gaps from unrecognized bots
+        by they future positions
 
         :param bots_number: total number of particles in video
         :param raw_cartesian_kinematics: raw cartesian kinematics
@@ -269,18 +281,20 @@ class Processor:
                             new_bots_ids = np.array(raw_kinematics[i_next_frame])[:, 0]
                         if difference[i_absent_bot] not in set(new_bots_ids):
                             continue
-                        else:
-                            for i_new_bot in range(len(raw_kinematics[i_next_frame])):
-                                if raw_kinematics[i_next_frame][i_new_bot][0] == difference[i_absent_bot]:
-                                    raw_kinematics[i_frame].append(raw_kinematics[i_next_frame][i_new_bot])
-                                    bot_searched_out = True
-                                    break
+                        for i_new_bot in range(len(raw_kinematics[i_next_frame])):
+                            if raw_kinematics[i_next_frame][i_new_bot][0] ==\
+                                    difference[i_absent_bot]:
+                                raw_kinematics[i_frame].append(
+                                    raw_kinematics[i_next_frame][i_new_bot])
+                                bot_searched_out = True
+                                break
                         if bot_searched_out:
                             break
-        complete_kinematics = [sorted(raw_kinematics[i_frame].copy()) for i_frame in range(frames_number) if (len(raw_kinematics[i_frame])) == bots_number]
+        complete_kinematics = [sorted(raw_kinematics[i_frame].copy())
+                               for i_frame in range(frames_number)
+                               if (len(raw_kinematics[i_frame])) == bots_number]
         return complete_kinematics
 
 
 if __name__ == '__main__':
     print(__name__)
-
