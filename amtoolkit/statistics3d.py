@@ -1,7 +1,7 @@
-import numpy as np
-from multiprocessing.pool import Pool
 import os
 
+import numpy as np
+from multiprocessing.pool import Pool
 
 RAD2DEG = 180 / np.pi
 DEG2RAD = np.pi / 180
@@ -79,7 +79,8 @@ def _orientation_correlation_frame(data_frame: tuple):
         for i_bot in range(N):
             x, y = distance_matrix[i_ref_bot][i_bot]
             if (0 < x < x_size) and (0 < y < y_size):
-                matrix[y][x] += 1 * np.cos((kinematics_frame[i_bot][1] - kinematics_frame[i_ref_bot][1]) * DEG2RAD) / N**2
+                matrix[y][x] += np.cos((kinematics_frame[i_bot][1] - kinematics_frame[i_ref_bot][1])
+                                       * DEG2RAD) / N**2
 
     return matrix
 
@@ -123,7 +124,7 @@ def _velocity_correlation_frame(data_frame: tuple):
             Y = round(+ dy * sina + dx * cosa)
             distance_matrix[i_ref_bot][i_bot] = (X, Y)
 
-    factor = sum([v[0]**2 + v[1]**2 for v in velocities_frame]) / N
+    factor = sum(v[0]**2 + v[1]**2 for v in velocities_frame) / N
     if factor == 0:
         factor = 1
     for i_ref_bot in range(N):
@@ -155,12 +156,14 @@ def velocity_correlation(kinematics: list,
     for i_frame in range(1, len(kinematics)):
         velocities_frame = []
         for i_bot in range(N):
-            velocities_frame.append((kinematics[i_frame][i_bot][2][0] - kinematics[i_frame - 1][i_bot][2][0],
-                                     kinematics[i_frame][i_bot][2][1] - kinematics[i_frame - 1][i_bot][2][1]))
+            velocities_frame.append((kinematics[i_frame][i_bot][2][0] -
+                                     kinematics[i_frame - 1][i_bot][2][0],
+                                     kinematics[i_frame][i_bot][2][1] -
+                                     kinematics[i_frame - 1][i_bot][2][1]))
         velocities.append(velocities_frame)
-    data = [(kinematics[i_frame], velocities[i_frame], x_size, y_size) for i_frame in range(1, len(kinematics))]
+    data = [(kinematics[i_frame], velocities[i_frame], x_size, y_size)
+            for i_frame in range(1, len(kinematics))]
     with Pool(max(os.cpu_count() - 1, 1)) as pool:
         vc_matrices = pool.map(_velocity_correlation_frame, data)
 
     return vc_matrices
-

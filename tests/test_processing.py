@@ -1,14 +1,27 @@
 import unittest
-from amtoolkit.processing import Processor
+
 import cv2
+
+from amtoolkit.processing import Processor
 
 
 class TestProcessing(unittest.TestCase):
+    """
+    *TestProcessing* class provides tests for the *processing.Processor* class
+    """
+
     def setUp(self) -> None:
+        """
+        Initialize objects for testing
+        """
+
         self.vp = Processor()
 
-
     def test_raw_cartesian_kinematics_from_frame(self):
+        """
+        Test working of video recognition
+        """
+
         # assign
         data0 = (cv2.VideoCapture('test_processing_files/image0.jpg')).read()[1]
         truth_result0 = [[18, 343.73979529168804, (802, 360)]]
@@ -40,7 +53,11 @@ class TestProcessing(unittest.TestCase):
                    [83, 231.84277341263095, (903, 405)]]
         # assert
 
-        def is_equal(result, truth_result):
+        def _is_equal(result, truth_result):
+            """
+            Check equality of two lists
+            """
+
             if len(result) != len(truth_result):
                 return False
             for i in range(len(result)):
@@ -53,11 +70,11 @@ class TestProcessing(unittest.TestCase):
             return True
 
         result0 = self.vp._raw_cartesian_kinematics_from_frame(data0, ignore_codes=())
-        self.assertTrue(is_equal(result0, truth_result0))
+        self.assertTrue(_is_equal(result0, truth_result0))
         result1 = self.vp._raw_cartesian_kinematics_from_frame(data1, ignore_codes=())
-        self.assertTrue(is_equal(result1, truth_result1))
+        self.assertTrue(_is_equal(result1, truth_result1))
         result2 = self.vp._raw_cartesian_kinematics_from_frame(data2, ignore_codes=())
-        self.assertTrue(is_equal(result2, truth_result2))
+        self.assertTrue(_is_equal(result2, truth_result2))
 
 
 if __name__ == '__main__':

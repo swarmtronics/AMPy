@@ -1,75 +1,110 @@
 import unittest
+
+import numpy as np
+
 from amtoolkit.processing import Processor
 import amtoolkit.statistics3d as tds
-import numpy as np
 
 
 class TestStatistics3D(unittest.TestCase):
+    """
+    *TestStatistics3D* class provides tests for the *amtoolkit.statistics2d* class
+    """
+
     def setUp(self) -> None:
+        """
+        Initialize objects for testing
+        """
+
         self.vp = Processor()
-        self.kinematics = np.load("test_statistics2d_files/test_kinematics.npy", allow_pickle=True).tolist()
+        self.kinematics = \
+            np.load("test_statistics2d_files/test_kinematics.npy", allow_pickle=True).tolist()
 
     def test_position_correlation(self):
+        """
+        Test *amtoolkit.statistics3d.position_correlation* function
+        """
+
         # assign
         truth = np.load("test_statistics3d_files/position_correlation_truth.npy",
                         allow_pickle=True).tolist()
 
         # assert
-        def is_equal(m1, m2):
-            if len(m1) != len(m2):
+        def is_equal(m_1, m_2):
+            """
+            Check equality of two matrices
+            """
+
+            if len(m_1) != len(m_2):
                 return False
-            if len(m1[0]) != len(m2[0]):
+            if len(m_1[0]) != len(m_2[0]):
                 return False
-            if len(m1[0][0]) != len(m2[0][0]):
+            if len(m_1[0][0]) != len(m_2[0][0]):
                 return False
-            for k in range(len(m1)):
-                for i in range(len(m1[0])):
-                    for j in range(len(m1[0][0])):
-                        if abs(m1[k][i][j] - m2[k][i][j]) >= 0.001:
+            for k in range(len(m_1)):
+                for i in range(len(m_1[0])):
+                    for j in range(len(m_1[0][0])):
+                        if abs(m_1[k][i][j] - m_2[k][i][j]) >= 0.001:
                             return False
             return True
 
         self.assertTrue(is_equal(tds.position_correlation(self.kinematics, 200, 200), truth))
 
     def test_orientation_correlation(self):
+        """
+        Test *amtoolkit.statistics3d.orientation_correlation* function
+        """
+
         # assign
         truth = np.load("test_statistics3d_files/orientation_correlation_truth.npy",
                         allow_pickle=True).tolist()
 
         # assert
-        def is_equal(m1, m2):
-            if len(m1) != len(m2):
+        def is_equal(m_1, m_2):
+            """
+            Check equality of two matrices
+            """
+
+            if len(m_1) != len(m_2):
                 return False
-            if len(m1[0]) != len(m2[0]):
+            if len(m_1[0]) != len(m_2[0]):
                 return False
-            if len(m1[0][0]) != len(m2[0][0]):
+            if len(m_1[0][0]) != len(m_2[0][0]):
                 return False
-            for k in range(len(m1)):
-                for i in range(len(m1[0])):
-                    for j in range(len(m1[0][0])):
-                        if abs(m1[k][i][j] - m2[k][i][j]) >= 0.001:
+            for k in range(len(m_1)):
+                for i in range(len(m_1[0])):
+                    for j in range(len(m_1[0][0])):
+                        if abs(m_1[k][i][j] - m_2[k][i][j]) >= 0.001:
                             return False
             return True
 
         self.assertTrue(is_equal(tds.orientation_correlation(self.kinematics, 200, 200), truth))
 
     def test_velocity_correlation(self):
+        """
+        Test *amtoolkit.statistics3d.velocity_correlation* function
+        """
+
         # assign
         truth = np.load("test_statistics3d_files/velocity_correlation_truth.npy",
                         allow_pickle=True).tolist()
 
         # assert
-        def is_equal(m1, m2):
-            if len(m1) != len(m2):
+        def is_equal(m_1, m_2):
+            """
+            Check equality of two matrices
+            """
+
+            if len(m_1) != len(m_2):
                 return False
-            if len(m1[0]) != len(m2[0]):
+            if len(m_1[0]) != len(m_2[0]):
                 return False
-            if len(m1[0][0]) != len(m2[0][0]):
+            if len(m_1[0][0]) != len(m_2[0][0]):
                 return False
-            for k in range(len(m1)):
-                for i in range(len(m1[0])):
-                    for j in range(len(m1[0][0])):
-                        if abs(m1[k][i][j] - m2[k][i][j]) >= 0.001:
+            for k in range(len(m_1)):
+                for i in range(len(m_1[0])):
+                    for j in range(len(m_1[0][0])):
+                        if abs(m_1[k][i][j] - m_2[k][i][j]) >= 0.001:
                             return False
             return True
 
