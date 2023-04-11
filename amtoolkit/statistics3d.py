@@ -1,7 +1,12 @@
+"""
+Module provides analysis of robots positions and each frame, calculating various
+three-dimensional statistical measures
+"""
+
+from multiprocessing.pool import Pool
 import os
 
 import numpy as np
-from multiprocessing.pool import Pool
 
 RAD2DEG = 180 / np.pi
 DEG2RAD = np.pi / 180

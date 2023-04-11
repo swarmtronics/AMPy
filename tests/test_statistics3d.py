@@ -8,7 +8,7 @@ import amtoolkit.statistics3d as tds
 
 class TestStatistics3D(unittest.TestCase):
     """
-    *TestStatistics3D* class provides tests for the *amtoolkit.statistics2d* class
+    *TestStatistics3D* class provides tests for the *amtoolkit.statistics2d* module
     """
 
     def setUp(self) -> None:

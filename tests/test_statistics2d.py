@@ -8,7 +8,7 @@ import amtoolkit.statistics2d as tds
 
 class TestStatistics2D(unittest.TestCase):
     """
-    *TestStatistics2D* class provides tests for the *amtoolkit.statistics2d* class
+    *TestStatistics2D* class provides tests for the *amtoolkit.statistics2d* module
     """
 
     def setUp(self) -> None:
@@ -194,4 +194,3 @@ class TestStatistics2D(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-7.26

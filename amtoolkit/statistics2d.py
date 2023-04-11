@@ -1,3 +1,8 @@
+"""
+Module provides analysis of robots positions and each frame, calculating various
+two-dimensional statistical measures
+"""
+
 import multiprocessing as mp
 import os
 
