@@ -9,6 +9,8 @@
 [![Linting Status][linting-image]][linting-url]
 [![Docs Status][docs-image]][docs-url]
 
+**[Website](TBD)** | **[Documentation](TBD)** | **[Paper](TBD)** | **[Video Tutorial](TBD)** | **[Colab Notebook](TBD)**
+
 **AMPy** is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems.
 The library turns the processing of video recordings of experiments from hard work into a cakewalk and greatly speeds up the process of writing code in order to extract useful characteristics from.
 
