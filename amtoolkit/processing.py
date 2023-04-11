@@ -59,8 +59,7 @@ class Processor:
         :param get_each: frames decimation frequency
         :param ignore_codes: markers to ignore while recognition
         :param scale_parameters: pixels absolute scaling parameters
-        :return: list of frame-by-frame particles cartesian kinematics including particles ids,
-        cartesian coordinates and rotation angles (from 0 to 360 degrees clockwise in relation to X-axis)
+        :return: list of frame-by-frame particles cartesian kinematic
         """
 
         alpha, beta = scale_parameters
@@ -78,21 +77,21 @@ class Processor:
         else:
             finish_frame = end_frame
 
-        raw_cartesian_kinematics = []
+        raw_cart_kin = []
         for current_frame in range(start_frame, finish_frame + 1, get_each):
             video_capture.set(cv2.CAP_PROP_POS_FRAMES, current_frame - 1)
             success, frame = video_capture.read()
             if not success:
-                raw_cartesian_kinematics.append([])
+                raw_cart_kin.append([])
                 continue
             frame_converted = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
             raw_cart_kin_for_frame = self._raw_cartesian_kinematics_from_frame(frame_converted,
                                                                                ignore_codes)
-            raw_cartesian_kinematics.append(raw_cart_kin_for_frame)
+            raw_cart_kin.append(raw_cart_kin_for_frame)
 
-        completed_cartesian_kinematics = self._fill_gaps_in_raw_kinematics(bots_number, raw_cartesian_kinematics)
-        self._cartesian_kinematics = completed_cartesian_kinematics
-        return completed_cartesian_kinematics
+        completed_cart_kin = self._fill_gaps_in_raw_kinematics(bots_number, raw_cart_kin)
+        self._cartesian_kinematics = completed_cart_kin
+        return completed_cart_kin
 
     @staticmethod
     def polar_kinematics(cartesian_kinematics: list, field_center: tuple) -> list:
