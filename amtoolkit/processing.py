@@ -3,6 +3,7 @@ Module provides the processing of experimental video recordings and identifies A
 placed on the robots' upper surfaces
 """
 from copy import deepcopy
+import pickle
 
 import numpy as np
 
@@ -174,7 +175,6 @@ class Processor:
         """
         alpha, beta = scale_parameters
         video_capture = cv2.VideoCapture(self._filename)
-        is_find = False
         poses = []
         n_frames_to_try = max(100, video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
         for i_frame in range(n_frames_to_try):
@@ -355,6 +355,23 @@ class Processor:
                                for i_frame in range(frames_number)
                                if (len(raw_kinematics[i_frame])) == bots_number]
         return complete_kinematics
+
+    @staticmethod
+    def load_p(filename) -> list:
+        """
+        Load system's kinematics serialized by *pickle*
+        :param filename: path to *.pickle* file
+        :return: system's kinematics
+        """
+        with open(filename, 'rb') as file:
+            kin = list(pickle.load(file))
+            if not kin:
+                return None
+            for i, bot in enumerate(kin):
+                if len(bot) != len(kin[0]):
+                    return None
+            return kin
+
 
 
 if __name__ == '__main__':
