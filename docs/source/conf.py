@@ -11,11 +11,6 @@ version = '0.1.0'
 
 # -- General configuration
 
-build:
-  os: ubuntu-22.04
-  tools:
-    python: "3.8"
-        
 extensions = [
     'sphinx.ext.duration',
     'sphinx.ext.doctest',
