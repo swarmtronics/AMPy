@@ -11,7 +11,7 @@
 
 **[Website](swarmtronics.com)** | **[Documentation](https://ampy.readthedocs.io/en/latest/)** | **[Paper](TBD)** | **[Video Tutorial](TBD)** | **[Colab Notebook](TBD)**
 
-**AMPy** is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems. Our library turns the processing of experiments recordings into a cakewalk, considerably accelerating extraction of system dynamics.
+**AMPy** is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems. Our library turns the processing of experiment recordings into a cakewalk, considerably accelerating extraction of system dynamics.
 
 # Library content
 
