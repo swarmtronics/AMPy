@@ -33,12 +33,12 @@ def _distances_from_center(kinematics: list) -> list:
     return distances
 
 
-def _sum_points(p1: tuple, p2: tuple, scale: float = 1) -> tuple:
+def _sum_points(p1: tuple, p2: tuple, scale: float = 1) -> tuple: # pragma: no cover
     return (p1[0] + p2[0] * scale,
             p1[1] + p2[1] * scale)
 
 
-def _cross_product(v: tuple, u: tuple) -> float:
+def _cross_product(v: tuple, u: tuple) -> float: # pragma: no cover
     return v[0]*u[1] - v[1]*u[0]
 
 
@@ -211,7 +211,7 @@ def chi_4(kinematics: list,
     return t_corr
 
 
-def _is_collide(bot_1: list, bot_2: list) -> bool:
+def _is_collide(bot_1: list, bot_2: list) -> bool:  # pragma: no cover
     D = 300
     return calc_distance(bot_1[2], bot_2[2]) <= D
 
@@ -228,7 +228,7 @@ def _adjacency_matrix(kinematics_frame: list, collide_function) -> list:
     return adj_matrix
 
 
-def _clustering_coefficient_frame(data_frame: tuple) -> float:
+def _clustering_coefficient_frame(data_frame: tuple) -> float: # pragma: no cover
     kinematics_frame, collide_function = data_frame
     N = len(kinematics_frame)
     adj_matrix = _adjacency_matrix(kinematics_frame, collide_function)

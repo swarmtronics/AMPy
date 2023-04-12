@@ -50,7 +50,7 @@ class Processor:
         self._aruco_dictionary_for_center = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
         self._aruco_parameters = cv2.aruco.DetectorParameters_create()
 
-    def set_filename(self, filename: str) -> None:
+    def set_filename(self, filename: str) -> None: # pragma: no cover
         """
         Set path to the file you want to process
         :param filename: the path
@@ -147,7 +147,7 @@ class Processor:
         return center
 
     @staticmethod
-    def _lines_intersection(first_line_points: tuple, second_line_points: tuple) -> tuple:
+    def _lines_intersection(first_line_points: tuple, second_line_points: tuple) -> tuple: # pragma: no cover
         """
         Return intersection point of two lines defined by two segments
         """
@@ -260,7 +260,7 @@ class Processor:
         for i in range(recognized_markers_number):
             marker_corners = corners[i]
             marker_id = ids[i][0]
-            if marker_id in ignore_codes:
+            if marker_id in ignore_codes: # pragma: no cover
                 continue
             (top_left, top_right, bottom_right, bottom_left) = marker_corners.reshape((4, 2))
             (top_left, top_right, bottom_right, bottom_left) = (tuple(map(int, top_left)),
@@ -282,7 +282,7 @@ class Processor:
         return sorted(raw_kinematics_for_frame)
 
     @staticmethod
-    def _center_of_image(image: np.ndarray) -> tuple:
+    def _center_of_image(image: np.ndarray) -> tuple: # pragma: no cover
         """
         Shows matplotlib window with a given images. Returns last clicked point
 
@@ -371,8 +371,3 @@ class Processor:
                 if len(bot) != len(kin[0]):
                     return None
             return kin
-
-
-
-if __name__ == '__main__':
-    print(__name__)

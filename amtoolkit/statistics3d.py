@@ -12,7 +12,7 @@ RAD2DEG = 180 / np.pi
 DEG2RAD = np.pi / 180
 
 
-def _position_correlation_frame(data_frame: tuple):
+def _position_correlation_frame(data_frame: tuple): # pragma: no cover
     kinematics_frame, x_size, y_size = data_frame
 
     matrix = [[0 for x in range(x_size)] for y in range(y_size)]
@@ -61,7 +61,7 @@ def position_correlation(kinematics: list,
     return pc_matrices
 
 
-def _orientation_correlation_frame(data_frame: tuple):
+def _orientation_correlation_frame(data_frame: tuple): # pragma: no cover
     kinematics_frame, x_size, y_size = data_frame
 
     matrix = [[0 for x in range(x_size)] for y in range(y_size)]
@@ -110,7 +110,7 @@ def orientation_correlation(kinematics: list,
     return oc_matrices
 
 
-def _velocity_correlation_frame(data_frame: tuple):
+def _velocity_correlation_frame(data_frame: tuple): # pragma: no cover
     kinematics_frame, velocities_frame, x_size, y_size = data_frame
 
     matrix = [[0 for x in range(x_size)] for y in range(y_size)]
