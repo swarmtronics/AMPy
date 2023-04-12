@@ -24,6 +24,5 @@ jobs:
           
     - name: Run Coveralls
       run: |
-          py.test tests/test_statistics2d.py --doctest-modules -v --cov amtoolkit --cov-report term-missing
-          py.test tests/test_statistics3d.py --doctest-modules -v --cov amtoolkit --cov-report term-missing
+          py.test tests/ --doctest-modules -v --cov amtoolkit --cov-report term-missing
           coveralls --service=github
