@@ -1,13 +1,19 @@
 [linting-image]: https://github.com/swarmtronics/AMPy/actions/workflows/pylint.yml/badge.svg
 [linting-url]: https://github.com/swarmtronics/AMPy/actions/workflows/pylint.yml
+
 [docs-image]: https://readthedocs.org/projects/ampy/badge/?version=latest
 [docs-url]: https://ampy.readthedocs.io/en/latest
+
+[coverage-image]: https://coveralls.io/repos/github/swarmtronics/AMPy/badge.svg
+[coverage-url]: https://coveralls.io/github/swarmtronics/AMPy
 
 ![Pipeline_image](materials/logo_header_bl_font.png#gh-light-mode-only)
 ![Pipeline_image](materials/logo_header_wh_font.png#gh-dark-mode-only)
 
 [![Linting Status][linting-image]][linting-url]
+[![Coverage Status][coverage-image]][coverage-url]
 [![Docs Status][docs-image]][docs-url]
+
 
 **[Website](swarmtronics.com)** | **[Documentation](https://ampy.readthedocs.io/en/latest/)** | **[Paper](TBD)** | **[Video Tutorial](TBD)** | **[Colab Notebook](TBD)**
 
