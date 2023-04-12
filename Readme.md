@@ -68,7 +68,7 @@ Next, extract the Cartesian kinematics (each marker in the video is frame-by-fra
 ```python
 from amtoolkit.processing import Processor
 
-
+ 
 VP = Processor()
 filename = 'C:/examplefolder/examplefilename.mp4'
 VP.set_filename(filename)
