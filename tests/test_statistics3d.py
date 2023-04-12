@@ -23,7 +23,7 @@ class TestStatistics3D(unittest.TestCase):
 
         self.vp = Processor()
         self.kinematics = \
-            np.load(os.path.dirname(__file__) + "/test_statistics2d_files/test_kinematics.npy", allow_pickle=True).tolist()
+            np.load(os.path.dirname(__file__) + "/" + "test_statistics2d_files/test_kinematics.npy", allow_pickle=True).tolist()
 
     def test_position_correlation(self):
         """
@@ -31,7 +31,7 @@ class TestStatistics3D(unittest.TestCase):
         """
 
         # assign
-        truth = np.load("test_statistics3d_files/position_correlation_truth.npy",
+        truth = np.load(os.path.dirname(__file__) + "/" + "test_statistics3d_files/position_correlation_truth.npy",
                         allow_pickle=True).tolist()
 
         # assert
@@ -61,7 +61,7 @@ class TestStatistics3D(unittest.TestCase):
         """
 
         # assign
-        truth = np.load("test_statistics3d_files/orientation_correlation_truth.npy",
+        truth = np.load(os.path.dirname(__file__) + "/" + "test_statistics3d_files/orientation_correlation_truth.npy",
                         allow_pickle=True).tolist()
 
         # assert
@@ -91,7 +91,7 @@ class TestStatistics3D(unittest.TestCase):
         """
 
         # assign
-        truth = np.load("test_statistics3d_files/velocity_correlation_truth.npy",
+        truth = np.load(os.path.dirname(__file__) + "/" + "test_statistics3d_files/velocity_correlation_truth.npy",
                         allow_pickle=True).tolist()
 
         # assert
