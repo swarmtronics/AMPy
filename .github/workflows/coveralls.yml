@@ -1,6 +1,6 @@
 on: ["push", "pull_request"]
 
-name: Coverage Testing
+name: Coverage Test
 
 env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
