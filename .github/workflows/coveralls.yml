@@ -15,4 +15,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
           pip install coveralls
-          coveralls --service=github tests/
+          coverage run --source=mypkg -m pytest tests/
+          coveralls --service=github
