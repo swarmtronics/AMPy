@@ -2,6 +2,8 @@
 Module provides tests for the *amtoolkit.statistics2d*
 """
 
+import os 
+
 import unittest
 
 import numpy as np
@@ -22,7 +24,7 @@ class TestStatistics2D(unittest.TestCase):
 
         self.vp = Processor()
         self.kinematics = \
-            np.load("test_statistics2d_files/test_kinematics.npy", allow_pickle=True).tolist()
+            np.load(os.path.dirname(__file__) + "/" + "test_statistics2d_files/test_kinematics.npy", allow_pickle=True).tolist()
         self.extended_kinematics = self.vp.polar_kinematics(self.kinematics, (0, 0))
 
     def test_calc_angle(self):
@@ -45,7 +47,7 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         #assign
-        truth = np.load("test_statistics2d_files/mean_distance_from_center_truth.npy",
+        truth = np.load(os.path.dirname(__file__) + "/" + "test_statistics2d_files/mean_distance_from_center_truth.npy",
                         allow_pickle=True).tolist()
 
         #assert
@@ -69,7 +71,7 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         #assing
-        truth = np.load("test_statistics2d_files/mean_polar_angle_truth.npy",
+        truth = np.load(os.path.dirname(__file__) + "/" + "test_statistics2d_files/mean_polar_angle_truth.npy",
                         allow_pickle=True).tolist()
 
         # assert
@@ -93,7 +95,7 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         # assing
-        truth = np.load("test_statistics2d_files/mean_polar_angle_absolute_truth.npy",
+        truth = np.load(os.path.dirname(__file__) + "/" + "test_statistics2d_files/mean_polar_angle_absolute_truth.npy",
                         allow_pickle=True).tolist()
 
         # assert
@@ -117,7 +119,7 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         #assign
-        truth = np.load("test_statistics2d_files/mean_cartesian_displacements_truth.npy",
+        truth = np.load(os.path.dirname(__file__) + "/" + "test_statistics2d_files/mean_cartesian_displacements_truth.npy",
                         allow_pickle=True).tolist()
 
         # assert
@@ -141,7 +143,7 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         #assign
-        truth = np.load("test_statistics2d_files/bond_orientation_truth.npy",
+        truth = np.load(os.path.dirname(__file__) + "/" + "test_statistics2d_files/bond_orientation_truth.npy",
                         allow_pickle=True).tolist()
 
         #assert
@@ -165,7 +167,7 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         #assign
-        truth = float(np.load("test_statistics2d_files/chi_4_truth.npy",
+        truth = float(np.load(os.path.dirname(__file__) + "/" + "test_statistics2d_files/chi_4_truth.npy",
                               allow_pickle=True))
 
         #assert
@@ -177,7 +179,7 @@ class TestStatistics2D(unittest.TestCase):
         """
 
         #assign
-        truth = np.load("test_statistics2d_files/cluster_dynamics_truth.npy",
+        truth = np.load(os.path.dirname(__file__) + "/" + "test_statistics2d_files/cluster_dynamics_truth.npy",
                         allow_pickle=True).tolist()
 
         #assert

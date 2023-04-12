@@ -2,6 +2,8 @@
 Module provides tests for the *amtoolkit.processing*
 """
 
+import os 
+
 import unittest
 
 import cv2
@@ -27,11 +29,11 @@ class TestProcessing(unittest.TestCase):
         """
 
         # assign
-        data0 = (cv2.VideoCapture('test_processing_files/image0.jpg')).read()[1]
+        data0 = (cv2.VideoCapture(os.path.dirname(__file__) + "/" + 'test_processing_files/image0.jpg')).read()[1]
         truth_result0 = [[18, 343.73979529168804, (802, 360)]]
         data1 = None
         truth_result1 = []
-        data2 = (cv2.VideoCapture('test_processing_files/image1.jpg')).read()[1]
+        data2 = (cv2.VideoCapture(os.path.dirname(__file__) + "/" + 'test_processing_files/image1.jpg')).read()[1]
         truth_result2 = [[2, 256.7594800848128, (1101, 172)], [4, 147.2647737278924, (761, 713)],
                    [5, 312.5104470780008, (1043, 240)], [7, 16.389540334034784, (1373, 755)],
                    [9, 280.00797980144137, (1282, 326)], [12, 180.0, (714, 544)],
