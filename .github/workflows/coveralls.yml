@@ -14,6 +14,6 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-          pip install coveralls
-          coverage run --source=mypkg -m pytest tests/
+          pip install -r tests/test_requirements.txt --use-mirrors
+          py.test tests/test_processing.py --doctest-modules --pep8 coveralls -v --cov coveralls --cov-report term-missing
           coveralls --service=github
