@@ -23,7 +23,7 @@ class TestStatistics3D(unittest.TestCase):
 
         self.vp = Processor()
         self.kinematics = \
-            np.load(os.path.dirname(__file__) + "test_statistics2d_files/test_kinematics.npy", allow_pickle=True).tolist()
+            np.load(os.path.dirname(__file__) + "/test_statistics2d_files/test_kinematics.npy", allow_pickle=True).tolist()
 
     def test_position_correlation(self):
         """
