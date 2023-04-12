@@ -1,5 +1,4 @@
-name: Pylint
-
+name: pylint
 on: [push]
 
 jobs:
@@ -7,19 +6,18 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10"]
+        python-version: ["3.8"]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
-        python-version: ${{ matrix.python-version }}
+          python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install pylint
-        pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install pylint
+          pip install -r requirements.txt
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') --generated-members=cv2.*        
-      continue-on-error: true   
+          pylint --exit-zero --generated-members=cv2.* $(git ls-files '*.py')

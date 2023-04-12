@@ -1,6 +1,9 @@
 on: ["push", "pull_request"]
 
-name: Test Coveralls
+name: Coverage Test
+
+env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   build:
@@ -10,12 +13,16 @@ jobs:
 
     - uses: actions/checkout@v1
 
-    - name: Run Coveralls
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Install coverage test packages
       run: |
           pip install -r tests/test_requirements.txt
-          pip install -r requirements.txt
           pip3 install --upgrade coveralls
-          py.test tests/test_statistics2d.py --doctest-modules -v --cov amtoolkit --cov-report term-missing
+                    
+    - name: Install main packages
+      run: |
+          pip install -r requirements.txt
+          
+    - name: Run Coveralls
+      run: |
+          py.test tests/ --doctest-modules -v --cov amtoolkit --cov-report term-missing
           coveralls --service=github
