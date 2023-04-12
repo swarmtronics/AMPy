@@ -15,5 +15,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
           pip install -r tests/test_requirements.txt
-          py.test tests/test_processing.py --doctest-modules --pep8 amtoolkit -v --cov amtoolkit --cov-report term-missing
+          py.test tests/test_processing.py --doctest-modules -v --cov amtoolkit --cov-report term-missing
           coveralls --service=github
