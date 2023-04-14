@@ -10,15 +10,16 @@
 [coverage-image]: https://coveralls.io/repos/github/swarmtronics/AMPy/badge.svg?service=github&kill_cache=0
 [coverage-url]: https://coveralls.io/github/swarmtronics/AMPy
 
+[pypi-license-image]: https://img.shields.io/pypi/l/ampy
+
 ![Pipeline_image](materials/logo_header_bl_font.png#gh-light-mode-only)
 ![Pipeline_image](materials/logo_header_wh_font.png#gh-dark-mode-only)
-
 
 [![PyPI version][pypi-version-image]][pypi-version-url]
 [![Linting Status][linting-image]][linting-url]
 [![Coverage Status][coverage-image]][coverage-url]
 [![Docs Status][docs-image]][docs-url]
-
+![PyPI - License][pypi-license-image]
 
 **[Website](swarmtronics.com)** (TBD) | **[Documentation](https://ampy.readthedocs.io/en/latest/)** | **[Paper](TBD)** (TBD) | **[Video Tutorial](TBD)** (TBD) | **[Colab Notebook](TBD)** (TBD)
 
