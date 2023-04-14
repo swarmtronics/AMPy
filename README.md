@@ -7,7 +7,7 @@
 [docs-image]: https://readthedocs.org/projects/ampy/badge/?version=latest
 [docs-url]: https://ampy.readthedocs.io/en/latest
 
-[coverage-image]: https://coveralls.io/repos/github/swarmtronics/AMPy/badge.svg?service=github&kill_cache=1
+[coverage-image]: https://coveralls.io/repos/github/swarmtronics/AMPy/badge.svg?service=github&kill_cache=0
 [coverage-url]: https://coveralls.io/github/swarmtronics/AMPy
 
 ![Pipeline_image](materials/logo_header_bl_font.png#gh-light-mode-only)
