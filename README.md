@@ -1,11 +1,11 @@
 [pypi-version-image]: https://badge.fury.io/py/ampy.svg
 [pypi-version-url]: https://badge.fury.io/py/ampy
 
-[linting-image]: https://github.com/swarmtronics/AMPy/actions/workflows/pylint.yml/badge.svg
-[linting-url]: https://github.com/swarmtronics/AMPy/actions/workflows/pylint.yml
-
 [docs-image]: https://readthedocs.org/projects/ampy/badge/?version=latest
 [docs-url]: https://ampy.readthedocs.io/en/latest
+
+[linting-image]: https://github.com/swarmtronics/AMPy/actions/workflows/pylint.yml/badge.svg
+[linting-url]: https://github.com/swarmtronics/AMPy/actions/workflows/pylint.yml
 
 [coverage-image]: https://coveralls.io/repos/github/swarmtronics/AMPy/badge.svg?service=github&kill_cache=0
 [coverage-url]: https://coveralls.io/github/swarmtronics/AMPy
@@ -16,9 +16,9 @@
 ![Pipeline_image](materials/logo_header_wh_font.png#gh-dark-mode-only)
 
 [![PyPI version][pypi-version-image]][pypi-version-url]
+[![Docs Status][docs-image]][docs-url]
 [![Linting Status][linting-image]][linting-url]
 [![Coverage Status][coverage-image]][coverage-url]
-[![Docs Status][docs-image]][docs-url]
 ![PyPI - License][pypi-license-image]
 
 **[Website](swarmtronics.com)** (TBD) | **[Documentation](https://ampy.readthedocs.io/en/latest/)** | **[Paper](TBD)** (TBD) | **[Video Tutorial](TBD)** (TBD) | **[Colab Notebook](TBD)** (TBD)
