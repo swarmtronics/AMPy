@@ -1,5 +1,5 @@
 """
-Module provides tests for the *amtoolkit.statistics2d*
+Module provides tests for the *ampy.statistics2d*
 """
 
 import os 
@@ -8,8 +8,8 @@ import unittest
 
 import numpy as np
 
-from amtoolkit.processing import Processor
-import amtoolkit.statistics2d as tds
+from ampy.processing import Processor
+import ampy.statistics2d as tds
 
 
 class TestStatistics2D(unittest.TestCase):

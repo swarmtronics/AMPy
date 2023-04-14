@@ -1,5 +1,5 @@
 """
-Module provides tests for the *amtoolkit.processing*
+Module provides tests for the *ampy.processing*
 """
 
 import os 
@@ -8,7 +8,7 @@ import unittest
 
 import cv2
 
-from amtoolkit.processing import Processor
+from ampy.processing import Processor
 
 
 class TestProcessing(unittest.TestCase):
