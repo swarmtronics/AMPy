@@ -1,3 +1,6 @@
+[pypi-version-image]: https://badge.fury.io/py/ampy.svg
+[pypi-version-url]: https://badge.fury.io/py/ampy
+
 [linting-image]: https://github.com/swarmtronics/AMPy/actions/workflows/pylint.yml/badge.svg
 [linting-url]: https://github.com/swarmtronics/AMPy/actions/workflows/pylint.yml
 
@@ -10,6 +13,8 @@
 ![Pipeline_image](materials/logo_header_bl_font.png#gh-light-mode-only)
 ![Pipeline_image](materials/logo_header_wh_font.png#gh-dark-mode-only)
 
+
+[![PyPI version][pypi-version-image]][pypi-version-url]
 [![Linting Status][linting-image]][linting-url]
 [![Coverage Status][coverage-image]][coverage-url]
 [![Docs Status][docs-image]][docs-url]
