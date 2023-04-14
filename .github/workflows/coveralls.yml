@@ -24,5 +24,5 @@ jobs:
           
     - name: Run Coveralls
       run: |
-          py.test tests/ --doctest-modules -v --cov amtoolkit --cov-report term-missing
+          py.test tests/ --doctest-modules -v --cov ampy --cov-report term-missing
           coveralls --service=github
