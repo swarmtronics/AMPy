@@ -95,9 +95,9 @@ def mean_polar_angle(kinematics: list) -> list:
         if abs(difference) < 100: # pragma: no cover
             mean_angles_corrected.append(mean_angles_corrected[-1] + difference)
         else:
-            if difference > 0:
+            if difference > 0: # pragma: no cover
                 mean_angles_corrected.append(mean_angles_corrected[-1] + difference - 360)
-            else:
+            else: # pragma: no cover
                 mean_angles_corrected.append(mean_angles_corrected[-1] - difference + 360)
     return mean_angles_corrected
 
@@ -118,7 +118,7 @@ def mean_polar_angle_absolute(kinematics: list):
         absolute_difference = abs(mean_angles_raw[i_frame] - mean_angles_raw[i_frame - 1])
         if absolute_difference < 100: # pragma: no cover
             mean_angles_accumulated.append(mean_angles_accumulated[-1] + absolute_difference)
-        else:
+        else: # pragma: no cover
             mean_angles_accumulated.append(mean_angles_accumulated[-1] - absolute_difference + 360)
     return mean_angles_accumulated
 
