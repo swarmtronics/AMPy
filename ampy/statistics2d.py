@@ -211,9 +211,8 @@ def chi_4(kinematics: list,
     return t_corr
 
 
-def _is_collide(bot_1: list, bot_2: list) -> bool:  # pragma: no cover
-    D = 300
-    return calc_distance(bot_1[2], bot_2[2]) <= D
+def _is_collide(bot_1: list, bot_2: list, d: int = 300) -> bool:  # pragma: no cover
+    return calc_distance(bot_1[2], bot_2[2]) <= d
 
 
 def _adjacency_matrix(kinematics_frame: list, collide_function) -> list:
