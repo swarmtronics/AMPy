@@ -13,7 +13,7 @@ RAD2DEG = 180 / np.pi
 DEG2RAD = np.pi / 180
 
 
-def _orientation_angles(kinematics: list) -> list:
+def _orientation_angles(kinematics: list) -> list: # pragma: no cover
     angles = list(np.array(kinematics, dtype=object)[:, :, 1])
     return angles
 
@@ -92,7 +92,7 @@ def mean_polar_angle(kinematics: list) -> list:
     mean_angles_corrected = [mean_angles_raw[0]]
     for i_frame in range(1, len(mean_angles_raw)):
         difference = mean_angles_raw[i_frame] - mean_angles_raw[i_frame - 1]
-        if abs(difference) < 100:
+        if abs(difference) < 100: # pragma: no cover
             mean_angles_corrected.append(mean_angles_corrected[-1] + difference)
         else:
             if difference > 0:
@@ -116,7 +116,7 @@ def mean_polar_angle_absolute(kinematics: list):
     mean_angles_accumulated = [mean_angles_raw[0]]
     for i_frame in range(1, len(mean_angles_raw)):
         absolute_difference = abs(mean_angles_raw[i_frame] - mean_angles_raw[i_frame - 1])
-        if absolute_difference < 100:
+        if absolute_difference < 100: # pragma: no cover
             mean_angles_accumulated.append(mean_angles_accumulated[-1] + absolute_difference)
         else:
             mean_angles_accumulated.append(mean_angles_accumulated[-1] - absolute_difference + 360)

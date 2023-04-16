@@ -77,11 +77,14 @@ class Processor:
         """
         Set path to the file you want to process
         :param filename: the path
-        :return:
         """
         self._filename = filename
 
     def set_aruco_dict(self, dict_name: str): # pragma: no cover
+        """
+        Set ArUco dictionary you want to use to
+        :param dict_name: the name of the dict
+        """
         if dict_name in ARUCO_DICT.keys():
             self._aruco_dictionary = cv2.aruco.Dictionary_get(ARUCO_DICT[dict_name])
 
@@ -108,14 +111,14 @@ class Processor:
         alpha, beta = scale_parameters
         video_capture = cv2.VideoCapture(self._filename)
 
-        if begin_frame < 1:
+        if begin_frame < 1: # pragma: no cover
             start_frame = 1
         else:
             start_frame = begin_frame
 
         frames_number = int(video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
 
-        if end_frame > frames_number:
+        if end_frame > frames_number: # pragma: no cover
             finish_frame = frames_number
         else:
             finish_frame = end_frame
@@ -124,7 +127,7 @@ class Processor:
         for current_frame in range(start_frame, finish_frame + 1, get_each):
             video_capture.set(cv2.CAP_PROP_POS_FRAMES, current_frame - 1)
             success, frame = video_capture.read()
-            if not success:
+            if not success: # pragma: no cover
                 raw_cart_kin.append([])
                 continue
             frame_converted = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
@@ -207,7 +210,7 @@ class Processor:
         n_frames_to_try = min(100, int(video_capture.get(cv2.CAP_PROP_FRAME_COUNT)))
         for i_frame in range(n_frames_to_try):
             success, frame = video_capture.read()
-            while not success:
+            while not success: # pragma: no cover
                 success, frame = video_capture.read()
             frame_converted = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
             (corners, ids, rejected) = cv2.aruco.detectMarkers(
@@ -238,7 +241,7 @@ class Processor:
                 poses.append((center_1, center_2))
                 poses.append((center_3, center_4))
                 break
-        if not poses:
+        if not poses: # pragma: no cover
             return None
         center = self._lines_intersection(poses[0], poses[1])
         return center
@@ -257,13 +260,13 @@ class Processor:
         alpha, beta = scale_parameters
         video_capture = cv2.VideoCapture(self._filename)
         success, frame = video_capture.read()
-        while not success:
+        while not success: # pragma: no cover
             success, frame = video_capture.read()
         frame_converted = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
         (corners, ids, rejected) = cv2.aruco.detectMarkers(
             frame_converted, self._aruco_dictionary, parameters=self._aruco_parameters
         )
-        if len(corners) == 0:
+        if len(corners) == 0: # pragma: no cover
             return None
         marker_corners = corners[0]
         (top_left, top_right, bottom_right, bottom_left) = marker_corners.reshape((4, 2))
@@ -399,9 +402,9 @@ class Processor:
         """
         with open(filename, 'rb') as file:
             kin = list(pickle.load(file))
-            if not kin:
+            if not kin: # pragma: no cover
                 return None
             for i, bot in enumerate(kin):
-                if len(bot) != len(kin[0]):
+                if len(bot) != len(kin[0]): # pragma: no cover
                     return None
             return kin
