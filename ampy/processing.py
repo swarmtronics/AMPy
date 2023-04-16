@@ -14,8 +14,32 @@ from matplotlib import pyplot as plt
 RAD2DEG = 180 / np.pi
 DEG2RAD = np.pi / 180
 
+ARUCO_DICT = {
+    "DICT_4X4_50": cv2.aruco.DICT_4X4_50,
+    "DICT_4X4_100": cv2.aruco.DICT_4X4_100,
+    "DICT_4X4_250": cv2.aruco.DICT_4X4_250,
+    "DICT_4X4_1000": cv2.aruco.DICT_4X4_1000,
+    "DICT_5X5_50": cv2.aruco.DICT_5X5_50,
+    "DICT_5X5_100": cv2.aruco.DICT_5X5_100,
+    "DICT_5X5_250": cv2.aruco.DICT_5X5_250,
+    "DICT_5X5_1000": cv2.aruco.DICT_5X5_1000,
+    "DICT_6X6_50": cv2.aruco.DICT_6X6_50,
+    "DICT_6X6_100": cv2.aruco.DICT_6X6_100,
+    "DICT_6X6_250": cv2.aruco.DICT_6X6_250,
+    "DICT_6X6_1000": cv2.aruco.DICT_6X6_1000,
+    "DICT_7X7_50": cv2.aruco.DICT_7X7_50,
+    "DICT_7X7_100": cv2.aruco.DICT_7X7_100,
+    "DICT_7X7_250": cv2.aruco.DICT_7X7_250,
+    "DICT_7X7_1000": cv2.aruco.DICT_7X7_1000,
+    "DICT_ARUCO_ORIGINAL": cv2.aruco.DICT_ARUCO_ORIGINAL,
+    "DICT_APRILTAG_16h5": cv2.aruco.DICT_APRILTAG_16h5,
+    "DICT_APRILTAG_25h9": cv2.aruco.DICT_APRILTAG_25h9,
+    "DICT_APRILTAG_36h10": cv2.aruco.DICT_APRILTAG_36h10,
+    "DICT_APRILTAG_36h11": cv2.aruco.DICT_APRILTAG_36h11,
+}
 
-def calc_angle(point_a: tuple, point_b: tuple) -> float:
+
+def calc_angle(point_a: tuple, point_b: tuple) -> float: # pragma: no cover
     """
     Returns angle in degrees between OX-axis and (b-a) vector direction
 
@@ -26,9 +50,9 @@ def calc_angle(point_a: tuple, point_b: tuple) -> float:
     return RAD2DEG * np.arctan2(point_b[1] - point_a[1], point_b[0] - point_a[0])
 
 
-def calc_distance(point_a: tuple, point_b: tuple) -> float:
+def calc_distance(point_a: tuple, point_b: tuple) -> float: # pragma: no cover
     """
-    Returns euclidean distance between two points
+    Returns Euclidean distance between two points
 
     :param point_a: first point
     :param point_b: vector end point
@@ -47,7 +71,6 @@ class Processor:
         self._cartesian_kinematics = None
         self._polar_kinematics = None
         self._aruco_dictionary = cv2.aruco.Dictionary_get(cv2.aruco.DICT_7X7_1000)
-        self._aruco_dictionary_for_center = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
         self._aruco_parameters = cv2.aruco.DetectorParameters_create()
 
     def set_filename(self, filename: str) -> None: # pragma: no cover
@@ -57,6 +80,10 @@ class Processor:
         :return:
         """
         self._filename = filename
+
+    def set_aruco_dict(self, dict_name: str): # pragma: no cover
+        if dict_name in ARUCO_DICT.keys():
+            self._aruco_dictionary = cv2.aruco.Dictionary_get(ARUCO_DICT[dict_name])
 
     def cartesian_kinematics(self,
                              bots_number: int,
@@ -133,7 +160,7 @@ class Processor:
                 ]
         return polar_kinematics
 
-    def field_center_manual(self) -> tuple:
+    def field_center_manual(self) -> tuple: # pragma: no cover
         """
         Shows the video's first frame and returns clicked point coordinates
 
@@ -147,7 +174,8 @@ class Processor:
         return center
 
     @staticmethod
-    def _lines_intersection(first_line_points: tuple, second_line_points: tuple) -> tuple: # pragma: no cover
+    def _lines_intersection(first_line_points: tuple, second_line_points: tuple)\
+            -> tuple: # pragma: no cover
         """
         Return intersection point of two lines defined by two segments
         """
@@ -188,20 +216,23 @@ class Processor:
             ids = ids.flatten()
             if set(first_line_markers + second_line_markers).issubset(set(ids.tolist())):
                 idx_1 = np.where(ids == first_line_markers[0])
-                print(idx_1[0][0])
-                (top_left, top_right, bottom_right, bottom_left) = corners[idx_1[0][0]].reshape((4, 2))
+                (top_left, top_right, bottom_right, bottom_left)\
+                    = corners[idx_1[0][0]].reshape((4, 2))
                 center_1 = ((top_left[0] + bottom_right[0]) // 2,
                             (top_left[1] + bottom_right[1]) // 2)
                 idx_2 = np.where(ids == first_line_markers[1])
-                (top_left, top_right, bottom_right, bottom_left) = corners[idx_2[0][0]].reshape((4, 2))
+                (top_left, top_right, bottom_right, bottom_left)\
+                    = corners[idx_2[0][0]].reshape((4, 2))
                 center_2 = ((top_left[0] + bottom_right[0]) // 2,
                             (top_left[1] + bottom_right[1]) // 2)
                 idx_3 = np.where(ids == second_line_markers[0])
-                (top_left, top_right, bottom_right, bottom_left) = corners[idx_3[0][0]].reshape((4, 2))
+                (top_left, top_right, bottom_right, bottom_left)\
+                    = corners[idx_3[0][0]].reshape((4, 2))
                 center_3 = ((top_left[0] + bottom_right[0]) // 2,
                             (top_left[1] + bottom_right[1]) // 2)
                 idx_4 = np.where(ids == second_line_markers[1])
-                (top_left, top_right, bottom_right, bottom_left) = corners[idx_4[0][0]].reshape((4, 2))
+                (top_left, top_right, bottom_right, bottom_left)\
+                    = corners[idx_4[0][0]].reshape((4, 2))
                 center_4 = ((top_left[0] + bottom_right[0]) // 2,
                             (top_left[1] + bottom_right[1]) // 2)
                 poses.append((center_1, center_2))
@@ -244,7 +275,7 @@ class Processor:
     def _raw_cartesian_kinematics_from_frame(self,
                                              frame: np.ndarray,
                                              ignore_codes: tuple,
-                                             ) -> list:
+                                             ) -> list: # pragma: no cover
         """
         Returns raw cartesian kinematics for particles in frame
 
@@ -305,7 +336,8 @@ class Processor:
         return center[-1]
 
     @staticmethod
-    def _fill_gaps_in_raw_kinematics(bots_number: int, raw_cartesian_kinematics: list) -> list:
+    def _fill_gaps_in_raw_kinematics(bots_number: int, raw_cartesian_kinematics: list)\
+            -> list: # pragma: no cover
         """
         Returns cartesian kinematics with filling gaps from unrecognized bots
         by they future positions
