@@ -156,7 +156,7 @@ class Processor:
         s_1 = (q_1[0] - p_1[0], q_1[1] - p_1[1])
         s_2 = (q_2[0] - p_2[0], q_2[1] - p_2[1])
         delta = s_2[0] * (-s_1[1]) - (-s_1[0]) * s_2[1]
-        delta_2 = (p_1[0] - p_2[0]) * (-s_1[1]) - s_1[0] * (p_1[1] - p_2[1])
+        delta_2 = (p_1[0] - p_2[0]) * (-s_1[1]) - (-s_1[0]) * (p_1[1] - p_2[1])
         t_2 = delta_2 / delta
         return p_2[0] + t_2 * s_2[0], p_2[1] + t_2 * s_2[1]
 
@@ -176,7 +176,7 @@ class Processor:
         alpha, beta = scale_parameters
         video_capture = cv2.VideoCapture(self._filename)
         poses = []
-        n_frames_to_try = max(100, video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
+        n_frames_to_try = min(100, int(video_capture.get(cv2.CAP_PROP_FRAME_COUNT)))
         for i_frame in range(n_frames_to_try):
             success, frame = video_capture.read()
             while not success:
@@ -185,21 +185,23 @@ class Processor:
             (corners, ids, rejected) = cv2.aruco.detectMarkers(
                 frame_converted, self._aruco_dictionary, parameters=self._aruco_parameters
             )
-            if set(first_line_markers + second_line_markers).issubset(set(ids)):
+            ids = ids.flatten()
+            if set(first_line_markers + second_line_markers).issubset(set(ids.tolist())):
                 idx_1 = np.where(ids == first_line_markers[0])
-                (top_left, top_right, bottom_right, bottom_left) = corners[idx_1].reshape((4, 2))
+                print(idx_1[0][0])
+                (top_left, top_right, bottom_right, bottom_left) = corners[idx_1[0][0]].reshape((4, 2))
                 center_1 = ((top_left[0] + bottom_right[0]) // 2,
                             (top_left[1] + bottom_right[1]) // 2)
                 idx_2 = np.where(ids == first_line_markers[1])
-                (top_left, top_right, bottom_right, bottom_left) = corners[idx_2].reshape((4, 2))
+                (top_left, top_right, bottom_right, bottom_left) = corners[idx_2[0][0]].reshape((4, 2))
                 center_2 = ((top_left[0] + bottom_right[0]) // 2,
                             (top_left[1] + bottom_right[1]) // 2)
                 idx_3 = np.where(ids == second_line_markers[0])
-                (top_left, top_right, bottom_right, bottom_left) = corners[idx_3].reshape((4, 2))
+                (top_left, top_right, bottom_right, bottom_left) = corners[idx_3[0][0]].reshape((4, 2))
                 center_3 = ((top_left[0] + bottom_right[0]) // 2,
                             (top_left[1] + bottom_right[1]) // 2)
                 idx_4 = np.where(ids == second_line_markers[1])
-                (top_left, top_right, bottom_right, bottom_left) = corners[idx_4].reshape((4, 2))
+                (top_left, top_right, bottom_right, bottom_left) = corners[idx_4[0][0]].reshape((4, 2))
                 center_4 = ((top_left[0] + bottom_right[0]) // 2,
                             (top_left[1] + bottom_right[1]) // 2)
                 poses.append((center_1, center_2))
