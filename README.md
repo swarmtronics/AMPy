@@ -7,7 +7,7 @@
 [linting-image]: https://github.com/swarmtronics/AMPy/actions/workflows/pylint.yml/badge.svg
 [linting-url]: https://github.com/swarmtronics/AMPy/actions/workflows/pylint.yml
 
-[coverage-image]: https://coveralls.io/repos/github/swarmtronics/AMPy/badge.svg?service=github&kill_cache=0
+[coverage-image]: https://coveralls.io/repos/github/swarmtronics/AMPy/badge.svg?service=github&kill_cache=1
 [coverage-url]: https://coveralls.io/github/swarmtronics/AMPy
 
 [pypi-license-image]: https://img.shields.io/pypi/l/ampy
