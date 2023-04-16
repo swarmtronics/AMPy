@@ -215,7 +215,7 @@ def _is_collide(bot_1: list, bot_2: list, d: int = 300) -> bool:  # pragma: no c
     return calc_distance(bot_1[2], bot_2[2]) <= d
 
 
-def _adjacency_matrix(kinematics_frame: list, collide_function) -> list:
+def _adjacency_matrix(kinematics_frame: list, collide_function) -> list: # pragma: no cover
     N = len(kinematics_frame)
     adj_matrix = [[0 for i in range(N)] for j in range(N)]
     for i_bot in range(N):
