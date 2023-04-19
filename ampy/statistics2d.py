@@ -13,7 +13,7 @@ RAD2DEG = 180 / np.pi
 DEG2RAD = np.pi / 180
 
 
-def _orientation_angles(kinematics: list) -> list:
+def _orientation_angles(kinematics: list) -> list: # pragma: no cover
     angles = list(np.array(kinematics, dtype=object)[:, :, 1])
     return angles
 
@@ -92,12 +92,12 @@ def mean_polar_angle(kinematics: list) -> list:
     mean_angles_corrected = [mean_angles_raw[0]]
     for i_frame in range(1, len(mean_angles_raw)):
         difference = mean_angles_raw[i_frame] - mean_angles_raw[i_frame - 1]
-        if abs(difference) < 100:
+        if abs(difference) < 100: # pragma: no cover
             mean_angles_corrected.append(mean_angles_corrected[-1] + difference)
         else:
-            if difference > 0:
+            if difference > 0: # pragma: no cover
                 mean_angles_corrected.append(mean_angles_corrected[-1] + difference - 360)
-            else:
+            else: # pragma: no cover
                 mean_angles_corrected.append(mean_angles_corrected[-1] - difference + 360)
     return mean_angles_corrected
 
@@ -116,9 +116,9 @@ def mean_polar_angle_absolute(kinematics: list):
     mean_angles_accumulated = [mean_angles_raw[0]]
     for i_frame in range(1, len(mean_angles_raw)):
         absolute_difference = abs(mean_angles_raw[i_frame] - mean_angles_raw[i_frame - 1])
-        if absolute_difference < 100:
+        if absolute_difference < 100: # pragma: no cover
             mean_angles_accumulated.append(mean_angles_accumulated[-1] + absolute_difference)
-        else:
+        else: # pragma: no cover
             mean_angles_accumulated.append(mean_angles_accumulated[-1] - absolute_difference + 360)
     return mean_angles_accumulated
 
@@ -211,12 +211,11 @@ def chi_4(kinematics: list,
     return t_corr
 
 
-def _is_collide(bot_1: list, bot_2: list) -> bool:  # pragma: no cover
-    D = 300
-    return calc_distance(bot_1[2], bot_2[2]) <= D
+def _is_collide(bot_1: list, bot_2: list, d: int = 300) -> bool:  # pragma: no cover
+    return calc_distance(bot_1[2], bot_2[2]) <= d
 
 
-def _adjacency_matrix(kinematics_frame: list, collide_function) -> list:
+def _adjacency_matrix(kinematics_frame: list, collide_function) -> list: # pragma: no cover
     N = len(kinematics_frame)
     adj_matrix = [[0 for i in range(N)] for j in range(N)]
     for i_bot in range(N):

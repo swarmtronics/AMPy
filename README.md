@@ -1,4 +1,4 @@
-[pypi-version-image]: https://badge.fury.io/py/ampy.svg
+[pypi-version-image]: https://badge.fury.io/py/ampy.svg?
 [pypi-version-url]: https://badge.fury.io/py/ampy
 
 [docs-image]: https://readthedocs.org/projects/ampy/badge/?version=latest
@@ -7,7 +7,7 @@
 [linting-image]: https://github.com/swarmtronics/AMPy/actions/workflows/pylint.yml/badge.svg
 [linting-url]: https://github.com/swarmtronics/AMPy/actions/workflows/pylint.yml
 
-[coverage-image]: https://coveralls.io/repos/github/swarmtronics/AMPy/badge.svg?service=github&kill_cache=0
+[coverage-image]: https://coveralls.io/repos/github/swarmtronics/AMPy/badge.svg?service=github&kill_cache=1
 [coverage-url]: https://coveralls.io/github/swarmtronics/AMPy
 
 [pypi-license-image]: https://img.shields.io/pypi/l/ampy
@@ -21,7 +21,7 @@
 [![Coverage Status][coverage-image]][coverage-url]
 ![PyPI - License][pypi-license-image]
 
-**[Website](swarmtronics.com)** (TBD) | **[Documentation](https://ampy.readthedocs.io/en/latest/)** | **[Paper](TBD)** (TBD) | **[Video Tutorial](TBD)** (TBD) | **[Colab Notebook](TBD)** (TBD)
+**[Website](swarmtronics.com)** (TBD) | **[Documentation](https://ampy.readthedocs.io/en/latest/)** | **[Paper](TBD)** (TBD) | **[Video Tutorial](TBD)** (TBD) | **[Colab Notebook](https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing)**
 
 **AMPy** is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems. Our library turns the processing of experiment recordings into a cakewalk, considerably accelerating extraction of system dynamics.
 
