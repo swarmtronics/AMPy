@@ -1,19 +1,26 @@
 Welcome to AMPy documentation!
 ===================================
 
-**AMPy** is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems. The library turns the processing of video recordings of experiments from hard work into a cakewalk and greatly speeds up the process of writing code in order to extract useful characteristics from.
+**AMPy** is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems.
 
-Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
-
-.. note::
-
-   This project is under active development.
-
-Contents
---------
+It consists of methods allowing to extract kinematics from video data and evaluate various charactersitics relevant for active matter studies. Check out the :doc:`Tutorial` section for usage examples and :doc:`Package Reference` for complete description of available methods.
 
 .. toctree::
+   :maxdepth: 1
+   :caption: Install AMPy
 
-   usage
-   api
+   install/installation
+   
+.. toctree::
+   :maxdepth: 1
+   :caption: Tutorial
+
+   tutorial/tutorial_main
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Package Reference
+
+   modules/processing
+   modules/statistics2d
+   modules/statistics3d
