@@ -16,6 +16,7 @@ It consists of methods allowing to extract kinematics from video data and evalua
    :caption: Tutorial
 
    tutorial/tutorial_main
+   tutorial/colab_notebooks
 
 .. toctree::
    :maxdepth: 1
