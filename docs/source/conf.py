@@ -19,6 +19,8 @@ extensions = [
     'sphinx.ext.intersphinx',
 ]
 
+html_theme = 'pyg_sphinx_theme'
+
 html_logo = ('https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/'
              'master/pyg_sphinx_theme/static/img/pyg_logo.png')
 html_favicon = ('https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/'
