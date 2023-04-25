@@ -1,4 +1,4 @@
-processing
+ampy.processing
 ===================================
 
 Under construction.
