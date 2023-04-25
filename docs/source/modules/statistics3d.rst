@@ -1,4 +1,4 @@
-statistics3d
+ampy.statistics3d
 ===================================
 
 Under construction.
