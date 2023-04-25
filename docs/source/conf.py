@@ -21,10 +21,8 @@ extensions = [
 
 html_theme = 'pyg_sphinx_theme'
 
-html_logo = ('https://raw.githubusercontent.com/swarmtronics/AMPy/'
-             'master/AMPy/materials/ampy_logo_image_only.png')
-html_favicon = ('https://raw.githubusercontent.com/swarmtronics/AMPy/'
-                'master/AMPy/materials/ampy_favicon.png')
+html_logo = ('https://raw.githubusercontent.com/swarmtronics/ampy/master/materials/ampy_logo_image_only.png')
+html_favicon = ('https://raw.githubusercontent.com/swarmtronics/ampy/master/materials/ampy_favicon.png')
 html_static_path = ['_materials']
 
 intersphinx_mapping = {
