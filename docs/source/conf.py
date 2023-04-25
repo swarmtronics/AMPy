@@ -19,7 +19,10 @@ extensions = [
     'sphinx.ext.intersphinx',
 ]
 
-
+html_logo = ('https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/'
+             'master/pyg_sphinx_theme/static/img/pyg_logo.png')
+html_favicon = ('https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/'
+                'master/pyg_sphinx_theme/static/img/favicon.png')
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
