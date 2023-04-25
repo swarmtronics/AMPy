@@ -15,10 +15,12 @@
 ![Pipeline_image](materials/logo_header_bl_font.png#gh-light-mode-only)
 ![Pipeline_image](materials/logo_header_wh_font.png#gh-dark-mode-only)
 
+
+[![Python](https://img.shields.io/badge/python-3.8%20--%203.11-blue)](https://www.python.org)
 [![PyPI version][pypi-version-image]][pypi-version-url]
 [![Docs Status][docs-image]][docs-url]
-[![Linting Status][linting-image]][linting-url]
 [![Coverage Status][coverage-image]][coverage-url]
+[![Linting Status][linting-image]][linting-url]
 ![PyPI - License][pypi-license-image]
 
 **[Website](swarmtronics.com)** (TBD) | **[Documentation](https://ampy.readthedocs.io/en/latest/)** | **[Paper](TBD)** (TBD) | **[Video Tutorial](TBD)** (TBD) | **[Colab Notebook](https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing)**
