@@ -1,4 +1,4 @@
-statistics2d
+ampy.statistics2d
 ===================================
 
 Under construction.
