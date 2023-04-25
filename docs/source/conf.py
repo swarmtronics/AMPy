@@ -21,10 +21,10 @@ extensions = [
 
 html_theme = 'pyg_sphinx_theme'
 
-html_logo = ('https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/'
-             'master/pyg_sphinx_theme/static/img/pyg_logo.png')
-html_favicon = ('https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/'
-                'master/pyg_sphinx_theme/static/img/favicon.png')
+html_logo = ('https://raw.githubusercontent.com/swarmtronics/AMPy/'
+             'master/AMPy/materials/ampy_logo_image_only.png')
+html_favicon = ('https://raw.githubusercontent.com/swarmtronics/AMPy/'
+                'master/AMPy/materials/ampy_favicon.png')
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
