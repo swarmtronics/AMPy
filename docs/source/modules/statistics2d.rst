@@ -1,4 +1,7 @@
 ampy.statistics2d
 ===================================
 
-Under construction.
+.. automodule:: ampy.statistics2d
+   :members:
+   :undoc-members:
+   :exclude-members:
