@@ -15,7 +15,7 @@ Processor
 
 .. autosummary::
    :nosignatures:
-   {% for cls in ampy.processing.classes %}
+   {% for cls in ampy.processing %}
      {{ cls }}
    {% endfor %}
 
@@ -23,3 +23,5 @@ Processor
    :members:
    :undoc-members:
    :exclude-members:
+
+
