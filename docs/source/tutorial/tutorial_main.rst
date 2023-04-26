@@ -5,6 +5,12 @@ We shortly introduce usage basics of AMPy through several self-contained example
 
  === VIDEO PLACEHOLDER ===
 
+.. raw:: html
+
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+
 Essentially, AMPy allows you to perform the following processing procedures:
 
 .. contents::
