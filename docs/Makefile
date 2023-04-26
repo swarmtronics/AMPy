@@ -3,7 +3,7 @@
 
 # You can set these variables from the command line, and also
 # from the environment for the first two.
-SPHINXBUILD   ?= sphinx-build
+SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = ampy
 SOURCEDIR     = source
 BUILDDIR      = build
