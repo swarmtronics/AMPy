@@ -4,11 +4,10 @@ Introduction by Example
 We shortly introduce usage basics of AMPy through several self-contained examples. Along with this textual tutorial, you can try to run this code on `Colab Notebook <(https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing>`_ or watch corresponding video:
 
  === VIDEO PLACEHOLDER ===
-
 .. raw:: html
 
     <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <iframe src="//www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
     </div>
 
 Essentially, AMPy allows you to perform the following processing procedures:
