@@ -1,5 +1,7 @@
 # Configuration file for the Sphinx documentation builder.
 
+import ampy
+
 # -- Project information
 
 project = 'AMPy'
