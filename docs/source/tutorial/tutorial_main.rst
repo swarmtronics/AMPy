@@ -31,10 +31,9 @@ This module implements a simple interface for using the *OpenCV* library to expl
 Working with the functionality of the module is carried out through the class `Processor`:
 
 .. code-block:: python
-	from amtoolkit.processing import Processor
+  from ampy.processing import Processor
 
-
-	VP = Processor()
+  VP = Processor()
 
 Firstly, to process a video fragment, you must pass the path to the video file. Use the `set_filename` method for this:
 
