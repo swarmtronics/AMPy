@@ -1,7 +1,7 @@
 Introduction by Example
 =======================
 
-We shortly introduce usage basics of AMPy through several self-contained examples. Along with this textual tutorial, you can try to run this code on `Colab Notebook <(https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing>`_ or watch corresponding video:
+We shortly introduce usage basics of AMPy through several self-contained examples. Along with this textual tutorial, you can try to run it [![Colab Notebook](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing) and check out corresponding video:
 
 .. raw:: html
 
