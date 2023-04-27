@@ -31,6 +31,7 @@ This module implements a simple interface for using the *OpenCV* library to expl
 Working with the functionality of the module is carried out through the class `Processor`:
 
 .. code-block:: python
+
   from ampy.processing import Processor
 
   VP = Processor()
