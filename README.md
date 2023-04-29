@@ -37,7 +37,7 @@ The library is comprised of three components: `processing.py`, `statistic2d.py`,
 
 - `statistic3d.py` evaluates position, orientation, and velocity correlation maps for the entire platform.
 
-If you are new to AMPy, we prepared [introductory tutorial](https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing) which can shed some light on the library capabilities.
+If you want a brief introduction into library capabilities, we prepared [a Colab tutorial](https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing) for that occasion.
 
 ## Installation
 
@@ -49,7 +49,7 @@ $ pip install ampy
 
 # Contact us
 
-If you have some questions about the code, you are welcome to open an issue, we will respond to that as soon as possible. Contributions towards extension of AMPy functionality is more than welcome!
+If you have some questions about the code, you are welcome to open an issue, we will respond to that as soon as possible. Contributions towards extension of AMPy functionality are more than welcome!
 
 # License
 
@@ -60,5 +60,16 @@ Established code released as open-source software under the GPLv3 license.
 To be updated.
 
 ```
--
+@misc{
+      dmitriev2023swarmobot,
+      title={Swarmobot 1.0: A Modular Bristle-Bot Platform for Robotic Active Matter}, 
+      author={Alexey A. Dmitriev and Alina D. Rozenblit and Vadim A. Porvatov and
+              Mikhail K. Buzakov and Anastasia A. Molodtsova and Daria V. Sennikova and
+              Vyacheslav A. Smirnov and Oleg I. Burmistrov and Ekaterina M. Puhtina and
+              Nikita A. Olekhno},
+      year={2023},
+      eprint={TBD},
+      archivePrefix={arXiv},
+      primaryClass={TBD}
+}
 ```
