@@ -1,7 +1,7 @@
 Introduction by Example
 =======================
 
-We shortly introduce usage basics of AMPy through several self-contained examples. Along with this textual tutorial, you can try to run it [![Colab Notebook](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing) and check out corresponding video:
+We shortly introduce usage basics of AMPy through several self-contained examples. Up to this momemnt, you can follow this tutorial in the format of `Colab Notebook <https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing>`_ or check out corresponding video:
 
 .. raw:: html
 
@@ -21,19 +21,16 @@ Extract Kinematics from Raw Video
 
 We will show a simple example of extracting trajectories from the predefined video:
 
-.. image:: ../_figures/video_example.gif
+.. image:: ../../../materials/ampy_test_video_1.gif
   :align: center
-  :width: 300px
+  :width: 480px
 
-First, we need to ...
-
-This module implements a simple interface for using the *OpenCV* library to explore robotic systems.
-Working with the functionality of the module is carried out through the class `Processor`:
+To extract the robots' trajectories from the video, we import the `Processor` class from `ampy.processing` and create the corresponding object:convert 
 
 .. code-block:: python
 
 	from ampy.processing import Processor
-	
+
 	VP = Processor()
 
 Firstly, to process a video fragment, you must pass the path to the video file. Use the `set_filename` method for this:
