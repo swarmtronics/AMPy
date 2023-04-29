@@ -15,9 +15,3 @@ Installation via PyPi
 
    pip install ampy
 
-
-Installation via Anaconda
----------------------
-
-Under construction.
-
