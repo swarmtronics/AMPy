@@ -47,17 +47,15 @@ AMPy is available at [the Python Package Index](https://pypi.org/project/ampy/):
 $ pip install ampy
 ```
 
-# Contact us
+## Contact us
 
 If you have some questions about the code, you are welcome to open an issue, we will respond to that as soon as possible. Contributions towards extension of AMPy functionality are more than welcome!
 
-# License
+## License
 
 Established code released as open-source software under the GPLv3 license.
 
-# Citation
-
-To be updated.
+## Citation
 
 ```
 @misc{
