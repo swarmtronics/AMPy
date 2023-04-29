@@ -27,7 +27,7 @@ We will show a simple example of extracting trajectories from the predefined vid
   
 |
 
-To extract the robots' trajectories from the video, we import the `Processor` class from `ampy.processing` and create the corresponding object:convert 
+To extract the robots' trajectories from the video, we import the ``Processor`` class from ``ampy.processing`` and create the corresponding object: 
 
 .. code-block:: python
 
@@ -35,223 +35,145 @@ To extract the robots' trajectories from the video, we import the `Processor` cl
 
 	VP = Processor()
 
-Firstly, to process a video fragment, you must pass the path to the video file. Use the `set_filename` method for this:
+
+Then we pass the videofile path using ``set_filename`` method:
 
 .. code-block:: python
 
-	from amtoolkit.processing import Processor
-
-	VP = Processor()
-	filename = 'C:/examplefolder/examplefilename.mp4'
+	filename = 'test_video.mp4'
 	VP.set_filename(filename)
 
 
-Next, extract the Cartesian kinematics (each marker in the video is frame-by-frame associated with its rotation angle and position in the frame) using the `cartesian_kinematics` method.
+From this moment we can extract system's **Cartesian kinematics** by the ``cartesian_kinamatics`` function:
 
 .. code-block:: python
 
-	from amtoolkit.processing import Processor
+	cart_kin = VP.cartesian_kinematics(bots_number=65,
+					    begin_frame=120, 
+					    end_frame=1800,
+					    get_each=5,
+					    ignore_codes=(),
+					    scale_parameters=(1, 0))
 
-	VP = Processor()
-	filename = 'C:/examplefolder/examplefilename.mp4'
-	VP.set_filename(filename)
-	kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-						      get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
 
-This method returns a list in which each frame is associated with a list of data about robots in this frame. The data for each robot consists of its marker ID, rotation angle, and position in the frame. In the example, the video recording contains 45 robots, processing is carried out from the 120th to the 6000th frame of the recording, and every fifth frame is selected for processing. At the same time, marker codes with IDs 12 and 14 are ignored. The `scale_parameters` values correspond to the $\alpha$ and $\beta$ parameters of the linear transformation of pixel values to change the brightness and contrast of the image. Finding the right `scale_parameters` is an exploratory task and is highly dependent on the lighting conditions in which the video was recorded.
+We can see that this method holds 6 parameters: *bots_number* is a number of tracking objects presented in the video; *begin_frame* and *end_frame* describe a start/stop frames for kinematics extraction; *get_each* sets frames decimation frequency (to speed up the execution); *ignore_codes* is a list of markers' ids which are not considered during the tracking; *scale_parameters* correspond to the α and β parameters of a frame linear transformation (adjustable contrast and brightness parameters).
 
-To calculate some statistical functions, in addition to the Cartesian representation of the kinematics of the system, it is also necessary to have its polar representation. To do this, use the `polar_kinematics` method, which will complement the data about each robot with a polar angle and distance from the field center (`field_center`):
-
-.. code-block:: python
-
-	from amtoolkit.processing import Processor
-
-	VP = Processor()
-	filename = 'C:/examplefolder/examplefilename.mp4'
-	VP.set_filename(filename)
-	cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-						      get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-	polar_kinematics = VP.polar_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
-
-All kinematics of the system is stored in pixels. In some cases it is necessary to convert distances from pixels to centimeters, using the `metric_constant` method:
+To extract the **polar representation of kinematics**, you should provide the coordinates of the field center. This can be done automatically using ``field_center_auto`` if you place additional markers on the area's borders. Otherwise, we can set it up manually:
 
 .. code-block:: python
 
-	from amtoolkit.processing import Processor
+	center = (1920 // 2, 1080 // 2)
 
-	VP = Processor()
-	filename = 'C:/examplefolder/examplefilename.mp4'
-	VP.set_filename(filename)
-	metric_constant = VP.metric_constant(marker_size=3, scale_parameters=(0.8, -30))
+	polar_kin = VP.polar_kinematics(cartesian_kinematics=cart_kin,
+					field_center=center)
 
+
+In some cases, it can be beneficial to convert linear distances from pixels to centimeters. Scaling factor of such transformation can be obtained via ``metric_constant`` with respect to the size of ArUco markers:
+
+.. code-block:: python
+
+	marker_size = 3 # in centimeters
+
+	scaling_factor = VP.metric_constant(marker_size=marker_size, scale_parameters=(1, 0))
 
 .. Note::
-	If you are lucky to have your own tracking software, you can still use AMPy to evaluate various statistical characteristics. In 	order to do that, it is required converting your data to the following format:
+	If you are lucky to have your own tracking software, you can still use AMPy to evaluate various statistical characteristics. In order to do that, it is required 	to convert your data to the following format (per frame): [*object_id*, *orientation_angle*, *object_center_coordinate*].
 
-	- :obj:``: 
-	- :obj:``: 
-	- etc.	
 
 Evaluate Group Dynamics
 -----------------------
 
-This module allows to extrat two-dimensional characteristics of the previously obtained kinematics. 
+Module ``statistics2d`` allows you to evaluate several characeristics represented in the form of temporal dependencies.
 
-- Mean dispacement of robots from the center of the field can be calculated via the `mean_distances_from_center` function:
+- The one can obtain **mean displaiments of robots from the center** by the means of the ``mean_distance_from_center`` function:
 
 .. code-block:: python
 
-	from amtoolkit.processing import Processor
-	from amtoolkit.statistics2d import mean_distance_from_center
+	from ampy.statistics2d import mean_distance_from_center
 
-
-	VP = Processor()
-	VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-	cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-							    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-	polar_kinematics = VP.polar_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
-	distance = mean_distance_from_center(kinematics=polar_kinematics)
+	distance = mean_distance_from_center(kinematics=polar_kin)
 	
 
-- Common mean polar angle:
+- **Mean polar angle of robots** in the system can be calculated via ``mean_polar_angle``:
 
 .. code-block:: python
 
-	from amtoolkit.processing import Processor
-	from amtoolkit.statistics2d import mean_polar_angle
+	from ampy.statistics2d import mean_polar_angle
+
+	angle = mean_polar_angle(kinematics=polar_kin)
 
 
-	VP = Processor()
-	VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-	cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-							    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-	polar_kinematics = VP.polar_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
-	polar_angle = mean_polar_angle(kinematics=polar_kinematics)
-
-
-- Mean polar angle in sense of the angular path of a system:
+- On top of that, you can evaluate mean polar angle **in sense of the angular path** using ``mean_polar_angle_absolute``:
 
 .. code-block:: python
 
-	from amtoolkit.processing import Processor
-	from amtoolkit.statistics2d import mean_polar_angle_absolute
+	from ampy.statistics2d import mean_polar_angle_absolute
+
+	angle_abs = mean_polar_angle_absolute(kinematics=polar_kin)
 
 
-	VP = Processor()
-	VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-	cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-							    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-	polar_kinematics = VP.polar_kinematics(cartesian_kinematics=cartesian_kinematics, field_center=(960, 540))
-	polar_angle_absolute = mean_polar_angle_absolute(kinematics=polar_kinematics)
-
-
-- Mean squared distance from the initial position:
+- **Mean squared distance** (to the center of the field) can be evaluated by the ``mean_cartesian_displacements`` function:
 
 .. code-block:: python
 
-	from amtoolkit.processing import Processor
-	from amtoolkit.statistics2d import mean_cartesian_displacements
+	from ampy.statistics2d import mean_cartesian_displacements
+
+	cart_disp = mean_cartesian_displacements(kinematics=cart_kin)
 
 
-	VP = Processor()
-	VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-	cartesian_kinematics = VP.cartessian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-							    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-	cartesian_displacement = mean_cartesian_displacements(kinematics=cartesian_kinematics)
-
-
-- Bond-orientational order parameter $\psi_N$:
+- In order to check whether system's configuration corresponds to some regular lattice, you can apply ``bond_orientation`` with the order parameter ``neighbours_number``:
 
 .. code-block:: python
 
-	from amtoolkit.processing import Processor
-	from amtoolkit.statistics2d import bond_orientation
+	from ampy.statistics2d import bond_orientation
+
+	boo = bond_orientation(kinematics=cart_kin, neighbours_number=6, folds_number=6)
 
 
-	VP = Processor()
-	VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-	cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-							    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-	boo = bond_orientation(kinematics=cartesian_kinematics, neighbours_number=6, folds_number=6)
-
-
-- Spatio-temporal correlation parameter $\chi_4$:
+- Spatio-temporal correlation of the system can be evaluated by the ``chi_4`` function:
 
 .. code-block:: python
 
-	from amtoolkit.processing import Processor
-	from amtoolkit.statistics2d import chi_4
+	from ampy.statistics2d import chi_4
+	from multiprocessing import Pool
+	import os
+
+	data = []
+	for time in time:
+		data.append((cart_kin, time, 100))
+
+	with Pool(os.cpu_count()) as pool:
+	 	stcp = pool.starmap(chi_4, data)
 
 
-	VP = Processor()
-	VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-	cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-							    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-	t_corr = chi_4(kinematics=cartesian_kinematics, tau=60, a=100)
-	```
-
-
-- Average clustering coefficient of a collision graph:
-
-.. code-block:: python
-
-
-	from amtoolkit.processing import Processor
-	from amtoolkit.statistics2d import cluster_dynamics
-
-
-	VP = Processor()
-	VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-	cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-							    get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-	clustering_coefficient = cluster_dynamics(kinematics=cartesian_kinematics)
-
-
-Also you can specify detection of collision between robots by changing `collide_function` argument of `cluster_dynamics`.
-
-<a name="stats3d"/>
-
-## statistics3d.py
-
-This module allows to extract three-dimensional statistical characteristics of obtained kinematics:
-
-- Positional pair correlation is realized by `position_correlation`:
+- Clustering coefficient of the system can be obtained by the ``cluster_dynamics`` function:
 
 .. code-block:: python
 
-	from amtoolkit.processing import Processor
-	from amtoolkit.statistics3d import position_correlation
+	from ampy.statistics2d import cluster_dynamics
 
-	VP = Processor()
-	VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-	cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-								get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-	position_correlation = position_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
+	cl_coeff = cluster_dynamics(kinematics=cart_kin)
 
+This function has an optional parameter ``collide_function`` specifying collision rules for robots.
 
-- Orientation correlation function can be computed via `orientation_correlation`:
+- **Correlations between robots positions**, **orientations** and **velocities** can be evaluated by the following functions: ``position_correlation``, ``orientation_corrilation``, and ``velocity_correlation``. For simplicity, we will evaluate them in the 400x400 window:
 
 .. code-block:: python
 
-	from amtoolkit.processing import Processor
-	from amtoolkit.statistics3d import orientation_correlation
+	from ampy.statistics3d import position_correlation, orientation_correlation, velocity_correlation
 
-	VP = Processor()
-	VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-	cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-								get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-	orientation_correlation = orientation_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
+	pos_corr = position_correlation(kinematics=cart_kin, x_size=200, y_size=200)
+
+	orient_corr = orientation_correlation(kinematics=cart_kin, x_size=200, y_size=200)
+
+	vel_corr = velocity_correlation(kinematics=cart_kin, x_size=200, y_size=200)
 
 
-- Velocity correlation can be computed as fit is based on the `velocity_correlation` function:
+To provide better visul summary, you may average correlation maps for all processed frames:
 
 .. code-block:: python
 
-	from amtoolkit.processing import Processor
-	from amtoolkit.statistics3d import velocity_correlation
-
-	VP = Processor()
-	VP.set_filename(filename='C:/examplefolder/examplefilename.mp4')
-	cartesian_kinematics = VP.cartesian_kinematics(bots_number=45, begin_frame=120, end_frame=6000,
-								get_each=5, ignore_codes=(12, 14), scale_parameters=(0.8, -30))
-	velocity_correlation = velocity_correlation(kinematics=cartesian_kinematics, x_size=400, y_size=400)
+	pos_corr = np.mean(np.array(pos_corr), axis=0)
+	orient_corr = np.mean(np.array(orient_corr), axis=0)
+	vel_corr = np.mean(np.array(vel_corr), axis=0)
+	
