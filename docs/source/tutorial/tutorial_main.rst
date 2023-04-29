@@ -1,7 +1,7 @@
 Introduction by Example
 =======================
 
-We shortly introduce usage basics of AMPy through several self-contained examples. Up to this momemnt, you can follow this tutorial in the format of `Colab Notebook <https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing>`_ or check out `attached video <https://www.youtube.com/watch?v=dQw4w9WgXcQ>`_.
+We shortly introduce usage basics of AMPy through several self-contained examples. Up to this momemnt, you can follow this tutorial in the format of `Colab Notebook <https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing>`_ or check out `attached video <https://www.youtube.com/watch?v=dQw4w9WgXcQ>`_ (TBD).
 
 
 
