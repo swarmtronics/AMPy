@@ -22,8 +22,10 @@ Extract Kinematics from Raw Video
 We will show a simple example of extracting trajectories from the predefined video:
 
 .. image:: ../../../materials/ampy_test_video_1.gif
-  :align: center
-  :width: 480px
+  :align: left
+  :width: 100%
+  
+|
 
 To extract the robots' trajectories from the video, we import the `Processor` class from `ampy.processing` and create the corresponding object:convert 
 
