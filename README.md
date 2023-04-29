@@ -31,11 +31,11 @@
 
 The library is comprised of three components: `processing.py`, `statistic2d.py`, and `statistic3d.py`. 
 
-The `processing.py` module handles the processing of experimental video recordings and identifies ArUco markers placed on the robots' upper surfaces. 
+- `processing.py` handles the initial processing of experimental video recordings and tracks the ArUco markers placed on the robots' upper surfaces. 
 
-The `statistic2d.py` module deals with the analysis of robot positions and orientations in each frame, calculating various two-dimensional statistical measures such as Cartesian displacement, order parameter, and spatial-temporal correlation parameter. 
+- `statistic2d.py` deals with the analysis of robot positions and orientations in each frame, calculating various two-dimensional statistical measures (e.g., Cartesian displacement, order parameter). 
 
-Lastly, the `statistic3d.py` module is dedicated to generating position, orientation, and velocity correlation maps for the entire platform.
+- `statistic3d.py` evaluates position, orientation, and velocity correlation maps for the entire platform.
 
 If you are new to AMPy, we prepared [introductory tutorial](https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing) which can shed some light on the library capabilities.
 
