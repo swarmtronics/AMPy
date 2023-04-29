@@ -39,7 +39,7 @@ Lastly, the `statistic3d.py` module is dedicated to generating position, orienta
 
 If you are new to AMPy, we prepared [introductory tutorial](https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing) which can shed some light on the library capabilities.
 
-## 
+## Installation
 
 AMPy is available at [the Python Package Index](https://pypi.org/project/ampy/):
 
