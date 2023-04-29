@@ -33,7 +33,7 @@ The library is comprised of three components: `processing.py`, `statistic2d.py`,
 
 - `processing.py` handles the initial processing of experimental video recordings and tracks the ArUco markers placed on the robots' upper surfaces. 
 
-- `statistic2d.py` extracts various two-dimensional statistical measures from obtained kinematics (e.g., Cartesian displacement, order parameters). 
+- `statistic2d.py` extracts various two-dimensional statistical measures from obtained kinematics (such as Cartesian displacement or order parameters). 
 
 - `statistic3d.py` evaluates position, orientation, and velocity correlation maps for the entire platform.
 
