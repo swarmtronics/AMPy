@@ -163,7 +163,7 @@ This function has an optional parameter ``collide_function`` specifying collisio
 	vel_corr = velocity_correlation(kinematics=cart_kin, x_size=200, y_size=200)
 
 
-To provide better visul summary, you may average correlation maps for all processed frames:
+To provide better visual summary, you may average correlation maps for all processed frames:
 
 .. code-block:: python
 
