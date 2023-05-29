@@ -23,7 +23,7 @@
 [![Linting Status][linting-image]][linting-url]
 ![PyPI - License][pypi-license-image]
 
-**[Website](https://swarmtronics.com)** | **[Documentation](https://ampy.readthedocs.io/en/latest/)** | **[Paper](TBD)** (TBD) | **[Video Tutorial](https://www.youtube.com/watch?v=dQw4w9WgXcQ)** (TBD) | **[Colab Notebook](https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing)**
+**[Website](https://swarmtronics.com)** | **[Documentation](https://ampy.readthedocs.io/en/latest/)** | **[Paper](https://arxiv.org/abs/2305.13510)** | **[Video Tutorial](https://www.youtube.com/watch?v=dQw4w9WgXcQ)** (TBD) | **[Colab Notebook](https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing)**
 
 **AMPy** is a *baseline* library built upon [OpenCV](https://opencv.org/) and [NumPy](https://numpy.org/) to easily process experimental video data for active matter and disordered systems. Our library turns the processing of experiment recordings into a cakewalk, considerably accelerating extraction of system dynamics.
 
@@ -66,8 +66,8 @@ Established code released as open-source software under the GPLv3 license.
               Vyacheslav A. Smirnov and Oleg I. Burmistrov and Ekaterina M. Puhtina and
               Nikita A. Olekhno},
       year={2023},
-      eprint={TBD},
+      eprint={2305.13510},
       archivePrefix={arXiv},
-      primaryClass={TBD}
+      primaryClass={cond-mat.soft}
 }
 ```
