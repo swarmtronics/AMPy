@@ -60,7 +60,7 @@ Established code released as open-source software under the GPLv3 license.
 ```
 @misc{
       dmitriev2023swarmobot,
-      title={Swarmobot 1.0: A Modular Bristle-Bot Platform for Robotic Active Matter}, 
+      title={Swarmodroid 1.0: A Modular Bristle-Bot Platform for Robotic Active Matter}, 
       author={Alexey A. Dmitriev and Alina D. Rozenblit and Vadim A. Porvatov and
               Mikhail K. Buzakov and Anastasia A. Molodtsova and Daria V. Sennikova and
               Vyacheslav A. Smirnov and Oleg I. Burmistrov and Ekaterina M. Puhtina and
