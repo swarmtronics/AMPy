@@ -3,6 +3,7 @@ Module provides the processing of experimental video recordings and identifies A
 placed on the robots' upper surfaces
 """
 from copy import deepcopy
+from tqdm import tqdm
 import pickle
 
 import numpy as np
@@ -124,7 +125,7 @@ class Processor:
             finish_frame = end_frame
 
         raw_cart_kin = []
-        for current_frame in range(start_frame, finish_frame + 1, get_each):
+        for current_frame in tqdm(range(start_frame, finish_frame + 1, get_each)):
             video_capture.set(cv2.CAP_PROP_POS_FRAMES, current_frame - 1)
             success, frame = video_capture.read()
             if not success: # pragma: no cover
@@ -152,7 +153,7 @@ class Processor:
         """
 
         polar_kinematics = deepcopy(cartesian_kinematics)
-        for i_frame in range(len(polar_kinematics)):
+        for i_frame in tqdm(range(len(polar_kinematics))):
             for i_bot in range(len(polar_kinematics[i_frame])):
                 polar_kinematics[i_frame][i_bot] = [
                     polar_kinematics[i_frame][i_bot][0],
