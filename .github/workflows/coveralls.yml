@@ -23,6 +23,7 @@ jobs:
                     
     - name: Install main packages
       run: |
+          pip install tqdm
           pip install -r requirements.txt
           
     - name: Run Coveralls
