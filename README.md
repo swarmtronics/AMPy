@@ -43,13 +43,13 @@ If you want a brief introduction into library capabilities, we prepared [a Colab
 
 AMPy is available at [the Python Package Index](https://pypi.org/project/ampy/):
 
-## Preparking markers
-
-For users' convenience, we provide [the .ipynb notebook](https://github.com/swarmtronics/AMPy/tree/master/marker_generator) allowing to generate ArUco- and AprilTag-based markers for tracking of their own robots.
-
 ```
 $ pip install ampy
 ```
+
+## Preparking markers
+
+For users' convenience, we provide [the .ipynb notebook](https://github.com/swarmtronics/AMPy/tree/master/marker_generator) allowing to generate ArUco- and AprilTag-based markers for tracking of their own robots.
 
 ## Contact us
 
