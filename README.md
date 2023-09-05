@@ -29,14 +29,16 @@
 
 ## Overview
 
-The library is comprised of three components: `processing.py`, `statistic2d.py`, and `statistic3d.py`. 
+The library is comprised of 4 components: `processing.py`, `statistic2d.py`, `statistic3d.py`, and `animation.py`. 
 
 - `processing.py` handles the initial processing of experimental video recordings and tracks the ArUco markers placed on the robots' upper surfaces. 
 
 - `statistics2d.py` extracts various two-dimensional statistical measures from obtained kinematics (such as Cartesian displacement or order parameters). 
 
 - `statistics3d.py` evaluates position, orientation, and velocity correlation maps for the entire platform.
-
+ 
+- `statistics3d.py` generates .gif with the simultaneous evolution of parameters from `statistics2d.py` along with the input video.
+  
 If you want a brief introduction into library capabilities, we prepared [a Colab tutorial](https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing) for that occasion.
 
 ## Installation
