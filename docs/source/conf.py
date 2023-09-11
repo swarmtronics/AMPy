@@ -1,6 +1,7 @@
 # Configuration file for the Sphinx documentation builder.
 
 import os.path as osp
+import datetime
 import sys
 
 sys.path.insert(0, osp.abspath(osp.join('..', '..')))
@@ -10,7 +11,7 @@ import ampy
 # -- Project information
 
 project = 'AMPy'
-copyright = '2023, Swarmtronics'
+copyright = f'{datetime.date.today().year}, Swarmtronics'
 author = 'Vadim Porvatov, Mikhail Buzakov'
 
 release = '0.1'
