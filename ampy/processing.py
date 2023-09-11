@@ -71,6 +71,7 @@ class Processor:
         self._filename = None
         self._cartesian_kinematics = None
         self._polar_kinematics = None
+        self._time = None
         self._aruco_dictionary = cv2.aruco.Dictionary_get(cv2.aruco.DICT_7X7_1000)
         self._aruco_parameters = cv2.aruco.DetectorParameters_create()
 
@@ -88,6 +89,14 @@ class Processor:
         """
         if dict_name in ARUCO_DICT.keys():
             self._aruco_dictionary = cv2.aruco.Dictionary_get(ARUCO_DICT[dict_name])
+
+    def get_time(self) -> int: # pragma: no cover
+        """
+        Returns the time parameter
+
+        :return: the time parameter of extracted kinematics
+        """
+        return self._time
 
     def cartesian_kinematics(self,
                              bots_number: int,
@@ -138,6 +147,7 @@ class Processor:
 
         completed_cart_kin = self._fill_gaps_in_raw_kinematics(bots_number, raw_cart_kin)
         self._cartesian_kinematics = completed_cart_kin
+        self._time = len(completed_cart_kin)
         return completed_cart_kin
 
     @staticmethod
@@ -360,8 +370,9 @@ class Processor:
                 best_recognized_frame_number = i
 
         top_recognized_bots_number = len(raw_kinematics[best_recognized_frame_number])
-        if top_recognized_bots_number != bots_number:
-            return raw_kinematics
+
+        assert  top_recognized_bots_number <= bots_number, 'Number of recognized markers exceeded the expected value. Kinematics processing was aborted!'
+        assert  top_recognized_bots_number >= bots_number, 'Number of recognized markers did not reach the expected value. Kinematics processing was aborted!'
 
         total_ids = np.array(raw_kinematics[best_recognized_frame_number])[:, 0]
         for i_frame in range(frames_number):
