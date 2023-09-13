@@ -198,7 +198,9 @@ def create_dashboard(video: list,
     animation = camera.animate()
     animation.save(output_name)
 
-def draw_markers(frames: list, marker_type: str = "DICT_7X7_1000"):
+def draw_markers(frames: list,
+                 marker_type: str = "DICT_7X7_1000"
+                 ) -> list:
     """
         Returns the list with the frames and highlighted markers.
 
@@ -267,7 +269,8 @@ def draw_markers(frames: list, marker_type: str = "DICT_7X7_1000"):
                     angle = 2 * np.pi + angle
                 angle = np.degrees(angle)
 
-                font, textsize = cv2.FONT_HERSHEY_DUPLEX, cv2.getTextSize(str(markerID), font, 1, 2)[0]
+                font = cv2.FONT_HERSHEY_DUPLEX
+                textsize = cv2.getTextSize(str(markerID), font, 1, 2)[0]
                 textX = int((cX - textsize[0] / 4.5))
                 cv2.putText(
                     image, str(markerID), (textX, cY + 5), font, 0.5, (255, 255, 255), 2
