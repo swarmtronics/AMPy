@@ -4,7 +4,7 @@ build-backend="flit_core.buildapi"
 
 [project]
 name="ampy"
-version="0.1.2"
+version="0.1.3"
 authors=[
     {name="Vadim Porvatov", email="eighonet@gmail.com"},
     {name="Mikhail Buzakov", email="m.k.buzakov@gmail.com"}
