@@ -31,8 +31,10 @@ class TestUtils(unittest.TestCase):
 
         # assert
         
-        with self.assertRaises():
+        try:
             video_original = get_video(self.filename, 0, 125, 10)
+        except:
+            self.fail()
             
     def test_save_video(self):
         """
@@ -41,8 +43,10 @@ class TestUtils(unittest.TestCase):
                    
         # assert
         
-        with self.assertRaises():
+        try:
             save_video('test_video_saved.mp4', (np.random.rand(100, 1080, 1920, 3)*255).astype('int'))
+        except:
+            self.fail()
             
 if __name__ == '__main__':
     unittest.main()

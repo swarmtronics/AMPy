@@ -31,9 +31,11 @@ class TestAnimation(unittest.TestCase):
 
         # assert
         
-        with self.assertRaises():
+        try:
             video = get_video(filename, 0, 100, 5)
             markers = draw_markers(video)
+        except:
+            self.fail()
 
 if __name__ == '__main__':
     unittest.main()
