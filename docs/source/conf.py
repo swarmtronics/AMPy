@@ -15,7 +15,7 @@ copyright = f'{datetime.date.today().year}, Swarmtronics'
 author = 'Vadim Porvatov, Mikhail Buzakov'
 
 release = '0.1'
-version = '0.1.0'
+version = '0.1.3.2'
 
 # -- General configuration
 
