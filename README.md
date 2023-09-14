@@ -1,4 +1,4 @@
-[pypi-version-image]: https://badge.fury.io/py/ampy.svg
+[pypi-version-image]: https://badge.fury.io/py/ampy.svg?=
 [pypi-version-url]: https://badge.fury.io/py/ampy
 
 [docs-image]: https://readthedocs.org/projects/ampy/badge/?version=latest
