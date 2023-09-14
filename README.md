@@ -29,7 +29,7 @@
 
 ## Overview
 
-The library is comprised of 4 components: `processing.py`, `statistic2d.py`, `statistic3d.py`, and `animation.py`. 
+The library is comprised of 4 components: `processing.py`, `statistic2d.py`, `statistic3d.py`, `animation.py`, and `utils.py`. 
 
 - `processing.py` handles the initial processing of experimental video recordings and tracks the ArUco markers placed on the robots' upper surfaces. 
 
