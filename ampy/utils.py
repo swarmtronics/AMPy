@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 import cv2
 
-def get_video(filename, begin_frame, end_frame, get_each) -> list:
+def get_video(filename:str, begin_frame:int, end_frame:int, get_each:int) -> list:
     """
         Returns a list with the frames of an input video
 
