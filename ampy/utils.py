@@ -1,3 +1,6 @@
+"""
+Module provides methods for reading/saving video data
+"""
 from tqdm import tqdm
 
 import cv2
