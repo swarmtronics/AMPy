@@ -44,7 +44,7 @@ class TestUtils(unittest.TestCase):
         # assert
         
         try:
-            save_video('test_video_saved.avi', (np.random.rand(100, 1080, 1920, 3)*255).astype('int'))
+            save_video('test_video_saved.mp4',  np.uint8(np.random.rand(100, 1080, 1920, 3)*255))
         except:
             self.fail()
             
