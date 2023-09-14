@@ -37,8 +37,10 @@ The library is comprised of 4 components: `processing.py`, `statistic2d.py`, `st
 
 - `statistics3d.py` evaluates position, orientation, and velocity correlation maps for the entire platform.
  
-- `animation.py` generates .gif with the simultaneous evolution of parameters from `statistics2d.py` along with the input video.
-  
+- `animation.py` generates .gif/.mp4 with different visual augmentations of an input video.
+
+- `utils.py` provides methods for reading/saving video data. 
+
 If you want a brief introduction into library capabilities, we prepared [a Colab tutorial](https://colab.research.google.com/drive/1hiCGXoDtOEO3LOm6RG12111Kiwofh069?usp=sharing) for that occasion.
 
 ## Installation
