@@ -1,5 +1,5 @@
 """
-Module provides the dashboard with evolution of system's parameters
+Module provides different tools for manipulation with AMPy output visualization
 """
 import math
 from tqdm import tqdm
