@@ -4,7 +4,7 @@ import cv2
 
 def get_video(filename, begin_frame, end_frame, get_each) -> list:
     """
-        Returns a list with the frames of the input video
+        Returns a list with the frames of an input video
 
         :param filename: the path
         :param bots_number: number of bots in video
@@ -39,8 +39,8 @@ def get_video(filename, begin_frame, end_frame, get_each) -> list:
 
 def save_video(filename: str, frames: list, framerate: int = 50) -> None:
     """
-       Saves a list with the frames os a video file
-        :param filename: name of the output file
+       Saves a list with the frames of a video file
+        :param filename: name of an output file
         :param frames: list of the frames from the *get_video* method output
         :param framerate: frames per second
     """
