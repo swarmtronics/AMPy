@@ -4,7 +4,7 @@ import cv2
 
 def get_video(filename, begin_frame, end_frame, get_each) -> list:
     """
-        Returns a list with the frames of the input video
+        Returns a list with the frames of an input video
 
         :param filename: the path
         :param bots_number: number of bots in video
