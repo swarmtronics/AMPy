@@ -10,7 +10,7 @@ import unittest
 import cv2
 
 from ampy.animation import *
-
+from ampy.utils import get_video
 
 class TestAnimation(unittest.TestCase):
     """
