@@ -25,3 +25,5 @@ It consists of methods allowing to extract kinematics from video data and evalua
    modules/processing
    modules/statistics2d
    modules/statistics3d
+   modules/animation
+   modules/utils
