@@ -19,17 +19,17 @@ def get_video(filename:str, begin_frame:int, end_frame:int, get_each:int) -> lis
 
     video_capture = cv2.VideoCapture(filename)
 
-    if begin_frame < 1: # pragma: no cover
+    if begin_frame < 1:
         start_frame = 1
     else:
-        start_frame = begin_frame
+        start_frame = begin_frame # pragma: no cover
 
     frames_number = int(video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
 
-    if end_frame > frames_number: # pragma: no cover
+    if end_frame > frames_number:
         finish_frame = frames_number
     else:
-        finish_frame = end_frame
+        finish_frame = end_frame # pragma: no cover
 
     frames = []
     raw_cart_kin = []
