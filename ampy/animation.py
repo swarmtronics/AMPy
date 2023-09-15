@@ -54,7 +54,7 @@ def create_dashboard(video: list,
                   angle:list,
                   angle_abs:list,
                   fps:int,
-                 ) -> None:
+                 ) -> None: # pragma: no cover
     """
     Creates .gif with simulteneous evolution of the system parameters along with the original video
 
