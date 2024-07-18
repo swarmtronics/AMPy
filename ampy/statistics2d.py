@@ -23,10 +23,10 @@ def _positions(kinematics: list) -> list:
     return positions
 
 
-def _polar_angles(kinematics: list) -> list:
-    polar_angles = list(np.array(kinematics, dtype=object)[:, :, 3])
-    return polar_angles
-
+def _polar_angles(kinematics: list) -> np.array:
+    polar_angles = np.array(kinematics, dtype=object)[:, :, 3].T
+    polar_angles_upd = np.array([np.unwrap(polar_angle, period=360) for polar_angle in polar_angles])
+    return np.array(polar_angles_upd)
 
 def _distances_from_center(kinematics: list) -> list:
     distances = list(np.array(kinematics, dtype=object)[:, :, 4])
@@ -78,7 +78,7 @@ def mean_distance_from_center(kinematics: list) -> list:
     return mean_distance
 
 
-def mean_polar_angle(kinematics: list) -> list:
+def mean_polar_angle(kinematics: list) -> np.array:
     """
     Returns average particles' polar angle for each frame. Angle for certain frame calculating
     by accumulating all angle changes in previous frames
@@ -88,21 +88,10 @@ def mean_polar_angle(kinematics: list) -> list:
     """
 
     angles = _polar_angles(kinematics)
-    mean_angles_raw = np.array(angles, dtype=float).mean(axis=1)
-    mean_angles_corrected = [mean_angles_raw[0]]
-    for i_frame in range(1, len(mean_angles_raw)):
-        difference = mean_angles_raw[i_frame] - mean_angles_raw[i_frame - 1]
-        if abs(difference) < 100: # pragma: no cover
-            mean_angles_corrected.append(mean_angles_corrected[-1] + difference)
-        else:
-            if difference > 0: # pragma: no cover
-                mean_angles_corrected.append(mean_angles_corrected[-1] + difference - 360)
-            else: # pragma: no cover
-                mean_angles_corrected.append(mean_angles_corrected[-1] - difference + 360)
-    return mean_angles_corrected
+    return angles.mean(axis=0)
 
 
-def mean_polar_angle_absolute(kinematics: list):
+def mean_polar_angle_absolute(kinematics: list) -> np.array:
     """
     Returns average particles' polar angle for each frame. Angle for certain frame calculating
     by accumulating absolute values of all angle changes in previous frames
@@ -112,15 +101,7 @@ def mean_polar_angle_absolute(kinematics: list):
     """
 
     angles = _polar_angles(kinematics)
-    mean_angles_raw = np.array(angles, dtype=float).mean(axis=1)
-    mean_angles_accumulated = [mean_angles_raw[0]]
-    for i_frame in range(1, len(mean_angles_raw)):
-        absolute_difference = abs(mean_angles_raw[i_frame] - mean_angles_raw[i_frame - 1])
-        if absolute_difference < 100: # pragma: no cover
-            mean_angles_accumulated.append(mean_angles_accumulated[-1] + absolute_difference)
-        else: # pragma: no cover
-            mean_angles_accumulated.append(mean_angles_accumulated[-1] - absolute_difference + 360)
-    return mean_angles_accumulated
+    return np.abs(angles).mean(axis=0)
 
 
 def mean_cartesian_displacements(kinematics: list):
