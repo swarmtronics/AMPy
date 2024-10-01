@@ -134,6 +134,7 @@ class Processor:
             finish_frame = end_frame
 
         raw_cart_kin = []
+        last_pos = dict()
         for current_frame in tqdm(range(start_frame, finish_frame + 1, get_each)):
             video_capture.set(cv2.CAP_PROP_POS_FRAMES, current_frame - 1)
             success, frame = video_capture.read()
@@ -142,10 +143,11 @@ class Processor:
                 continue
             frame_converted = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
             raw_cart_kin_for_frame = self._raw_cartesian_kinematics_from_frame(frame_converted,
-                                                                               ignore_codes)
+                                                                               ignore_codes, last_pos)
             raw_cart_kin.append(raw_cart_kin_for_frame)
 
         completed_cart_kin = self._fill_gaps_in_raw_kinematics(bots_number, raw_cart_kin)
+
         self._cartesian_kinematics = completed_cart_kin
         self._time = len(completed_cart_kin)
         return completed_cart_kin
@@ -289,6 +291,7 @@ class Processor:
     def _raw_cartesian_kinematics_from_frame(self,
                                              frame: np.ndarray,
                                              ignore_codes: tuple,
+                                             last_pos: dict
                                              ) -> list: # pragma: no cover
         """
         Returns raw cartesian kinematics for particles in frame
@@ -315,10 +318,22 @@ class Processor:
                                                                 tuple(map(int, bottom_right)),
                                                                 tuple(map(int, bottom_left)),
                                                                 )
+            
+                
             center_x = (top_left[0] + bottom_right[0]) // 2
             center_y = (top_left[1] + bottom_right[1]) // 2
             top_mid_x = (top_left[0] + top_right[0]) // 2
             top_mid_y = (top_left[1] + top_right[1]) // 2
+
+            if marker_id in last_pos:
+                if abs(last_pos[marker_id][0][0] - center_x) + abs(last_pos[marker_id][0][1] - center_y) <= 2 and\
+                    abs(last_pos[marker_id][1][0] - top_mid_x) + abs(last_pos[marker_id][1][1] - top_mid_y) <= 2:
+                    center_x, center_y = last_pos[marker_id][0]
+                    top_mid_x, top_mid_y = last_pos[marker_id][1]
+                else:
+                    last_pos[marker_id] = [(center_x, center_y), (top_mid_x, top_mid_y)]
+            else:
+                last_pos[marker_id] = [(center_x, center_y), (top_mid_x, top_mid_y)]
 
             angle = calc_angle((center_x, center_y),
                                (top_mid_x, top_mid_y))
